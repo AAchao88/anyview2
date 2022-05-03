@@ -1,0 +1,120 @@
+<!DOCTYPE >
+<html>
+<html lang="en">
+<script src="js/jquery-3.3.1.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>登录</title>
+  <style type="text/css">
+
+    #content{
+      position: absolute;
+      top: 50%;/*顶部到元素*/
+      left:30%;
+      width: 40%;
+      height:400px;
+      margin-top:-200px;/*边缘到底部*/
+      background-color: #34495e;
+      text-align-last: center;
+      /*这里做一个半透明效果*/
+      filter:alpha(Opacity=60);
+      -moz-opacity:0.8;
+      opacity: 0.8;
+    }
+    #number{
+      color: #3498db;
+      font-size: 30px;
+      text-align: center;
+      border-radius: 25px;/*边框圆角*/
+    }
+    #password{
+      color: #3498db;
+      font-size: 30px;
+      text-align: center;
+      border-radius: 25px;
+    }
+    #login{
+      background-color: pink;
+      border-radius:10px;
+      border:0;/*边框宽度0*/
+      height:50px;
+      width:90px;
+      padding:5px 10px;/*上下填充10 左右5*/
+      font-size: 20px;
+    }
+    #register{
+      background-color: pink;
+      border-radius:10px;
+      border:0;/*边框宽度0*/
+      height:50px;
+      width:90px;
+      padding:5px 10px;/*上下填充10 左右5*/
+      font-size: 20px;
+    }
+    #content h1{
+      color: white;
+      font-size: 50px;
+    }
+  </style>
+
+
+  <script>
+    function checkNumber (){
+      //获取用户名
+      var number = $("#number").val();
+      //定义正则表达式并且建议
+      var reg_number = /^\w{8,16}$/;
+      var flag = reg_number.test(number);
+      //根据建议情况生成提示
+      if(flag){
+        $("#number").css("border","1px solid green");
+      }else{
+        $("#number").css("border","1px solid red");
+      }
+      return flag;
+    }
+    //检验密码
+    function checkPassword () {
+      var password = $("#password").val();
+      if (password!=null) {
+        $("#password").css("border", "1px solid green");
+        return true;
+      } else {
+        $("#password").css("border", "1px solid red");
+        return false;
+      }
+
+    }
+
+    $(function (){
+      //给表单绑定提交事件
+      $("#lo_form").submit(function (){
+        if(checkNumber()&&checkPassword()){
+          $.post("UserServlet?method=login",$(this).serialize(),
+                  function (data){
+                    if(data.success){
+                      alert(data.message);
+                      location.href="First.html"
+                    }else{
+                      alert(data.message);
+                    }
+                  },"json")
+        }
+
+        return false;
+      })
+    })
+  </script>
+</head>
+<body >
+
+<div id="content">
+  <h1 >Welcome</h1><br />
+  <form action="UserServlet/login" method="post" id="lo_form">
+    <input type="text" name="number" id="number" placeholder="请输入学号或工号" /><br /><br />
+    <input type="password" name="password" id="password" placeholder="请输入密码" /><br /><br />
+    <input type="submit" name="login" id="login" value="登录" />
+  </form></div>
+</body>
+</html>
+
