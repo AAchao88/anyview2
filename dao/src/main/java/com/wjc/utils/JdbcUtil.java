@@ -37,6 +37,7 @@ public class JdbcUtil {
     public static void close(Connection connection, Statement statement){
         close(connection,statement,null);
     }
+
     public static void close(Connection connection, Statement statement, ResultSet resultSet){
         try {
             if(resultSet!=null){

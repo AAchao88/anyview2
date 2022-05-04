@@ -1,12 +1,11 @@
 package com.wjc.utils;
 
-import utils.IResultSetHandler;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class BeanHandler<T> implements IResultSetHandler<T> {
     private Class<T> clazz;
@@ -34,7 +33,6 @@ public class BeanHandler<T> implements IResultSetHandler<T> {
                 }catch (SQLException e){
                     continue;
                 }
-
             }
             return obj;
         }

@@ -1,7 +1,7 @@
 <!DOCTYPE >
 <html>
 <html lang="en">
-<script src="js/jquery-3.3.1.min.js"></script>
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <head>
   <meta charset="utf-8">
   <title>登录</title>
@@ -88,14 +88,18 @@
 
     $(function (){
       //给表单绑定提交事件
+
       $("#lo_form").submit(function (){
         if(checkNumber()&&checkPassword()){
-          $.post("UserServlet?method=login",$(this).serialize(),
+          $.post("user?method=login",$(this).serialize(),
                   function (data){
                     if(data.success){
                       alert(data.message);
-                      location.href="First.html"
+                      alert("成功");
+                      //location.href="First.html"
+                      //.open
                     }else{
+                      alert("失败");
                       alert(data.message);
                     }
                   },"json")
@@ -110,7 +114,7 @@
 
 <div id="content">
   <h1 >Welcome</h1><br />
-  <form action="UserServlet/login" method="post" id="lo_form">
+  <form   id="lo_form">
     <input type="text" name="number" id="number" placeholder="请输入学号或工号" /><br /><br />
     <input type="password" name="password" id="password" placeholder="请输入密码" /><br /><br />
     <input type="submit" name="login" id="login" value="登录" />

@@ -9,7 +9,24 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class BaseServlet extends HttpServlet {
-    @Override
+//    @Override
+//    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        //获取请求路径
+//        String uri = req.getRequestURI();     //    /user/login
+//        //获取方法名称
+//        String methodName = uri.substring(uri.lastIndexOf('/')+1);
+//        Method method = null;
+//        try {
+//            method = this.getClass().getMethod(methodName, HttpServletResponse.class,HttpServletResponse.class);
+//            method.invoke(this,req,resp);
+//        } catch (NoSuchMethodException | IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             //获取访问方法
