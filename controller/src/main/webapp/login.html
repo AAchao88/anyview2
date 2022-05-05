@@ -21,7 +21,7 @@
       -moz-opacity:0.8;
       opacity: 0.8;
     }
-    #number{
+    #userNumber{
       color: #3498db;
       font-size: 30px;
       text-align: center;
@@ -42,15 +42,6 @@
       padding:5px 10px;/*上下填充10 左右5*/
       font-size: 20px;
     }
-    #register{
-      background-color: pink;
-      border-radius:10px;
-      border:0;/*边框宽度0*/
-      height:50px;
-      width:90px;
-      padding:5px 10px;/*上下填充10 左右5*/
-      font-size: 20px;
-    }
     #content h1{
       color: white;
       font-size: 50px;
@@ -61,15 +52,15 @@
   <script>
     function checkNumber (){
       //获取用户名
-      var number = $("#number").val();
+      var userNumber = $("#userNumber").val();
       //定义正则表达式并且建议
-      var reg_number = /^\w{8,16}$/;
-      var flag = reg_number.test(number);
+      var reg_userNumber = /^\w{8,16}$/;
+      var flag = reg_userNumber.test(userNumber);
       //根据建议情况生成提示
       if(flag){
-        $("#number").css("border","1px solid green");
+        $("#userNumber").css("border","1px solid green");
       }else{
-        $("#number").css("border","1px solid red");
+        $("#userNumber").css("border","1px solid red");
       }
       return flag;
     }
@@ -91,15 +82,12 @@
 
       $("#lo_form").submit(function (){
         if(checkNumber()&&checkPassword()){
-          $.post("user?method=login",$(this).serialize(),
+          $.post("user/login",$(this).serialize(),
                   function (data){
                     if(data.success){
                       alert(data.message);
-                      alert("成功");
                       //location.href="First.html"
-                      //.open
                     }else{
-                      alert("失败");
                       alert(data.message);
                     }
                   },"json")
@@ -115,7 +103,7 @@
 <div id="content">
   <h1 >Welcome</h1><br />
   <form   id="lo_form">
-    <input type="text" name="number" id="number" placeholder="请输入学号或工号" /><br /><br />
+    <input type="text" name="userNumber" id="userNumber" placeholder="请输入学号或工号" /><br /><br />
     <input type="password" name="password" id="password" placeholder="请输入密码" /><br /><br />
     <input type="submit" name="login" id="login" value="登录" />
   </form></div>

@@ -11,13 +11,12 @@ import org.apache.commons.beanutils.BeanUtils;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 
-@WebServlet("/user")@Slf4j
+@WebServlet("/user/*")@Slf4j
 public class UserServlet extends BaseServlet{
     /**
      * 登录的方法
@@ -32,10 +31,13 @@ public class UserServlet extends BaseServlet{
 //        }
 
         //从HTML获取所有参数并封装成对象
-        Map<String,String[]> map = request.getParameterMap();
+        Map<String, String[]> map = request.getParameterMap();
         User loginUser = new User();
         try {
             BeanUtils.populate(loginUser,map);
+//            System.out.println(loginUser+"hhhhhh");
+//            System.out.println(loginUser.getUserNumber());
+//            System.out.println(loginUser.getPassword());
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             log.error("BeanUtils出错，无法将map封装成user对象");
@@ -49,7 +51,7 @@ public class UserServlet extends BaseServlet{
         //创建回显信息对象
         ResultInfo resultInfo = new ResultInfo();
 
-        if(returnUser.getPassword() == null){
+        if(returnUser == null){
             //用户不存在，设置回显信息
             resultInfo.setSuccess(false);
             resultInfo.setMessage("学工号或密码输入错误");
@@ -62,8 +64,6 @@ public class UserServlet extends BaseServlet{
             }
         }else {
             //用户存在，设置回显信息
-            HttpSession session = request.getSession();
-            session.setAttribute("user",returnUser);
             resultInfo.setSuccess(true);
             resultInfo.setMessage("登录成功");
             //返回数据
