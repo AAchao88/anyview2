@@ -1,0 +1,112 @@
+<!DOCTYPE >
+<html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <title>测试</title>
+    <style type="text/css">
+        /*body{background-color:#34495e}*/
+        #content{
+            position: absolute;
+            top: 50%;/*顶部到元素*/
+            left:30%;
+            width: 40%;
+            height:400px;
+            margin-top:-200px;/*边缘到底部*/
+            background-color: #34495e;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+        }
+        #userNumber{
+            color: #3498db;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 25px;/*边框圆角*/
+        }
+        #password{
+            color: #3498db;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 25px;
+        }
+        #login{
+            background-color: pink;
+            border-radius:10px;
+            border:0;/*边框宽度0*/
+            height:50px;
+            width:90px;
+            padding:5px 10px;/*上下填充10 左右5*/
+            font-size: 20px;
+        }
+        #content h1{
+            color: white;
+            font-size: 50px;
+        }
+    </style>
+
+
+    <script>
+        function checkNumber (){
+            //获取用户名
+            var userNumber = $("#userNumber").val();
+            //定义正则表达式并且建议
+            var reg_userNumber = /^\w{8,16}$/;
+            var flag = reg_userNumber.test(userNumber);
+            //根据建议情况生成提示
+            if(flag){
+                $("#userNumber").css("border","1px solid green");
+            }else{
+                $("#userNumber").css("border","1px solid red");
+            }
+            return flag;
+        }
+        //检验密码
+        function checkPassword () {
+            var password = $("#password").val();
+            if (password!=null) {
+                $("#password").css("border", "1px solid green");
+                return true;
+            } else {
+                $("#password").css("border", "1px solid red");
+                return false;
+            }
+
+        }
+
+        $(function (){
+            //给表单绑定提交事件
+
+            $("#lo_form").submit(function (){
+                if(checkNumber()&&checkPassword()){
+                    $.post("user/login",$(this).serialize(),
+                        function (data){
+                            if(data.success){
+                                alert(data.message);
+                                //location.href="First.html"
+                            }else{
+                                alert(data.message);
+                            }
+                        },"json")
+                }
+
+                return false;
+            })
+        })
+    </script>
+</head>
+<body >
+
+<div id="content">
+    <h1 >Welcome</h1><br />
+    <form   id="lo_form">
+        <input type="text" name="userNumber" id="userNumber" placeholder="请输入学号或工号" /><br /><br />
+        <input type="password" name="password" id="password" placeholder="请输入密码" /><br /><br />
+        <input type="submit" name="login" id="login" value="登录" />
+    </form></div>
+</body>
+</html>
+
