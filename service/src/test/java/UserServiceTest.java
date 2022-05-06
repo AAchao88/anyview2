@@ -23,6 +23,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getPersonalInformation() {
+        user.setUserNumber("123456");
+        assertNotNull(userDao.getPersonalInformation(user));
+        System.out.println(userDao.getPersonalInformation(user));
+    }
+
+    @Test
     public void login() {
         user.setUserNumber("1234561");
         user.setPassword("1234561");

@@ -33,4 +33,13 @@ public class UserDaoTest {
         String sql = "select * from user where userNumber = ? and password = ?";
         assertNull(CRUDUtil.executeQuery(sql, new BeanHandler<>(User.class),user.getUserNumber(),user.getPassword()));
     }
+
+    @Test
+    public void getPersonalInformation() {
+        user.setUserNumber("123456");
+      //  user.setPassword("1234561");
+        String sql = "select * from user where userNumber = ?";
+        assertEquals("吴锦潮",CRUDUtil.executeQuery(sql,new BeanHandler<>(User.class),user.getUserNumber()).getUserName());
+
+    }
 }
