@@ -94,4 +94,15 @@ public class UserServlet extends BaseServlet{
         }
     }
 
+    /**
+     * 登出方法
+     * @param request
+     * @param response
+     */
+    public void signOut(HttpServletRequest request,HttpServletResponse response){
+        //通过session获取用户基本信息,然后删除user信息
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+    }
+
 }

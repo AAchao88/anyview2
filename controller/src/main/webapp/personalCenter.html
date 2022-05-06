@@ -29,21 +29,37 @@
             color: #708090;
             font-size:30px;
         }
+        #return{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
     </style>
     <script>
         $.post("user/personalCenter","",function (data){
             alert(data.data.userName);
             $("#userName").append(data.data.userName);
             $("#userNumber").append(data.data.userNumber);
-            $("#className").append(data.data.className);
+            $("#className").append("专业："+data.data.className);
         },"json")
+    </script>
+    <script>
+        $(function (){
+            $("#return").click(function (){
+                Location.href="studentHome.html";
+            })
+        })
     </script>
 </head>
 <body>
 <div id="center">
     <span id="userName">姓名：</span><br><br>
     <span id="userNumber">学工号：</span><br><br>
-    <span id="className">专业：</span><br>
+    <span id="className"></span><br>
+    <input type="button" id="return" value="返回">
     <!--<span></span>
     <span></span>-->
 </div>

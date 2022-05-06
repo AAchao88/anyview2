@@ -76,6 +76,15 @@
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
             })
+            $("#signOut").click(function (){
+                var signOut = confirm("确定登出？");
+                if(signOut){
+                    $.post("user/signOut","",function (){
+                        alert("登出成功");
+                        location.href="login.html";
+                    })
+                }
+            })
         })
     </script>
 
