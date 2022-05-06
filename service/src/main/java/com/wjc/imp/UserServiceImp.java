@@ -11,4 +11,10 @@ public class UserServiceImp implements UserService {
         UserDao userDao = new UserDaoImp();
         return userDao.findByUserNumberAndPassword(loginUser);
     }
+
+    @Override
+    public User getPersonalInformation(User user) {
+        UserDao userDao = new UserDaoImp();
+        return userDao.getPersonalInformation(user);
+    }
 }

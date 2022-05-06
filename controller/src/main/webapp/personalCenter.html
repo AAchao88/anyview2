@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <style>
+        body{background-color:#151515; }
+        #center{
+            position: absolute;
+            top: 350px;/*顶部到元素*/
+            left:25%;
+            width: 50%;
+            height:400px;
+            margin-top:-200px;/*边缘到底部*/
+            background-color: #34495e;
+            text-align-last: center;
+        }
+        #userName{
+            color: #708090;
+            font-size:30px;
+            /*padding: 200px;*/
+        }
+        #userNumber{
+            color: #708090;
+            font-size:30px;
+        }
+        #className{
+            color: #708090;
+            font-size:30px;
+        }
+    </style>
+    <script>
+        $.post("user/personalCenter","",function (data){
+            alert(data.data.userName);
+            $("#userName").append(data.data.userName);
+            $("#userNumber").append(data.data.userNumber);
+            $("#className").append(data.data.className);
+        },"json")
+    </script>
+</head>
+<body>
+<div id="center">
+    <span id="userName">姓名：</span><br><br>
+    <span id="userNumber">学工号：</span><br><br>
+    <span id="className">专业：</span><br>
+    <!--<span></span>
+    <span></span>-->
+</div>
+</body>
+</html>

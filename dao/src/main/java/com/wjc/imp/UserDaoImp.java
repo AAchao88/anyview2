@@ -12,4 +12,10 @@ public class UserDaoImp implements UserDao {
         String sql = "select * from user where userNumber = ? and password = ?";
         return CRUDUtil.executeQuery(sql,new BeanHandler<>(User.class),loginUser.getUserNumber(),loginUser.getPassword());
     }
+
+    @Override
+    public User getPersonalInformation(User user) {
+        String sql = "select * from user where userNumber = ?";
+        return CRUDUtil.executeQuery(sql,new BeanHandler<>(User.class),user.getUserNumber());
+    }
 }

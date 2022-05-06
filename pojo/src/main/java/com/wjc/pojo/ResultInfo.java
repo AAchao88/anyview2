@@ -35,5 +35,14 @@ public class ResultInfo {
     public Object getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "ResultInfo{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
 

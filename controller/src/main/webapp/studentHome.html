@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>学生首页</title>
-    <style>
+    <style type="text/css">
         body{background-color:#151515; }
         #platName{
+            background-color:#151515;
             color: #708090;
             font-size:30px;
             border: 2px dashed gray;
@@ -29,26 +31,27 @@
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
             background-color:#151515 ;
+
         }
         #course{
             position: absolute;
+            float: left;
             color: #708090;
             font-size:22px;
             border: 2px solid gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
             background-color:#151515 ;
-            text-indent: 40px;
-            width:80%
+            text-indent: 30px;
+            width:70%
         }
-        /*#courseName{*/
-        /*    color: #708090;*/
-        /*    font-size:30px;*/
-        /*    !*background-color:#151515 ;*!*/
-        /*}*/
+        #courseName{
+            color: #708090;
+            font-size:22px;
+            background-color:#151515 ;
+        }
         #start{
             float: right;
-            /*text-indent: 200px;*/
             color: #04B431; /*开始做题按钮的文本颜色*/
             font-size:22px;
             border: 2px solid gray;
@@ -64,6 +67,17 @@
 
         }
     </style>
+    <script>
+        $(function (){
+            $("#courseName").text("离散数学");
+            $("#start").click(function (){
+
+            });
+            $("#personalCenter").click(function (){
+                location.href="personalCenter.html";
+            })
+        })
+    </script>
 
 </head>
 <body>
@@ -78,7 +92,7 @@
     <br><br>
     <div id="course">
         <span >课程名：</span>
-        <span id="courseName">离散数学</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <span id="courseName"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         <span id="questionTotal">道题目</span>
         <input type="button" id="start" name="start" value="开始做题">
     </div>

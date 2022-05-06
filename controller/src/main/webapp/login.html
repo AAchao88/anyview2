@@ -54,7 +54,7 @@
       //获取用户名
       var userNumber = $("#userNumber").val();
       //定义正则表达式并且建议
-      var reg_userNumber = /^\w{8,16}$/;
+      var reg_userNumber = /^\w{6,16}$/;
       var flag = reg_userNumber.test(userNumber);
       //根据建议情况生成提示
       if(flag){
@@ -86,7 +86,7 @@
                   function (data){
                     if(data.success){
                       alert(data.message);
-                      //location.href="First.html"
+                      location.href="studentHome.html";
                     }else{
                       alert(data.message);
                     }
