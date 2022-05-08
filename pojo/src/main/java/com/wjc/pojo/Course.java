@@ -6,8 +6,8 @@ public class Course {
   private long id;
   private String courseName;
   private String className;
-  private long teacherId;
-
+  private long teacher_id;
+  private long total;
 
   public long getId() {
     return id;
@@ -36,12 +36,30 @@ public class Course {
   }
 
 
-  public long getTeacherId() {
-    return teacherId;
+  public long getTeacher_id() {
+    return teacher_id;
   }
 
-  public void setTeacherId(long teacherId) {
-    this.teacherId = teacherId;
+  public void setTeacher_id(long teacher_id) {
+    this.teacher_id = teacher_id;
   }
 
+  public long getTotal() {
+    return total;
+  }
+
+  public void setTotal(long total) {
+    this.total = total;
+  }
+
+  @Override
+  public String toString() {
+    return "Course{" +
+            "id=" + id +
+            ", courseName='" + courseName + '\'' +
+            ", className='" + className + '\'' +
+            ", teacher_id=" + teacher_id +
+            ", total=" + total +
+            '}';
+  }
 }

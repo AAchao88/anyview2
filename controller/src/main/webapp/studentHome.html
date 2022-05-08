@@ -68,11 +68,21 @@
     </style>
     <script>
         $(function (){
-            $.post("")
+            $.post("course/findCourse","",function (data){
+                if (data.data.success){
+                    $("#courseName").append(data.data.get(0).courseName);
+                    $("#questionTotal").append(data.data.get(0).total);
+                }else {
+                    alert(data.data.message);
+                }
+            },"json")
 
 
             $("#start").click(function (){
-
+                var courseName = $("#courseName").text();
+                $.post("task/findTask",{courseName:courseName},function (){
+                    location.href="task.html";
+                },"json")
             });
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";

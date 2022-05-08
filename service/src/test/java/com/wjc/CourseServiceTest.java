@@ -10,11 +10,9 @@ import static org.junit.Assert.assertEquals;
 
 public class CourseServiceTest {
 
-    private User user;
     private CourseService courseService;
     @Before
     public void setUp() throws Exception {
-        user = new User();
         courseService =  new CourseServiceImp();
     }
 
@@ -25,7 +23,15 @@ public class CourseServiceTest {
 
     @Test
     public void findCourse() {
-        user.setClassName("21级计算机类7班");
-        assertEquals("线性代数",courseService.findCourse(user).get(1).getCourseName());
+        User user = new User();
+        user.setClassName("21级计算机类7");
+//        assertEquals("线性代数",courseService.findCourse(user).get(1).getCourseName());
+        assertEquals(0,courseService.findCourse(user).size());
+    }
+
+    @Test
+    public void findCourseInfo() {
+        String courseName = "离散数学";
+        assertEquals(1,courseService.findCourseInfo(courseName).getId());
     }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CourseDao {
     List<Course> findCourse(User user);
+    Course findCourseInfo(String courseName);
 }

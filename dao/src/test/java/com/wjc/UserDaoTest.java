@@ -15,7 +15,6 @@ public class UserDaoTest {
 
     private UserDao userDao;
     private User user;
-    //private String sql;
     @Before
     public void setUp() throws Exception {
         userDao = new UserDaoImp();

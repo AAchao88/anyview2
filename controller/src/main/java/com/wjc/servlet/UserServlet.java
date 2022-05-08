@@ -103,6 +103,7 @@ public class UserServlet extends BaseServlet{
         //通过session获取用户基本信息,然后删除user信息
         HttpSession session = request.getSession();
         session.removeAttribute("user");
+        log.info("用户退出登录");
     }
 
 }

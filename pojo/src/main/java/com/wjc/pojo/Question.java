@@ -5,7 +5,7 @@ public class Question {
 
   private long id;
   private String questionName;
-  private long taskId;
+  private long task_id;
   private String questionContent;
   private String answer;
 
@@ -27,15 +27,13 @@ public class Question {
     this.questionName = questionName;
   }
 
-
-  public long getTaskId() {
-    return taskId;
+  public long getTask_id() {
+    return task_id;
   }
 
-  public void setTaskId(long taskId) {
-    this.taskId = taskId;
+  public void setTask_id(long task_id) {
+    this.task_id = task_id;
   }
-
 
   public String getQuestionContent() {
     return questionContent;
