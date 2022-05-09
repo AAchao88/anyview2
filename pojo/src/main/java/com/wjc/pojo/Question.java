@@ -8,7 +8,16 @@ public class Question {
   private long task_id;
   private String questionContent;
   private String answer;
+  private int type;
+  private long score;
 
+  public long getScore() {
+    return score;
+  }
+
+  public void setScore(long score) {
+    this.score = score;
+  }
 
   public long getId() {
     return id;
@@ -33,6 +42,14 @@ public class Question {
 
   public void setTask_id(long task_id) {
     this.task_id = task_id;
+  }
+
+  public int getType() {
+    return type;
+  }
+
+  public void setType(int type) {
+    this.type = type;
   }
 
   public String getQuestionContent() {

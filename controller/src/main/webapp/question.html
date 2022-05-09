@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>做题页面</title>
+    <style>
+        body{background-color:#151515; }
+        #content{
+            position: absolute;
+            top: 300px;/*顶部到元素*/
+            left:140px;
+            width: 80%;
+            height:600px;
+            margin-top:-175px;/*边缘到底部*/
+            background-color: #F2F5A9;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+            font-size: 20px;
+            font-family: "微软雅黑 Light";
+        }
+        #platName{
+            background-color:#151515;
+            color: #708090;
+            font-size:25px;
+            border: 2px dashed gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;   /*内边距*/
+        }
+
+        #personalCenter{
+            color: #708090;
+            font-size:25px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #signOut{
+            color: #708090;
+            font-size:25px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+
+        }
+        #msg{
+            width: 90%;
+            color: #708090;
+            font-size:20px;
+            text-indent: 120px;
+        }
+        #return{
+            float: right;
+            color: #708090;
+            font-size:20px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+
+    </style>
+    <script>
+
+    </script>
+
+</head>
+<body>
+    <span id="platName">线上作业平台</span>
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+    <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
+    <input type="button" name="signOut" id="signOut" value="登出">
+    <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
+    <!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <div id="msg">
+        <span>课程：</span>
+        <input type="button" id="return" value="返回">
+    </div>
+
+    <div id="content">
+        <form id="question_form">
+
+        </form>
+    </div>
+
+</body>
+</html>
