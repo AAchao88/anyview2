@@ -3,10 +3,25 @@
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <head>
     <meta charset="UTF-8">
-<!--    <meta http-equiv="refresh" content="5">-->
-    <title>作业页面</title>
+    <title>做题页面</title>
     <style>
         body{background-color:#151515; }
+        #content{
+            position: absolute;
+            top: 300px;/*顶部到元素*/
+            left:140px;
+            width: 80%;
+            height:600px;
+            margin-top:-175px;/*边缘到底部*/
+            background-color: #F2F5A9;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+            font-size: 20px;
+            font-family: "微软雅黑 Light";
+        }
         #platName{
             background-color:#151515;
             color: #708090;
@@ -31,33 +46,6 @@
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
             background-color:#151515 ;
-
-        }
-        table{
-            position: absolute;
-            top: 300px;/*顶部到元素*/
-            left:115px;
-            width: 85%;
-            height:600px;
-            margin-top:-175px;/*边缘到底部*/
-            background-color: #F2F5A9;
-            text-align-last: center;
-            /*这里做一个半透明效果*/
-            filter:alpha(Opacity=60);
-            -moz-opacity:0.8;
-            opacity: 0.8;
-            font-size: 20px;
-            font-family: "微软雅黑 Light";
-            /*border: 2px solid gray;*/
-        }
-        .start{
-            float: right;
-            color: #04B431; /*开始做题按钮的文本颜色*/
-            font-size:22px;
-            border: 2px solid gray;
-            border-radius: 50px;/*边框圆角*/
-            padding:5px 10px;
-            background-color:#F2F5A9 ;
         }
         #msg{
             width: 90%;
@@ -74,59 +62,55 @@
             padding:5px 10px;
             background-color:#151515 ;
         }
+
     </style>
     <script>
         $(function (){
-            $.post("task/findTask","",function (data){
-                // alert("jjjj");
-                $("#courseName").text(data.message);
-                if (data.success){
-                    // alert(data.data.length);
-                    for(var i = 0; i<data.data.length;i++){
-                        var time = new Date();
-                        var operate ;
-                        var status;
-                        if (time.getTime().valueOf()<data.data[i].deadline.valueOf()){
-                            operate = "做题";
-                        }else {
-                            operate = "查看";
-                        }
-                        if(data.data[i].status == 0){
-                            status = "未完成";
-                        }
-                        if(data.data[i].status == 1){
-                            status = "已提交";
-                        }
+            $.post("question/findQuestion","",function (data){
+                if(data.success){
+                    $("#courseName").text(data.message);
+                    for(var i =0;i <data.data.length;i++){
                         var str = "";
-                        str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].score+"</td><td>"+data.data[i].deadline+"</td><td>"+data.data[i].completed+"</td><td>"+data.data[i].status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate+"</button></td></tr><br><br>";
-                        $("#table").append(str);
-                        // alert(data.data[i].deadline);
-                        // alert(data.data[i].taskName)
+                        if(data.data[i].type == 1){
+                            str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<input type='radio' name="+(i+1)+" value='a'>A."+data.data[i].optionA+"<br>"
+                            +"<input type='radio' name="+(i+1)+" value='b'>B."+data.data[i].optionB+"<br>"
+                                +"<input type='radio' name="+(i+1)+" value='c'>C."+data.data[i].optionC+"<br>"
+                                +"<input type='radio' name="+(i+1)+" value='d'>D."+data.data[i].optionD+"<br>"
+                        }else {
+                            if(data.data[i].type == 2){
+                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<input type='checkbox' name="+(i+1)+" value='a'>A."+data.data[i].optionA+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='b'>B."+data.data[i].optionB+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='c'>C."+data.data[i].optionC+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='d'>D."+data.data[i].optionD+"<br>"
+                            }else {
+                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<textarea rows='10' cols='30' value='answer'></textarea><br>"
+                            }
+                        }
                     }
+                    $("#question_form").append(str);
+                    var submit = "<input type='submit' name='submit' id='submit' value='提交作答'>";
+                    $("#question_form").append(submit);
                 }else {
                     alert(data.message);
                 }
             },"json")
 
-            $(document).on("click", ".start", function(){
-                var taskName = $(this).val();
-                var courseName = $("#courseName").text();
-                 // alert(taskName);
-                 // alert(courseName);
-                $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (data){
-                    // alert("hhhhhhhhhh");
-                    location.href="question.html";
+            $("#question_form").submit(function (){
+                $.post("question/batch",$(this).serialize(),function (){
+                    alert("提交成功");
+                    location.href="task.html";
                 },"json")
+            })
+
+            $("#return").click(function (){
+                var back = confirm("确定返回？");
+                if(back){
+                    location.href="task.html";
+                }
             })
 
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
-            })
-            $("#return").click(function (){
-                var back = confirm("确定返回？");
-                if(back){
-                    location.href="studentHome.html";
-                }
             })
             $("#signOut").click(function (){
                 var signOut = confirm("确定登出？");
@@ -149,24 +133,21 @@
     <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
     <input type="button" name="signOut" id="signOut" value="登出">
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
-<!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
     <div id="msg">
-        <span id="courseName"></span>
+        <span id="courseName">课程：</span>
         <input type="button" id="return" value="返回">
     </div>
+
     <div id="content">
-        <table id="table">
-            <tr id="header">
-                <th>序号</th>
-                <th>作业名称</th>
-                <th>题数</th>
-                <th>总分</th>
-                <th>截止时间</th>
-                <th>已完成题数</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
-        </table>
+        <form id="question_form">
+<!--            <p id="question">题目：</p>-->
+<!--            <input type="radio" id="optionA" name="answer" value="A">男<br>-->
+<!--            <input type="radio" id="optionB" name="answer" value="B">女<br>-->
+<!--            <input type="radio" id="optionC" name="answer" value="C">男<br>-->
+<!--            <input type="radio" id="optionD"  name="answer" value="D">女<br>-->
+        </form>
     </div>
+
 </body>
 </html>

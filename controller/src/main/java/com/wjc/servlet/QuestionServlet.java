@@ -1,13 +1,10 @@
 package com.wjc.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wjc.CourseService;
-import com.wjc.TaskService;
-import com.wjc.imp.CourseServiceImp;
-import com.wjc.imp.TaskServiceImp;
-import com.wjc.pojo.Course;
+import com.wjc.QuestionService;
+import com.wjc.imp.QuestionServiceImp;
+import com.wjc.pojo.Question;
 import com.wjc.pojo.ResultInfo;
-import com.wjc.pojo.Task;
 import com.wjc.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,10 +29,8 @@ public class QuestionServlet extends BaseServlet{
         System.out.println(taskName);
 
         //通过作业名和课程名查询题目
-        CourseService courseService = new CourseServiceImp();
-        Course course = courseService.findCourseInfo(taskName);
-        TaskService taskService = new TaskServiceImp();
-        List<Task> taskList = taskService.findTask(course,user);
+        QuestionService questionService = new QuestionServiceImp();
+        List<Question> questionList = questionService.findQuestion(taskName,courseName);
 
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper mapper = new ObjectMapper();
@@ -43,21 +38,22 @@ public class QuestionServlet extends BaseServlet{
 
         //判断当前与作业截止时间的前后，更改operate的值
 
-
-        if (taskList.size() == 0){
+        if (questionList.size() == 0){
             resultInfo.setSuccess(false);
-            resultInfo.setMessage("该课程暂无作业，有问题请联系老师。");
+            resultInfo.setMessage("该作业暂无题目，有问题请联系老师。");
         }else {
             resultInfo.setSuccess(true);
-            resultInfo.setData(taskList);
+            resultInfo.setMessage(courseName);
+            resultInfo.setData(questionList);
         }
         try {
             mapper.writeValue(response.getWriter(),resultInfo);
         } catch (IOException e) {
             log.error("响应输出流出错");
         }
-
     }
+
+    public void batch(HttpServletRequest request, HttpServletResponse response){
 
     }
 }

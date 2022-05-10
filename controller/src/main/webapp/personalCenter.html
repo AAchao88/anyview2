@@ -29,7 +29,7 @@
             color: #708090;
             font-size:30px;
         }
-        #return{
+        #back{
             color: #708090;
             font-size:30px;
             border: 2px solid gray;
@@ -40,7 +40,7 @@
     </style>
     <script>
         $.post("user/personalCenter","",function (data){
-            alert(data.data.userName);
+            // alert(data.data.userName);
             $("#userName").append(data.data.userName);
             $("#userNumber").append(data.data.userNumber);
             $("#className").append("专业："+data.data.className);
@@ -48,8 +48,11 @@
     </script>
     <script>
         $(function (){
-            $("#return").click(function (){
-                Location.href="studentHome.html";
+            $("#back").click(function (){
+                var back = confirm("确定返回？");
+                if(back){
+                    location.href="studentHome.html";
+                }
             })
         })
     </script>
@@ -59,7 +62,7 @@
     <span id="userName">姓名：</span><br><br>
     <span id="userNumber">学工号：</span><br><br>
     <span id="className"></span><br>
-    <input type="button" id="return" value="返回">
+    <input type="button" id="back" value="返回">
     <!--<span></span>
     <span></span>-->
 </div>

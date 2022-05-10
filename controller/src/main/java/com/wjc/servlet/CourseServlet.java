@@ -40,7 +40,7 @@ public class CourseServlet extends BaseServlet{
         ObjectMapper mapper = new ObjectMapper();
         ResultInfo resultInfo = new ResultInfo();
         //使用session保存课程信息，以便给后面提供练习信息的查询依据
-        session.setAttribute("course",courseList);
+//        session.setAttribute("course",courseList);
 
         if (courseList.size() == 0){
             resultInfo.setSuccess(false);
@@ -50,7 +50,7 @@ public class CourseServlet extends BaseServlet{
             resultInfo.setData(courseList);
         }
         try {
-            mapper.writeValue(response.getOutputStream(),resultInfo);
+            mapper.writeValue(response.getWriter(),resultInfo);
         } catch (IOException e) {
             log.error("响应输出流出错");
         }

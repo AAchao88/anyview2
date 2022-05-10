@@ -26,17 +26,28 @@ public class TaskServlet extends BaseServlet{
      * @param response
      */
     public void findTask(HttpServletRequest request, HttpServletResponse response){
-        //获取用户所选的课程名
-        String courseName = request.getParameter("courseName");
-        //通过session获取user_id，并把课程名
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        String courseName1 = request.getParameter("courseName");
+        if(courseName1 != null){
+            System.out.println("jjjjjjjjj");
+            session.setAttribute("courseName",courseName1);
+        }
+        //获取用户所选的课程名
+//        String courseName = request.getParameter("courseName");
+        //通过session获取user_id，并把课程名
 
-        System.out.println(courseName);
+        User user = (User) session.getAttribute("user");
+//        session.setAttribute(courseName,courseName);
+
+        System.out.println(session.getAttribute("courseName"));
+        System.out.println(user);
 
         //通过课程名和user_id查询练习
         CourseService courseService = new CourseServiceImp();
-        Course course = courseService.findCourseInfo(courseName);
+        Course course = courseService.findCourseInfo((String) session.getAttribute("courseName"));
+
+        System.out.println(course);
+
         TaskService taskService = new TaskServiceImp();
         List<Task> taskList = taskService.findTask(course,user);
 
@@ -46,17 +57,16 @@ public class TaskServlet extends BaseServlet{
 
         //判断当前与作业截止时间的前后，更改operate的值
 
-
         if (taskList.size() == 0){
             resultInfo.setSuccess(false);
             resultInfo.setMessage("该课程暂无作业，有问题请联系老师。");
         }else {
             resultInfo.setSuccess(true);
-            resultInfo.setMessage(courseName);
+            resultInfo.setMessage((String) session.getAttribute("courseName"));
             resultInfo.setData(taskList);
         }
         try {
-            mapper.writeValue(response.getWriter(),resultInfo);
+            mapper.writeValue(response.getOutputStream(),resultInfo);
         } catch (IOException e) {
             log.error("响应输出流出错");
         }
