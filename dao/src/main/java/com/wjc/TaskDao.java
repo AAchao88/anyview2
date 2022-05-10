@@ -15,5 +15,13 @@ public interface TaskDao {
      */
     List<Task> findTask(Course course, User user);
 
+    /**
+     * 通过课程，作业名，user查找特定作业
+     * @param course
+     * @param user
+     * @param taskName
+     * @return
+     */
+    Task getTask(Course course,User user,String taskName);
 
 }

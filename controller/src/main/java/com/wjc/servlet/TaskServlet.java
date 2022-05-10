@@ -39,14 +39,14 @@ public class TaskServlet extends BaseServlet{
         User user = (User) session.getAttribute("user");
 //        session.setAttribute(courseName,courseName);
 
-        System.out.println(session.getAttribute("courseName"));
-        System.out.println(user);
+//        System.out.println(session.getAttribute("courseName"));
+//        System.out.println(user);
 
         //通过课程名和user_id查询练习
         CourseService courseService = new CourseServiceImp();
         Course course = courseService.findCourseInfo((String) session.getAttribute("courseName"));
 
-        System.out.println(course);
+//        System.out.println(course);
 
         TaskService taskService = new TaskServiceImp();
         List<Task> taskList = taskService.findTask(course,user);

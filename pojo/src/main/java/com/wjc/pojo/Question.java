@@ -12,10 +12,19 @@ public class Question {
   private int type;
   private long score;
 
+  private String reply;
   private String optionA;
   private String optionB;
   private String optionC;
   private String optionD;
+
+  public String getReply() {
+    return reply;
+  }
+
+  public void setReply(String reply) {
+    this.reply = reply;
+  }
 
   public String getOptionA() {
     return optionA;

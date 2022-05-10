@@ -15,4 +15,10 @@ public class TaskServiceImp implements TaskService {
         TaskDao taskDao = new TaskDaoImp();
         return taskDao.findTask(course,user);
     }
+
+    @Override
+    public Task getTask(Course course, User user, String taskName) {
+        TaskDao taskDao = new TaskDaoImp();
+        return taskDao.getTask(course,user,taskName);
+    }
 }

@@ -13,4 +13,6 @@ public interface TaskService {
      * @return
      */
     List<Task> findTask(Course course, User user);
+
+    Task getTask(Course course,User user,String taskName);
 }

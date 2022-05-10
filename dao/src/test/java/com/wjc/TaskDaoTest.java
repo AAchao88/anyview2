@@ -35,4 +35,15 @@ public class TaskDaoTest {
         }
         assertEquals("行列式",taskDao.findTask(course,user).get(0).getTaskName());
     }
+
+    @Test
+    public void getTask() {
+        Course course = new Course();
+        course.setId(2);
+        User user = new User();
+        user.setId(2);
+        String taskName = "行列式";
+        assertEquals(0,taskDao.getTask(course,user,taskName).getScore());
+        System.out.println(taskDao.getTask(course,user,taskName));
+    }
 }

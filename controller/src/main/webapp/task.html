@@ -113,9 +113,9 @@
                 var courseName = $("#courseName").text();
                  // alert(taskName);
                  // alert(courseName);
-                $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (data){
+                $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (){
                     // alert("hhhhhhhhhh");
-                    location.href="question.html";
+                    location.href="question1.html";
                 },"json")
             })
 
