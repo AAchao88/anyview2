@@ -2,12 +2,14 @@ package com.wjc;
 
 import com.wjc.imp.TaskServiceImp;
 import com.wjc.pojo.Course;
+import com.wjc.pojo.Task;
 import com.wjc.pojo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TaskServiceTest {
 
@@ -39,5 +41,13 @@ public class TaskServiceTest {
         user.setId(2);
         String taskName = "行列式";
         assertEquals(0,taskService.getTask(course,user,taskName).getScore());
+    }
+
+    @Test
+    public void changeScore() {
+        Task task = new Task();
+        task.setId(1);
+        long score = 30;
+        assertTrue(taskService.changeScore(task,score));
     }
 }

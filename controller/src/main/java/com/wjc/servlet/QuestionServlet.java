@@ -7,10 +7,7 @@ import com.wjc.TaskService;
 import com.wjc.imp.CourseServiceImp;
 import com.wjc.imp.QuestionServiceImp;
 import com.wjc.imp.TaskServiceImp;
-import com.wjc.pojo.Course;
-import com.wjc.pojo.Question;
-import com.wjc.pojo.ResultInfo;
-import com.wjc.pojo.User;
+import com.wjc.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.annotation.WebServlet;
@@ -75,16 +72,18 @@ public class QuestionServlet extends BaseServlet{
         TaskService taskService = new TaskServiceImp();
         List<Question> questionList = questionService.findQuestion((String) session.getAttribute("taskName"), (String) session.getAttribute("courseName"));
 
+        /*通过taskName和courseName和user_id查找task（已有部分该方法），先获得原来的 score（查），再通过
+            task_id 加上
+         *  questionList.get(i).getScore （改）, */
         Course course = courseService.findCourseInfo((String) session.getAttribute("courseName"));
-
-
+        Task task = taskService.getTask(course,user, (String) session.getAttribute("taskName"));
+        long score = task.getScore();
         int i = 0;
         for(String key : map.keySet()){
             //  1 为单选题
             if(questionList.get(i).getType() == 1){
                 if(map.get(key)[0].equals(questionList.get(i).getAnswer())){
-                    /*通过taskName和courseName和user_id查找task（已有部分该方法），先获得原来的 score（查），再加上
-                    *  questionList.get(i).getScore （改）, */
+
 
                 }
             }else {

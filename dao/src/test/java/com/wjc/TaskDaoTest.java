@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class TaskDaoTest {
@@ -45,5 +46,13 @@ public class TaskDaoTest {
         String taskName = "行列式";
         assertEquals(0,taskDao.getTask(course,user,taskName).getScore());
         System.out.println(taskDao.getTask(course,user,taskName));
+    }
+
+    @Test
+    public void changeScore() {
+        Task task = new Task();
+        task.setId(1);
+        long score = 20;
+        assertTrue(taskDao.changeScore(task,score));
     }
 }
