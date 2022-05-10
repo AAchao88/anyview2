@@ -28,13 +28,13 @@ public class TaskServlet extends BaseServlet{
     public void findTask(HttpServletRequest request, HttpServletResponse response){
         //获取用户所选的课程名
         String courseName = request.getParameter("courseName");
-        //通过session获取user_id
+        //通过session获取user_id，并把课程名
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
         System.out.println(courseName);
 
-        //通过课程名查询练习
+        //通过课程名和user_id查询练习
         CourseService courseService = new CourseServiceImp();
         Course course = courseService.findCourseInfo(courseName);
         TaskService taskService = new TaskServiceImp();
@@ -43,11 +43,16 @@ public class TaskServlet extends BaseServlet{
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper mapper = new ObjectMapper();
         ResultInfo resultInfo = new ResultInfo();
+
+        //判断当前与作业截止时间的前后，更改operate的值
+
+
         if (taskList.size() == 0){
             resultInfo.setSuccess(false);
             resultInfo.setMessage("该课程暂无作业，有问题请联系老师。");
         }else {
             resultInfo.setSuccess(true);
+            resultInfo.setMessage(courseName);
             resultInfo.setData(taskList);
         }
         try {
@@ -56,14 +61,5 @@ public class TaskServlet extends BaseServlet{
             log.error("响应输出流出错");
         }
 
-//        //转发给QuestionServlet,并课程名传过去
-//        request.setAttribute("courseName",courseName);
-//        try {
-//            request.getRequestDispatcher("/question/findQuestion").forward(request,response);
-//        } catch (ServletException e) {
-//            log.warn("Servlet异常");
-//        } catch (IOException e) {
-//            log.error("IO异常");
-//        }
     }
 }

@@ -81,6 +81,7 @@
 
             $(document).on("click", ".start", function(){
                 var courseName = $(this).val();
+                // alert(courseName);
                 $.post("task/findTask",{courseName:courseName},function (){
                     alert("hhhhhhhhhh");
                     location.href="task.html";
@@ -114,10 +115,7 @@
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
     <br><br>
     <div id="course">
-<!--        <span >课程名：</span>-->
-<!--        <span id="courseName"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-->
-<!--        <span id="questionTotal">道题目</span>-->
-<!--        <input type="button" id="start" name="start" value="开始做题">-->
+
     </div>
 
 

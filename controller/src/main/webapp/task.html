@@ -3,6 +3,7 @@
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="5">
     <title>作业页面</title>
     <style>
         body{background-color:#151515; }
@@ -49,9 +50,9 @@
             font-family: "微软雅黑 Light";
             /*border: 2px solid gray;*/
         }
-        tr {
-            border: 20px solid black;
-        }
+        /*tr {*/
+        /*    border: 20px solid black;*/
+        /*}*/
         #msg{
             width: 90%;
             color: #708090;
@@ -67,44 +68,29 @@
             padding:5px 10px;
             background-color:#151515 ;
         }
-        a:link {background-color:#B2FF99;}    /* 未访问链接 */
-        a:visited {background-color:#FFFF85;} /* 已访问链接 */
-        a:hover {background-color:#FF704D;}   /* 鼠标移动到链接上 */
-        a:active {background-color:#FF704D;}  /* 鼠标点击时 */
     </style>
     <script>
         $(function (){
             $.post("task/findTask","",function (data){
+                $("#courseName").text(data.message);
                 if (data.success){
                     for(var i = 0; i<data.data.size();i++){
                         var time = new Date();
-                        var operate;
-                        if (time.getTime().valueOf()<data.data.get(i).deadline.valueOf()){
+                        var operate , status;
+                        if (time.getTime().valueOf()<data.data[i].deadline.valueOf()){
                             operate = "做题";
                         }else {
                             operate = "查看";
                         }
-                        var t1 = $("<tr></tr>");
-                        var t2 = $("<td></td>").text(i);
-                        var t3 = $("<td></td>").text(data.data.get(i).taskName);
-                        var t4 = $("<td></td>").text(data.data.get(i).total);
-                        var t5 = $("<td></td>").text(data.data.get(i).score);
-                        var t6 = $("<td></td>").text(data.data.get(i).deadline);
-                        var t7 = $("<td></td>").text(data.data.get(i).completed);
-                        var t8 = $("<td></td>").text(data.data.get(i).status);
-                        var t9 = $("<input type='button' class='ope' value='operate'>")
-                        $("table").append(t1);
-                        $(t1).append(t2,t3,t4,t5,t6,t7,t8,t9);
-                        // $("table").append( <tr>
-                        //     <td>i</td>
-                        //     <td>data.data.get(i).taskName</td>
-                        //     <td>data.data.get(i).total</td>
-                        //     <td>data.data.get(i).score</td>
-                        //     <td>data.data.get(i).deadline</td>
-                        //     <td>data.data.get(i).completed</td>
-                        //     <td>data.data.get(i).status</td>
-                        //     <input type={}></input>
-                        // </tr>);
+                        if(data.data[i].status == 0){
+                            status = "未完成";
+                        }
+                        if(data.data[i].status == 1){
+                            status = "已提交";
+                        }
+                        var str = "";
+                        str = "<td></td>"+(i+1)+"<td></td>"+data.data[i].taskName+"<td></td>"+data.data[i].total+"<td></td>"+data.data[i].score+"<td></td>"+data.data[i].deadline+"<td></td>"+data.data[i].completed+"<td></td>"+data.data[i].status+"<td><button class='start' value="+data.data[i].taskName+">"+operate+"</button></td><br><br>";
+                        $("table").append(str);
 
                     }
                 }else {
@@ -112,11 +98,22 @@
                 }
             },"json")
 
-            $(".ope").click(function (){
-                $.post("question/findQuestion","",function (data){
+            $(document).on("click", ".start", function(){
+                var taskName = $(this).val();
+                var courseName = $("#courseName").val();
+
+                 alert(taskName);
+                 alert(courseName);
+                $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (){
+                    alert("hhhhhhhhhh");
                     location.href="question.html";
                 },"json")
             })
+            // $(".start").click(function (){
+            //     $.post("question/findQuestion","",function (data){
+            //         location.href="question.html";
+            //     },"json")
+            // })
         })
     </script>
 
@@ -131,7 +128,7 @@
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
 <!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
     <div id="msg">
-        <span>课程：</span>
+        <span id="courseName"></span>
         <input type="button" id="return" value="返回">
     </div>
     <div id="content">

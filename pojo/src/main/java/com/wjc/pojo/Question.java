@@ -5,11 +5,57 @@ public class Question {
 
   private long id;
   private String questionName;
-  private long task_id;
+  private String taskName;
+  private String courseName;
   private String questionContent;
   private String answer;
   private int type;
   private long score;
+
+  private String optionA;
+  private String optionB;
+  private String optionC;
+  private String optionD;
+
+  public String getOptionA() {
+    return optionA;
+  }
+
+  public void setOptionA(String optionA) {
+    this.optionA = optionA;
+  }
+
+  public String getOptionB() {
+    return optionB;
+  }
+
+  public void setOptionB(String optionB) {
+    this.optionB = optionB;
+  }
+
+  public String getOptionC() {
+    return optionC;
+  }
+
+  public void setOptionC(String optionC) {
+    this.optionC = optionC;
+  }
+
+  public String getOptionD() {
+    return optionD;
+  }
+
+  public void setOptionD(String optionD) {
+    this.optionD = optionD;
+  }
+
+  public String getCourseName() {
+    return courseName;
+  }
+
+  public void setCourseName(String courseName) {
+    this.courseName = courseName;
+  }
 
   public long getScore() {
     return score;
@@ -36,12 +82,12 @@ public class Question {
     this.questionName = questionName;
   }
 
-  public long getTask_id() {
-    return task_id;
+  public String getTaskName() {
+    return taskName;
   }
 
-  public void setTask_id(long task_id) {
-    this.task_id = task_id;
+  public void setTaskName(String taskName) {
+    this.taskName = taskName;
   }
 
   public int getType() {
@@ -69,4 +115,21 @@ public class Question {
     this.answer = answer;
   }
 
+  @Override
+  public String toString() {
+    return "Question{" +
+            "id=" + id +
+            ", questionName='" + questionName + '\'' +
+            ", taskName='" + taskName + '\'' +
+            ", courseName='" + courseName + '\'' +
+            ", questionContent='" + questionContent + '\'' +
+            ", answer='" + answer + '\'' +
+            ", type=" + type +
+            ", score=" + score +
+            ", optionA='" + optionA + '\'' +
+            ", optionB='" + optionB + '\'' +
+            ", optionC='" + optionC + '\'' +
+            ", optionD='" + optionD + '\'' +
+            '}';
+  }
 }

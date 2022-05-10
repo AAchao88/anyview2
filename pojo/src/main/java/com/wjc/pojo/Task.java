@@ -14,6 +14,15 @@ public class Task {
   private long completed;
   private java.sql.Timestamp deadline;
   private long status;
+  private String operate;
+
+  public String getOperate() {
+    return operate;
+  }
+
+  public void setOperate(String operate) {
+    this.operate = operate;
+  }
 
   public long getId() {
     return id;
@@ -99,6 +108,7 @@ public class Task {
             ", completed=" + completed +
             ", deadline=" + deadline +
             ", status=" + status +
+            ", operate='" + operate + '\'' +
             '}';
   }
 }
