@@ -28,12 +28,14 @@ public class CourseServlet extends BaseServlet{
     public void findCourse(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+
+
         //通过这个user去查所有信息，再利用className查找course
         UserService userService = new UserServiceImp();
         User returnUser = userService.getPersonalInformation(user);
         CourseService courseService = new CourseServiceImp();
         List<Course> courseList = courseService.findCourse(returnUser);
-        //做一个分页展示
+
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper mapper = new ObjectMapper();
         ResultInfo resultInfo = new ResultInfo();
@@ -48,7 +50,7 @@ public class CourseServlet extends BaseServlet{
             resultInfo.setData(courseList);
         }
         try {
-            mapper.writeValue(response.getWriter(),resultInfo);
+            mapper.writeValue(response.getOutputStream(),resultInfo);
         } catch (IOException e) {
             log.error("响应输出流出错");
         }

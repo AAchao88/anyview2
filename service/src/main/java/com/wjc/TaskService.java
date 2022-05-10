@@ -2,6 +2,7 @@ package com.wjc;
 
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.User;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface TaskService {
      * @param course
      * @return
      */
-    List<Task> findTask(Course course);
+    List<Task> findTask(Course course, User user);
 }

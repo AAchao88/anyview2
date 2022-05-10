@@ -84,22 +84,39 @@
                         }else {
                             operate = "查看";
                         }
-                        $("table").append( <tr>
-                            <td>i</td>
-                            <td>data.data.get(i).taskName</td>
-                            <td>data.data.get(i).total</td>
-                            <td>data.data.get(i).score</td>
-                            <td>data.data.get(i).deadline</td>
-                            <td>data.data.get(i).completed</td>
-                            <td>data.data.get(i).status</td>
-                            <td><a href="question.html" >operate</a></td>
-                        </tr>);
+                        var t1 = $("<tr></tr>");
+                        var t2 = $("<td></td>").text(i);
+                        var t3 = $("<td></td>").text(data.data.get(i).taskName);
+                        var t4 = $("<td></td>").text(data.data.get(i).total);
+                        var t5 = $("<td></td>").text(data.data.get(i).score);
+                        var t6 = $("<td></td>").text(data.data.get(i).deadline);
+                        var t7 = $("<td></td>").text(data.data.get(i).completed);
+                        var t8 = $("<td></td>").text(data.data.get(i).status);
+                        var t9 = $("<input type='button' class='ope' value='operate'>")
+                        $("table").append(t1);
+                        $(t1).append(t2,t3,t4,t5,t6,t7,t8,t9);
+                        // $("table").append( <tr>
+                        //     <td>i</td>
+                        //     <td>data.data.get(i).taskName</td>
+                        //     <td>data.data.get(i).total</td>
+                        //     <td>data.data.get(i).score</td>
+                        //     <td>data.data.get(i).deadline</td>
+                        //     <td>data.data.get(i).completed</td>
+                        //     <td>data.data.get(i).status</td>
+                        //     <input type={}></input>
+                        // </tr>);
 
                     }
                 }else {
                     alert(data.message);
                 }
             },"json")
+
+            $(".ope").click(function (){
+                $.post("question/findQuestion","",function (data){
+                    location.href="question.html";
+                },"json")
+            })
         })
     </script>
 

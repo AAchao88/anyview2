@@ -44,12 +44,12 @@
             text-indent: 30px;
             width:70%
         }
-        #courseName{
+        .courseName{
             color: #708090;
             font-size:22px;
             background-color:#151515 ;
         }
-        #start{
+        .start{
             float: right;
             color: #04B431; /*开始做题按钮的文本颜色*/
             font-size:22px;
@@ -58,32 +58,35 @@
             padding:5px 10px;
             background-color:#151515 ;
         }
-        #questionTotal{
+        .questionTotal{
             text-indent:90px;
             color: #708090; /*开始做题按钮的文本颜色*/
             font-size:15px;
             background-color:#151515;
-
         }
     </style>
     <script>
         $(function (){
             $.post("course/findCourse","",function (data){
-                if (data.data.success){
-                    $("#courseName").append(data.data.get(0).courseName);
-                    $("#questionTotal").append(data.data.get(0).total);
+                if (data.success){
+                    var str = "";
+                    for(var i = 0; i< data.data.length;i++){
+                        str = "<span class='courseName' ></span>"+data.data[i].courseName+"<span class='questionTotal'></span>"+data.data[i].total+"<button class='start' value="+data.data[i].courseName+">开始做题</button><br><br>";
+                        $("#course").append(str);
+                    }
                 }else {
-                    alert(data.data.message);
+                    alert(data.message);
                 }
             },"json")
 
-
-            $("#start").click(function (){
-                var courseName = $("#courseName").text();
+            $(document).on("click", ".start", function(){
+                var courseName = $(this).val();
                 $.post("task/findTask",{courseName:courseName},function (){
+                    alert("hhhhhhhhhh");
                     location.href="task.html";
                 },"json")
-            });
+            })
+
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
             })
@@ -111,10 +114,10 @@
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
     <br><br>
     <div id="course">
-        <span >课程名：</span>
-        <span id="courseName"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-        <span id="questionTotal">道题目</span>
-        <input type="button" id="start" name="start" value="开始做题">
+<!--        <span >课程名：</span>-->
+<!--        <span id="courseName"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-->
+<!--        <span id="questionTotal">道题目</span>-->
+<!--        <input type="button" id="start" name="start" value="开始做题">-->
     </div>
 
 

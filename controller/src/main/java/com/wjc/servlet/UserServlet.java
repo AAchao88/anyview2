@@ -48,24 +48,18 @@ public class UserServlet extends BaseServlet{
             //用户不存在，设置回显信息
             resultInfo.setSuccess(false);
             resultInfo.setMessage("学工号或密码输入错误");
-            //返回数据
-            try {
-                mapper.writeValue(response.getWriter(),resultInfo);
-            } catch (IOException e) {
-                log.error("响应输出流出错！");
-            }
         }else {
             //用户存在，设置回显信息
             resultInfo.setSuccess(true);
             resultInfo.setMessage("登录成功");
             HttpSession session = request.getSession();
             session.setAttribute("user",returnUser);
-            //返回数据
-            try {
-                mapper.writeValue(response.getWriter(),resultInfo);
-            } catch (IOException e) {
-                log.error("响应输出流出错！");
-            }
+        }
+        //返回数据
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错！");
         }
     }
 

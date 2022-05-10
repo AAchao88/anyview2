@@ -8,11 +8,13 @@ import com.wjc.imp.TaskServiceImp;
 import com.wjc.pojo.Course;
 import com.wjc.pojo.ResultInfo;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,11 +28,17 @@ public class TaskServlet extends BaseServlet{
     public void findTask(HttpServletRequest request, HttpServletResponse response){
         //获取用户所选的课程名
         String courseName = request.getParameter("courseName");
+        //通过session获取user_id
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        System.out.println(courseName);
+
         //通过课程名查询练习
         CourseService courseService = new CourseServiceImp();
         Course course = courseService.findCourseInfo(courseName);
         TaskService taskService = new TaskServiceImp();
-        List<Task> taskList = taskService.findTask(course);
+        List<Task> taskList = taskService.findTask(course,user);
 
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper mapper = new ObjectMapper();
