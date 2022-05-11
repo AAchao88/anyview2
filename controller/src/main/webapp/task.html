@@ -83,10 +83,17 @@
                 if (data.success){
                     // alert(data.data.length);
                     for(var i = 0; i<data.data.length;i++){
+
                         var time = new Date();
+                        time.setTime(data.data[i].deadline);
+                        var timeFormat = time.toDateString();
+                        // var timeFormat = format( 'yyyy-MM-dd HH:mm:ss');
+                        console.log(data.data[i].deadline);
+                        console.log(timeFormat);
                         var operate ;
-                        var status;
-                        if (time.getTime().valueOf()<data.data[i].deadline.valueOf()){
+                        // var status = "未完成";
+                        // if (time.getTime().valueOf()>data.data[i].deadline.valueOf()){
+                        if (new Date().getMilliseconds()<data.data[i].deadline){
                             operate = "做题";
                         }else {
                             operate = "查看";
@@ -97,8 +104,9 @@
                         if(data.data[i].status == 1){
                             status = "已提交";
                         }
+                        // console.log(status);
                         var str = "";
-                        str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].score+"</td><td>"+data.data[i].deadline+"</td><td>"+data.data[i].completed+"</td><td>"+data.data[i].status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate+"</button></td></tr><br><br>";
+                        str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].score+"</td><td>"+timeFormat+"</td><td>"+data.data[i].completed+"</td><td>"+status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate+"</button></td></tr><br><br>";
                         $("#table").append(str);
                         // alert(data.data[i].deadline);
                         // alert(data.data[i].taskName)

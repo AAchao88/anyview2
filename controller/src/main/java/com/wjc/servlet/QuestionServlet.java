@@ -77,31 +77,42 @@ public class QuestionServlet extends BaseServlet{
          *  questionList.get(i).getScore （改）, */
         Course course = courseService.findCourseInfo((String) session.getAttribute("courseName"));
         Task task = taskService.getTask(course,user, (String) session.getAttribute("taskName"));
-        long score = task.getScore();
-        int i = 0;
+        //学生提交作答后增加的分数,已完成的题目数，状态
+        long addScore = 0;
+        long addCompleted = 0;
+
+        int i = 0 , k;
         for(String key : map.keySet()){
-            //  1 为单选题
-            if(questionList.get(i).getType() == 1){
-                if(map.get(key)[0].equals(questionList.get(i).getAnswer())){
-
-
-                }
-            }else {
-                if (questionList.get(i).getType() == 2){
-                    StringBuilder reply = new StringBuilder();
-                    for(int j = 0;j<map.get(key).length;j++){
-                        reply.append(map.get(key)[j]);
+            k = i+1;
+            if(Integer.parseInt(key) == k){
+                //  1 为单选题
+                if(questionList.get(i).getType() == 1){
+                    if(map.get(key)[0].equals(questionList.get(i).getAnswer())){
+                        addScore = addScore+questionList.get(i).getScore();
                     }
-                    if(reply.equals(questionList.get(i).getAnswer())){
-
-                    }
-                    //提交给老师
                 }else {
+                    if (questionList.get(i).getType() == 2){
+//                    System.out.println("多选题");
+                        StringBuilder reply = new StringBuilder();
+                        for(int j = 0;j<map.get(key).length;j++){
+                            reply.append(map.get(key)[j]);
+                        }
+//                    System.out.println(reply);
+//                    System.out.println(questionList.get(i).getAnswer());
+                        if(reply.toString().equals(questionList.get(i).getAnswer())){
+                            addScore = addScore+questionList.get(i).getScore();
+                        }
+                        //提交给老师
+                    }else {
 
+                    }
                 }
             }
             i++;
         }
-
+        //获取原来作业的分数 和 题目的分值
+        long taskScore = task.getScore();
+        taskService.changeScore(task,taskScore+addScore);
+        System.out.println("成功了");
     }
 }

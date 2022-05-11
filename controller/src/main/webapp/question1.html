@@ -83,13 +83,13 @@
                                     +"<input type='checkbox' name="+(i+1)+" value='c'>C."+data.data[i].optionC+"<br>"
                                     +"<input type='checkbox' name="+(i+1)+" value='d'>D."+data.data[i].optionD+"<br>"
                             }else {
-                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<br><textarea rows='10' cols='30' value='answer'></textarea><br>"
+                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<br><textarea rows='10' cols='30' name="+(i+1)+" ></textarea><br>"
                             }
                         }
                         $("#question_form").append(str);
                     }
-                    var submit = "<input type='submit' name='submit' id='submit' value='提交作答'>";
-                    $("#question_form").append(submit);
+                    var submit1 = "<input type='submit' name='submit' id='submit' value='提交作答'>";
+                    $("#question_form").append(submit1);
                 }else {
                     alert(data.message);
                 }
@@ -100,7 +100,7 @@
                if(judge){
                    $.post("question/batch",$(this).serialize(),function (){
                        alert("提交成功");
-                       location.href="task.html";
+                       // location.href="task.html";
                    },"json")
                }
             })

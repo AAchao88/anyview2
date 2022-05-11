@@ -56,6 +56,13 @@ public class TaskServlet extends BaseServlet{
         ResultInfo resultInfo = new ResultInfo();
 
         //判断当前与作业截止时间的前后，更改operate的值
+//        for(int i = 0; i<taskList.size();i++){
+//
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//            String s = simpleDateFormat.format(new Date(String.valueOf((taskList.get(i).getDeadline()))));
+//            System.out.println(s);
+//
+//        }
 
         if (taskList.size() == 0){
             resultInfo.setSuccess(false);
