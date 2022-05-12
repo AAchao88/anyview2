@@ -41,4 +41,11 @@ public class CourseDaoTest {
         assertEquals(2,course.getId());
         System.out.println(courseDao.findCourseInfo(courseName));
     }
+
+    @Test
+    public void findCourseTea() {
+        User user = new User();
+        user.setId(1);
+        assertEquals(3,courseDao.findCourseTea(user).size());
+    }
 }

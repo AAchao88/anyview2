@@ -86,7 +86,11 @@
                   function (data){
                     if(data.success){
                       alert(data.message);
-                      location.href="studentHome.html";
+                      if(data.data.role==="学生"){
+                        location.href="studentHome.html";
+                      }else {
+                        location.href="teacherHome.html";
+                      }
                     }else{
                       alert(data.message);
                     }

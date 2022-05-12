@@ -117,7 +117,7 @@ public class QuestionServlet extends BaseServlet{
         }
         //获取原来作业的分数 和 题目的分值
         long taskScore = task.getScore();
-        taskService.changeScore(task,taskScore+addScore);
+        taskService.changeScore(task,taskScore+addScore,task.getCompleted(),task.getStatus());
         System.out.println("成功了");
     }
 }
