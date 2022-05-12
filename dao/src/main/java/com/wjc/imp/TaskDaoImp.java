@@ -27,9 +27,9 @@ public class TaskDaoImp implements TaskDao {
     }
 
     @Override
-    public Boolean changeScore(Task task, long score) {
-        String sql = "update task set score = ? where id =?";
-        if(CRUDUtil.executeUpdate(sql,score,task.getId()) == 1){
+    public Boolean changeScore(Task task, long score,long completed,long status) {
+        String sql = "update task set score = ?,completed = ?,status = ? where id =?";
+        if(CRUDUtil.executeUpdate(sql,score,completed,status,task.getId()) == 1){
             return true;
         }else {
             return false;

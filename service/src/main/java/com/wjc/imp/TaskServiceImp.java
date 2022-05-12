@@ -23,8 +23,8 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public Boolean changeScore(Task task, long score) {
+    public Boolean changeScore(Task task, long score,long completed,long status) {
         TaskDao taskDao = new TaskDaoImp();
-        return taskDao.changeScore(task,score);
+        return taskDao.changeScore(task,score,completed,status);
     }
 }

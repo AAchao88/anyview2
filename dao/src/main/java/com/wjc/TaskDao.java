@@ -24,6 +24,6 @@ public interface TaskDao {
      */
     Task getTask(Course course,User user,String taskName);
 
-    Boolean changeScore(Task task,long score);
+    Boolean changeScore(Task task,long score,long completed,long status);
 
 }

@@ -48,6 +48,8 @@ public class TaskServiceTest {
         Task task = new Task();
         task.setId(1);
         long score = 30;
-        assertTrue(taskService.changeScore(task,score));
+        long completed = 12;
+        long status = 0;
+        assertTrue(taskService.changeScore(task,score,completed,status));
     }
 }

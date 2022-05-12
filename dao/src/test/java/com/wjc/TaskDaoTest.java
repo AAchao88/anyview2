@@ -53,6 +53,8 @@ public class TaskDaoTest {
         Task task = new Task();
         task.setId(1);
         long score = 20;
-        assertTrue(taskDao.changeScore(task,score));
+        long completed = 2;
+        long status = 1;
+        assertTrue(taskDao.changeScore(task,score,completed,status));
     }
 }
