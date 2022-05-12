@@ -17,4 +17,6 @@ public interface TaskService {
     Task getTask(Course course,User user,String taskName);
 
     Boolean changeScore(Task task,long score,long completed,long status);
+
+    List<Task> findTaskNameTea(long course_id);
 }

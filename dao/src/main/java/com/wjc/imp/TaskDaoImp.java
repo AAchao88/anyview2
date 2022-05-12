@@ -36,5 +36,11 @@ public class TaskDaoImp implements TaskDao {
         }
     }
 
+    @Override
+    public List<Task> findTaskNameTea(long course_id) {
+        String sql = "select  distinct taskName from task where course_id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),course_id);
+    }
+
 
 }

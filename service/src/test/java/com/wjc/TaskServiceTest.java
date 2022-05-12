@@ -52,4 +52,11 @@ public class TaskServiceTest {
         long status = 0;
         assertTrue(taskService.changeScore(task,score,completed,status));
     }
+
+    @Test
+    public void findTaskNameTea() {
+        Course course = new Course();
+        course.setId(2);
+        assertEquals(4,taskService.findTaskNameTea(2).size());
+    }
 }

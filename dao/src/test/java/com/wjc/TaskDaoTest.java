@@ -57,4 +57,14 @@ public class TaskDaoTest {
         long status = 1;
         assertTrue(taskDao.changeScore(task,score,completed,status));
     }
+
+    @Test
+    public void findTaskNameTea() {
+        Course course = new Course();
+        course.setId(2);
+        assertEquals("行列式",taskDao.findTaskNameTea(course.getId()).get(0).getTaskName());
+        for(int i =0 ;i<4;i++){
+            System.out.println(taskDao.findTaskNameTea(2).get(i).getTaskName());
+        }
+    }
 }

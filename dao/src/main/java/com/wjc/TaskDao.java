@@ -26,4 +26,11 @@ public interface TaskDao {
 
     Boolean changeScore(Task task,long score,long completed,long status);
 
+    /**
+     *  教师根据course_id查询所有作业名（去重）
+     * @param course_id
+     * @return
+     */
+    List<Task> findTaskNameTea(long course_id);
+
 }

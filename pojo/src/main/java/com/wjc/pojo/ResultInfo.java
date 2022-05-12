@@ -12,6 +12,8 @@ public class ResultInfo {
     //返回数据
     private Object data;
 
+    private Object data2;
+
     public void setSuccess(Boolean success) {
         this.success = success;
     }
@@ -36,13 +38,12 @@ public class ResultInfo {
         return data;
     }
 
-    @Override
-    public String toString() {
-        return "ResultInfo{" +
-                "success=" + success +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
+    public Object getData2() {
+        return data2;
+    }
+
+    public void setData2(Object data2) {
+        this.data2 = data2;
     }
 }
 
