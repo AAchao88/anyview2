@@ -51,6 +51,7 @@ public class UserServlet extends BaseServlet{
         }else {
             //用户存在，设置回显信息
             resultInfo.setSuccess(true);
+            resultInfo.setData(returnUser);
             resultInfo.setMessage("登录成功");
             HttpSession session = request.getSession();
             session.setAttribute("user",returnUser);

@@ -11,7 +11,6 @@ public class Question {
   private String answer;
   private int type;
   private long score;
-
   private String reply;
   private String optionA;
   private String optionB;

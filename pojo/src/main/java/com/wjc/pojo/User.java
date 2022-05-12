@@ -8,7 +8,15 @@ public class User {
   private String userNumber;
   private String password;
   private String className;
+  private String role;
 
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
 
   public long getId() {
     return id;
@@ -62,6 +70,7 @@ public class User {
             ", userNumber='" + userNumber + '\'' +
             ", password='" + password + '\'' +
             ", className='" + className + '\'' +
+            ", role='" + role + '\'' +
             '}';
   }
 }

@@ -93,7 +93,7 @@
                         var operate ;
                         // var status = "未完成";
                         // if (time.getTime().valueOf()>data.data[i].deadline.valueOf()){
-                        if (new Date().getMilliseconds()<data.data[i].deadline){
+                        if (new Date().getTime()<data.data[i].deadline){
                             operate = "做题";
                         }else {
                             operate = "查看";

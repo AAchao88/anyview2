@@ -5,10 +5,7 @@ import com.wjc.CourseService;
 import com.wjc.TaskService;
 import com.wjc.imp.CourseServiceImp;
 import com.wjc.imp.TaskServiceImp;
-import com.wjc.pojo.Course;
-import com.wjc.pojo.ResultInfo;
-import com.wjc.pojo.Task;
-import com.wjc.pojo.User;
+import com.wjc.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.annotation.WebServlet;
@@ -83,6 +80,24 @@ public class TaskServlet extends BaseServlet{
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
+        TaskService taskService = new TaskServiceImp();
+        List<Tasktea> taskteas = taskService.findTeaTask(user);
+
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper mapper = new ObjectMapper();
+        ResultInfo resultInfo = new ResultInfo();
+        if(taskteas.size() == 0){
+            resultInfo.setSuccess(false);
+            resultInfo.setMessage("您暂未添加任何作业");
+        }else {
+            resultInfo.setSuccess(true);
+            resultInfo.setData(taskteas);
+        }
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
+        }
 
 
     }
