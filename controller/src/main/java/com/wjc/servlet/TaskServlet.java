@@ -29,7 +29,7 @@ public class TaskServlet extends BaseServlet{
         HttpSession session = request.getSession();
         String courseName1 = request.getParameter("courseName");
         if(courseName1 != null){
-            System.out.println("jjjjjjjjj");
+//            System.out.println("jjjjjjjjj");
             session.setAttribute("courseName",courseName1);
         }
         //获取用户所选的课程名
@@ -77,6 +77,13 @@ public class TaskServlet extends BaseServlet{
         } catch (IOException e) {
             log.error("响应输出流出错");
         }
+    }
+
+    public void findTeaTask(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+
 
     }
 }

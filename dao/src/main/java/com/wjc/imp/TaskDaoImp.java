@@ -3,6 +3,7 @@ package com.wjc.imp;
 import com.wjc.TaskDao;
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 import com.wjc.utils.BeanHandler;
 import com.wjc.utils.BeanListHandler;
@@ -37,10 +38,16 @@ public class TaskDaoImp implements TaskDao {
     }
 
     @Override
-    public List<Task> findTaskNameTea(long course_id) {
-        String sql = "select  distinct taskName from task where course_id = ?";
-        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),course_id);
+    public List<Tasktea> findTeaTask(User user) {
+        String sql = "select * from tasktea where teacher_id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Tasktea.class),user.getId());
     }
+
+//    @Override
+//    public List<Task> findTaskNameTea(long course_id) {
+//        String sql = "select  distinct taskName from task where course_id = ?";
+//        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),course_id);
+//    }
 
 
 }

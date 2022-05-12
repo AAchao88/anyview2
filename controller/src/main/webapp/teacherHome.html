@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
-
 <head>
     <meta charset="UTF-8">
+    <!--    <meta http-equiv="refresh" content="5">-->
     <title>教师首页</title>
-    <style type="text/css">
+    <style>
         body{background-color:#151515; }
         #platName{
             background-color:#151515;
             color: #708090;
-            font-size:30px;
+            font-size:25px;
             border: 2px dashed gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;   /*内边距*/
         }
+
         #personalCenter{
             color: #708090;
-            font-size:30px;
+            font-size:25px;
             border: 2px solid gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
@@ -25,29 +26,29 @@
         }
         #signOut{
             color: #708090;
-            font-size:30px;
+            font-size:25px;
             border: 2px solid gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
             background-color:#151515 ;
 
         }
-        #course{
+        table{
             position: absolute;
-            float: left;
-            color: #708090;
-            font-size:22px;
-            border: 2px solid gray;
-            border-radius: 50px;/*边框圆角*/
-            padding:5px 10px;
-            background-color:#151515 ;
-            text-indent: 30px;
-            width:70%
-        }
-        .courseName{
-            color: #708090;
-            font-size:22px;
-            background-color:#151515 ;
+            top: 300px;/*顶部到元素*/
+            left:115px;
+            width: 85%;
+            height:600px;
+            margin-top:-175px;/*边缘到底部*/
+            background-color: #F2F5A9;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+            font-size: 20px;
+            font-family: "微软雅黑 Light";
+            /*border: 2px solid gray;*/
         }
         .start{
             float: right;
@@ -56,23 +57,68 @@
             border: 2px solid gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;
-            background-color:#151515 ;
+            background-color:#F2F5A9 ;
         }
-        .questionTotal{
-            text-indent:90px;
-            color: #708090; /*开始做题按钮的文本颜色*/
-            font-size:15px;
-            background-color:#151515;
+        #msg{
+            width: 90%;
+            color: #708090;
+            font-size:20px;
+            text-indent: 120px;
+        }
+        #return{
+            float: right;
+            color: #708090;
+            font-size:20px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
         }
     </style>
     <script>
         $(function (){
-            $.post("course/findCourse","",function (data){
+            $.post("course/findCourseTea","",function (data){
+                // alert("jjjj");
+                // $("#courseName").text(data.message);
                 if (data.success){
-                    var str = "";
-                    for(var i = 0; i< data.data.length;i++){
-                        str = "<span class='courseName' ></span>"+data.data[i].courseName+"<span class='questionTotal'></span>"+data.data[i].total+"<button class='start' value="+data.data[i].courseName+">开始做题</button><br><br>";
-                        $("#course").append(str);
+                    // alert(data.data.length);
+                    for(var i = 0; i<data.data.length;i++){
+                        var courseName = data.data[i].courseName;
+                        for(var j = 0;j<data.data2.length;j++){
+                            var time = new Date();
+                            time.setTime(data.data[i].deadline);
+                            var timeFormat = time.toDateString();
+                        }
+
+
+
+
+                        var time = new Date();
+                        time.setTime(data.data[i].deadline);
+                        var timeFormat = time.toDateString();
+                        // var timeFormat = format( 'yyyy-MM-dd HH:mm:ss');
+                        // console.log(data.data[i].deadline);
+                        // console.log(timeFormat);
+                        var operate ;
+                        // var status = "未完成";
+                        // if (time.getTime().valueOf()>data.data[i].deadline.valueOf()){
+                        if (new Date().getMilliseconds()<data.data[i].deadline){
+                            operate = "做题";
+                        }else {
+                            operate = "查看";
+                        }
+                        if(data.data[i].status == 0){
+                            status = "未完成";
+                        }
+                        if(data.data[i].status == 1){
+                            status = "已提交";
+                        }
+                        // console.log(status);
+                        var str = "";
+                        str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].score+"</td><td>"+timeFormat+"</td><td>"+data.data[i].completed+"</td><td>"+status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate+"</button></td></tr><br><br>";
+                        $("#table").append(str);
+                        // alert(data.data[i].deadline);
+                        // alert(data.data[i].taskName)
                     }
                 }else {
                     alert(data.message);
@@ -80,16 +126,24 @@
             },"json")
 
             $(document).on("click", ".start", function(){
-                var courseName = $(this).val();
+                var taskName = $(this).val();
+                var courseName = $("#courseName").text();
+                // alert(taskName);
                 // alert(courseName);
-                $.post("task/findTask",{courseName:courseName},function (){
-                    alert("hhhhhhhhhh");
-                    location.href="task.html";
+                $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (){
+                    // alert("hhhhhhhhhh");
+                    location.href="question1.html";
                 },"json")
             })
 
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
+            })
+            $("#return").click(function (){
+                var back = confirm("确定返回？");
+                if(back){
+                    location.href="studentHome.html";
+                }
             })
             $("#signOut").click(function (){
                 var signOut = confirm("确定登出？");
@@ -105,19 +159,32 @@
 
 </head>
 <body>
-
 <span id="platName">线上作业平台</span>
-&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
 
 <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
 <input type="button" name="signOut" id="signOut" value="登出">
 <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
-<br><br>
-<div id="course">
-
+<!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<div id="msg">
+<!--    <span id="courseName"></span>-->
+    <input type="button" id="return" value="返回">
 </div>
-
-
+<div id="content">
+    <table id="table">
+        <tr id="header">
+            <th>序号</th>
+            <th>作业名称</th>
+            <th>题数</th>
+            <th>班级</th>
+            <th>发布时间</th>
+            <th>结束时间</th>
+            <th>交卷人数</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

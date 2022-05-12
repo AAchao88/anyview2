@@ -2,6 +2,7 @@ package com.wjc;
 
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface TaskService {
 
     Boolean changeScore(Task task,long score,long completed,long status);
 
-    List<Task> findTaskNameTea(long course_id);
+//    List<Task> findTaskNameTea(long course_id);
+
+    List<Tasktea> findTeaTask(User user);
 }

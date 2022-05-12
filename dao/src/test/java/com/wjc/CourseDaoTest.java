@@ -42,10 +42,10 @@ public class CourseDaoTest {
         System.out.println(courseDao.findCourseInfo(courseName));
     }
 
-    @Test
-    public void findCourseTea() {
-        User user = new User();
-        user.setId(1);
-        assertEquals(3,courseDao.findCourseTea(user).size());
-    }
+//    @Test
+//    public void findCourseTea() {
+//        User user = new User();
+//        user.setId(1);
+//        assertEquals(3,courseDao.findCourseTea(user).size());
+//    }
 }

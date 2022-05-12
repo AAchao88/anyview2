@@ -2,6 +2,7 @@ package com.wjc;
 
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public interface TaskDao {
 
     Boolean changeScore(Task task,long score,long completed,long status);
 
-    /**
-     *  教师根据course_id查询所有作业名（去重）
-     * @param course_id
-     * @return
-     */
-    List<Task> findTaskNameTea(long course_id);
+//    /**
+//     *  教师根据course_id查询所有作业名（去重）
+//     * @param course_id
+//     * @return
+//     */
+//    List<Task> findTaskNameTea(long course_id);
+
+    List<Tasktea> findTeaTask(User user);
 
 }

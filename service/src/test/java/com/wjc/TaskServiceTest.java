@@ -53,10 +53,18 @@ public class TaskServiceTest {
         assertTrue(taskService.changeScore(task,score,completed,status));
     }
 
+//    @Test
+//    public void findTaskNameTea() {
+//        Course course = new Course();
+//        course.setId(2);
+//        assertEquals(4,taskService.findTaskNameTea(2).size());
+//    }
+
+
     @Test
-    public void findTaskNameTea() {
-        Course course = new Course();
-        course.setId(2);
-        assertEquals(4,taskService.findTaskNameTea(2).size());
+    public void findTeaTask() {
+        User user = new User();
+        user.setId(1);
+        assertEquals("行列式",taskService.findTeaTask(user).get(0).getTaskName());
     }
 }
