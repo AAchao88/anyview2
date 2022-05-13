@@ -1,22 +1,19 @@
 package com.wjc;
 
-import com.wjc.imp.UserDaoImp;
+import com.wjc.imp.UserServiceImp;
 import com.wjc.pojo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class UserServiceTest {
 
-    private UserDao userDao;
-    private User user;
+    private UserService userService;
     @Before
     public void setUp() throws Exception {
-        userDao = new UserDaoImp();
-        user = new User();
+        userService = new UserServiceImp();
     }
 
     @After
@@ -26,15 +23,23 @@ public class UserServiceTest {
 
     @Test
     public void getPersonalInformation() {
+        User user = new User();
         user.setUserNumber("123456");
-        assertNotNull(userDao.getPersonalInformation(user));
-        System.out.println(userDao.getPersonalInformation(user));
+        assertNotNull(userService.getPersonalInformation(user));
+        System.out.println(userService.getPersonalInformation(user));
     }
 
     @Test
     public void login() {
+        User user = new User();
         user.setUserNumber("1234561");
         user.setPassword("1234561");
-        assertNull(userDao.findByUserNumberAndPassword(user));
+        assertNull(userService.login(user));
+    }
+
+    @Test
+    public void getAllUserInClass() {
+        String className = "21级计算机类7班";
+        assertEquals(2,userService.getAllUserInClass(className).size());
     }
 }

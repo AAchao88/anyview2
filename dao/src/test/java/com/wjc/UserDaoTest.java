@@ -43,4 +43,10 @@ public class UserDaoTest {
         assertEquals("吴锦潮",CRUDUtil.executeQuery(sql,new BeanHandler<>(User.class),user.getUserNumber()).getUserName());
 
     }
+
+    @Test
+    public void getAllUserInClass() {
+        String className = "21级计算机类7班";
+        assertEquals(2,userDao.getAllUserInClass(className).size());
+    }
 }

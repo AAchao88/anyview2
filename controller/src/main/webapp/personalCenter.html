@@ -29,6 +29,10 @@
             color: #708090;
             font-size:30px;
         }
+        #role{
+            color: #708090;
+            font-size:30px;
+        }
         #back{
             color: #708090;
             font-size:30px;
@@ -39,19 +43,26 @@
         }
     </style>
     <script>
-        $.post("user/personalCenter","",function (data){
-            // alert(data.data.userName);
-            $("#userName").append(data.data.userName);
-            $("#userNumber").append(data.data.userNumber);
-            $("#className").append("专业："+data.data.className);
-        },"json")
-    </script>
-    <script>
         $(function (){
+            $.post("user/personalCenter","",function (data){
+                $("#userName").append(data.data.userName);
+                $("#userNumber").append(data.data.userNumber);
+                $("#role").append(data.data.role);
+                if("学生" == data.data.role){
+                    $("#className").append("班级："+data.data.className);
+                }
+            },"json")
+
             $("#back").click(function (){
                 var back = confirm("确定返回？");
+                var judge = $("#role").html();
+                alert(judge);
                 if(back){
-                    location.href="studentHome.html";
+                    if(judge === "身份：教师"){
+                        location.href="teacherHome.html";
+                    }else {
+                        location.href="studentHome.html";
+                    }
                 }
             })
         })
@@ -61,10 +72,9 @@
 <div id="center">
     <span id="userName">姓名：</span><br><br>
     <span id="userNumber">学工号：</span><br><br>
-    <span id="className"></span><br>
+    <span id="role">身份：</span><br><br>
+    <span id="className"></span><br><br>
     <input type="button" id="back" value="返回">
-    <!--<span></span>
-    <span></span>-->
 </div>
 </body>
 </html>
