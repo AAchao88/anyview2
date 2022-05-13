@@ -54,6 +54,16 @@ public class TaskDaoImp implements TaskDao {
         }
     }
 
+    @Override
+    public Boolean deleteTask(User user, String taskName) {
+        String sql = "delete from task where teacher_id = ? and taskName = ?";
+        if(CRUDUtil.executeUpdate(sql,user.getId(),taskName) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 //    @Override
 //    public List<Task> findTaskNameTea(long course_id) {
 //        String sql = "select  distinct taskName from task where course_id = ?";

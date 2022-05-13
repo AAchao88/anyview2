@@ -9,12 +9,21 @@ public class Task {
   private String taskName;
   private long course_id;
   private long user_id;
+  private long teacher_id;
   private long score;
   private long total;
   private long completed;
   private java.sql.Timestamp deadline;
   private long status;
   private String operate;
+
+  public long getTeacher_id() {
+    return teacher_id;
+  }
+
+  public void setTeacher_id(long teacher_id) {
+    this.teacher_id = teacher_id;
+  }
 
   public String getOperate() {
     return operate;
@@ -103,6 +112,7 @@ public class Task {
             ", taskName='" + taskName + '\'' +
             ", course_id=" + course_id +
             ", user_id=" + user_id +
+            ", teacher_id=" + teacher_id +
             ", score=" + score +
             ", total=" + total +
             ", completed=" + completed +

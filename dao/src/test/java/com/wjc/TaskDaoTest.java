@@ -90,6 +90,13 @@ public class TaskDaoTest {
 //        Course course = new Course();
 //        course.setId(2);
         assertTrue(taskDao.addTask(tasktea,user,2));
+    }
 
+    @Test
+    public void deleteTask() {
+        User user = new User();
+        user.setId(1);
+        String taskName = "线性代数的应用";
+        assertTrue(taskDao.deleteTask(user,taskName));
     }
 }

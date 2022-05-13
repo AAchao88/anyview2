@@ -41,6 +41,13 @@ public class TaskServiceImp implements TaskService {
         return taskDao.addTask(tasktea,user,course_id);
     }
 
+    @Override
+    public Boolean deleteTask(User user, String taskName) {
+        TaskDao taskDao = new TaskDaoImp();
+//        String sql = "delete from task where teacher_id = ? and taskName = ?";
+        return taskDao.deleteTask(user,taskName);
+    }
+
 //    @Override
 //    public List<Task> findTaskNameTea(long course_id) {
 //        TaskDao taskDao = new TaskDaoImp();

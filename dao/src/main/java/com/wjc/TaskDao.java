@@ -38,4 +38,6 @@ public interface TaskDao {
 
     Boolean addTask(Tasktea tasktea,User user,long course_id);
 
+    Boolean deleteTask(User user,String taskName);
+
 }
