@@ -36,4 +36,6 @@ public interface TaskDao {
 
     List<Tasktea> findTeaTask(User user);
 
+    Boolean addTask(Tasktea tasktea,User user,long course_id);
+
 }

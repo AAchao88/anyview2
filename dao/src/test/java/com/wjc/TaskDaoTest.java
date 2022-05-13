@@ -3,10 +3,13 @@ package com.wjc;
 import com.wjc.imp.TaskDaoImp;
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -74,5 +77,19 @@ public class TaskDaoTest {
         User user = new User();
         user.setId(1);
         assertEquals("行列式",taskDao.findTeaTask(user).get(0).getTaskName());
+    }
+
+    @Test
+    public void addTask() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTaskName("线性代数的应用");
+        tasktea.setDeadline(new Timestamp(1652345678));
+        tasktea.setTotal(23);
+        User user = new User();
+        user.setId(2);
+//        Course course = new Course();
+//        course.setId(2);
+        assertTrue(taskDao.addTask(tasktea,user,2));
+
     }
 }

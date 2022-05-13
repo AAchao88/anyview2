@@ -22,4 +22,6 @@ public interface TaskService {
 //    List<Task> findTaskNameTea(long course_id);
 
     List<Tasktea> findTeaTask(User user);
+
+    Boolean addTask(Tasktea tasktea,User user,long course_id);
 }

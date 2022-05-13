@@ -3,10 +3,13 @@ package com.wjc;
 import com.wjc.imp.TaskServiceImp;
 import com.wjc.pojo.Course;
 import com.wjc.pojo.Task;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -66,5 +69,16 @@ public class TaskServiceTest {
         User user = new User();
         user.setId(1);
         assertEquals("行列式",taskService.findTeaTask(user).get(0).getTaskName());
+    }
+
+    @Test
+    public void addTask() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTaskName("线性代数的理论架构");
+        tasktea.setDeadline(new Timestamp(165234590));
+        tasktea.setTotal(12);
+        User user = new User();
+        user.setId(2);
+        assertTrue(taskService.addTask(tasktea,user,2));
     }
 }
