@@ -1,6 +1,7 @@
 package com.wjc;
 
 import com.wjc.imp.TaskTeaServiceImp;
+import com.wjc.pojo.Tasktea;
 import com.wjc.pojo.User;
 import org.junit.After;
 import org.junit.Before;
@@ -27,5 +28,36 @@ public class TaskTeaServiceTest {
         user.setId(1);
         String taskName = "线性代数的应用";
         assertTrue(taskTeaService.deleteTaskTea(user,taskName));
+    }
+
+    @Test
+    public void addTaskTea() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("甲午战争");
+        tasktea.setTotal(15);
+        tasktea.setClassName("21级计算机类7班");
+        tasktea.setCourseName("近代史");
+        assertTrue(taskTeaService.addTaskTea(tasktea));
+    }
+
+    @Test
+    public void findTaskTea() {
+        User user = new User();
+        user.setId(1);
+        String taskName = "甲午战争";
+        assertEquals(15,taskTeaService.findTaskTea(taskName,user).getTotal());
+    }
+
+    @Test
+    public void changeTaskTea() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("新青年1");
+        tasktea.setTotal(10);
+        tasktea.setScore(900);
+        tasktea.setClassName("21级计算机类7班");
+        tasktea.setCourseName("近代史");
+        assertTrue(taskTeaService.changeTaskTea(tasktea,4));
     }
 }

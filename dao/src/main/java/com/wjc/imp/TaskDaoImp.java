@@ -13,11 +13,9 @@ import java.util.List;
 
 public class TaskDaoImp implements TaskDao {
 
-
     @Override
     public List<Task> findTask(Course course, User user) {
         String sql = "select * from task where course_id = ? and user_id = ?";
-
         return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),course.getId(),user.getId());
     }
 
@@ -25,17 +23,12 @@ public class TaskDaoImp implements TaskDao {
     public Task getTask(Course course, User user, String taskName) {
         String sql = "select * from task where course_id = ? and user_id = ? and taskName = ?";
         return CRUDUtil.executeQuery(sql,new BeanHandler<>(Task.class),course.getId(),user.getId(),taskName);
-
     }
 
     @Override
-    public Boolean changeScore(Task task, long score,long completed,long status) {
+    public int changeScore(Task task, long score,long completed,long status) {
         String sql = "update task set score = ?,completed = ?,status = ? where id =?";
-        if(CRUDUtil.executeUpdate(sql,score,completed,status,task.getId()) == 1){
-            return true;
-        }else {
-            return false;
-        }
+        return CRUDUtil.executeUpdate(sql,score,completed,status,task.getId());
     }
 
     @Override
@@ -45,23 +38,22 @@ public class TaskDaoImp implements TaskDao {
     }
 
     @Override
-    public Boolean addTask(Tasktea tasktea,User user,long course_id) {
+    public int addTask(Tasktea tasktea,User user,long course_id) {
         String sql = "insert into task (taskName,deadline,total,user_id,course_id)values(?,?,?,?,?)";
-        if(CRUDUtil.executeUpdate(sql,tasktea.getTaskName(),tasktea.getDeadline(),tasktea.getTotal(),user.getId(),course_id) == 1){
-            return true;
-        }else {
-            return false;
-        }
+        return CRUDUtil.executeUpdate(sql,tasktea.getTaskName(),tasktea.getDeadline(),tasktea.getTotal(),user.getId(),course_id);
     }
 
     @Override
-    public Boolean deleteTask(User user, String taskName) {
+    public int deleteTask(User user, String taskName) {
         String sql = "delete from task where teacher_id = ? and taskName = ?";
-        if(CRUDUtil.executeUpdate(sql,user.getId(),taskName) == 1){
-            return true;
-        }else {
-            return false;
-        }
+        return CRUDUtil.executeUpdate(sql,user.getId(),taskName);
+    }
+
+    @Override
+    public List<Task> getBatchTask(Tasktea tasktea) {
+        String sql = "select * from task where taskName = ? and teacher_id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),tasktea.getTaskName(),tasktea.getTeacher_id());
+
     }
 
 //    @Override

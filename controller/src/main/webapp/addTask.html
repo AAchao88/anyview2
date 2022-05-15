@@ -46,22 +46,10 @@
       font-size: 15px;
       /*border: 2px solid gray;*/
     }
-    .table{
-      /*position: absolute;*/
-      /*top: 500px;!*顶部到元素*!*/
-      /*left:15px;*/
-      width: 85%;
-      /*height:60px;*/
-      /*margin-top:-175px;!*边缘到底部*!*/
-      /*background-color: #F2F5A9;*/
-      /*text-align-last: center;*/
-      /*!*这里做一个半透明效果*!*/
-      /*filter:alpha(Opacity=60);*/
-      /*-moz-opacity:0.8;*/
-      /*opacity: 0.8;*/
+    #table{
+      width: 95%;
       font-size: 12px;
       font-family: "微软雅黑 Light";
-      /*border: 2px solid gray;*/
     }
 
     .input {
@@ -115,37 +103,63 @@
           }
         })
 
-        $("#addTask").submit(function (){
-          $.post("",$(this).serialize(),function (data){
+        $("#total").blur(function (){
+          $("#table").removeAttr("hidden");
+          var total = $(this).val();
+          for(var i = 0;i<total;i++){
+            var str = " <tr><td class=\"td\">"+(i+1)+"</td>\n" +
+                    "        <td>\n" +
+                    "          <input type=\"text\"  id=\"questionName\" name="+(i+1)+" placeholder=\"不超过20个字\"></td>\n" +
+                    "        <td>\n" +
+                    "          <select name="+(i+1)+" >\n" +
+                    "            <option value= 1>单选题</option>\n" +
+                    "            <option value= 2>多选题</option>\n" +
+                    "            <option value= 3>解答题</option>\n" +
+                    "          </select>\n" +
+                    "        </td>\n" +
+                    "        <td>\n" +
+                    "          <input type=\"text\" class='score' name="+(i+1)+"  placeholder=\"这一道题的分值\"></td>\n" +
+                    "        <td>\n" +
+                    "          <textarea rows=\"2\" cols=\"20\" name="+(i+1)+" placeholder=\"题目内容\"></textarea><br><br></td>\n" +
+                    "         <td>\n" +
+                    "          <textarea rows=\"2\" cols=\"20\" name="+(i+1)+" placeholder=\"选择题答案输入小写字母，多选题按字母顺序无空格输入\"></textarea><br><br></td></tr>>\n";
+            $("#table").append(str);
+          }
+        })
 
-            alert("添加作业成功，该作业的总分为：");
+        $("#addTask").submit(function (){
+          $.post("tasktea/addTaskTea",$(this).serialize(),function (data){
+            alert("添加作业成功，该作业的总分为："+data.message);
           },"json")
         })
-        $(".addQuestion").click(function (){
-          var i = parseInt($(this).val(),10);
-          var str = " <td class=\"td\">"+(i+1)+"</td>\n" +
-                  "        <td>\n" +
-                  "          <input type=\"text\"  id=\"questionName\" name=questionName"+(i+1)+" placeholder=\"不超过20个字\"></td>\n" +
-                  "        <td>\n" +
-                  "          <select name=type"+(i+1)+" >\n" +
-                  "            <option value= 1>单选题</option>\n" +
-                  "            <option value= 2>多选题</option>\n" +
-                  "            <option value= 3>解答题</option>\n" +
-                  "          </select>\n" +
-                  "        </td>\n" +
-                  "        <td>\n" +
-                  "          <input type=\"text\" name=score"+(i+1)+"  placeholder=\"这一道题的分值\"></td>\n" +
-                  "        <td>\n" +
-                  "          <textarea rows=\"2\" cols=\"20\" name=questionContent"+(i+1)+" placeholder=\"题目内容\"></textarea><br><br></td>\n" +
-                  "         <td>\n" +
-                  "          <textarea rows=\"2\" cols=\"20\" name=answer"+(i+1)+" placeholder=\"选择题答案输入小写字母，多选题按字母顺序无空格输入\"></textarea><br><br></td>\n" +
-                  "        <td><button class='addQuestion' value="+(i+1)+">增加题目</button></td>";
-          $("#table").append(str);
+        // $(".addQuestion").click(function (){
+          // var i = parseInt($(this).val(),10);
+          // var str = " <td class=\"td\">"+(i+1)+"</td>\n" +
+          //         "        <td>\n" +
+          //         "          <input type=\"text\"  id=\"questionName\" name=questionName"+(i+1)+" placeholder=\"不超过20个字\"></td>\n" +
+          //         "        <td>\n" +
+          //         "          <select name=type"+(i+1)+" >\n" +
+          //         "            <option value= 1>单选题</option>\n" +
+          //         "            <option value= 2>多选题</option>\n" +
+          //         "            <option value= 3>解答题</option>\n" +
+          //         "          </select>\n" +
+          //         "        </td>\n" +
+          //         "        <td>\n" +
+          //         "          <input type=\"text\" name=score"+(i+1)+"  placeholder=\"这一道题的分值\"></td>\n" +
+          //         "        <td>\n" +
+          //         "          <textarea rows=\"2\" cols=\"20\" name=questionContent"+(i+1)+" placeholder=\"题目内容\"></textarea><br><br></td>\n" +
+          //         "         <td>\n" +
+          //         "          <textarea rows=\"2\" cols=\"20\" name=answer"+(i+1)+" placeholder=\"选择题答案输入小写字母，多选题按字母顺序无空格输入\"></textarea><br><br></td>\n" +
+          //         "        <td><button class='addQuestion' value="+(i+1)+">增加题目</button></td>";
+          // $("#table").append(str);
           // alert("aaaaaaaaaaaa");
-        })
-        // $("#cancel").click(function (){
-        //   location.reload();
         // })
+         $("#cancel").click(function (){
+           var judge = confirm("确定取消？");
+           if (judge){
+             location.reload();
+           }
+         })
       })
   </script>
 
@@ -182,7 +196,9 @@
       <option value="测试班2">测试班2</option>
       <option value="测试班3">测试班3</option>
     </select><br><br>
-    <table id="table">
+    <span>题数：</span>
+    <input type="text" class="input" id="total" name="total" placeholder="请输入要添加的题目数量"><br><br>
+    <table id="table" hidden="hidden">
       <tr id="header">
         <th>序号</th>
         <th>题目简介</th>
@@ -190,32 +206,32 @@
         <th>分值</th>
         <th>题干</th>
         <th>答案</th>
-        <th>操作</th>
+
       </tr>
-      <tr id="clo">
-        <td class="td">1</td>
-        <td>
-          <input type="text"  id="questionName" name="questionName1" placeholder="不超过20个字"></td>
-        <td>
-          <select name="type1" >
-            <option value= 1>单选题</option>
-            <option value= 2>多选题</option>
-            <option value= 3>解答题</option>
-          </select>
-        </td>
-        <td>
-          <input type="text" name="score1"  placeholder="这一道题的分值"></td>
-        <td>
-          <textarea rows="2" cols="20" name="questionContent1" placeholder="题目内容"></textarea><br><br></td>
-         <td>
-          <textarea rows="2" cols="20" name="answer1" placeholder="选择题答案输入小写字母，多选题按字母顺序无空格输入"></textarea><br><br></td>
-        <td><button class="addQuestion" value=1>增加题目</button></td>
-      </tr>
+<!--      <tr id="clo">-->
+<!--        <td class="td">1</td>-->
+<!--        <td>-->
+<!--          <input type="text"  id="questionName" name="questionName1" placeholder="不超过20个字"></td>-->
+<!--        <td>-->
+<!--          <select name="type1" >-->
+<!--            <option value= 1>单选题</option>-->
+<!--            <option value= 2>多选题</option>-->
+<!--            <option value= 3>解答题</option>-->
+<!--          </select>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <input type="text" name="score1"  placeholder="这一道题的分值"></td>-->
+<!--        <td>-->
+<!--          <textarea rows="2" cols="20" name="questionContent1" placeholder="题目内容"></textarea><br><br></td>-->
+<!--         <td>-->
+<!--          <textarea rows="2" cols="20" name="answer1" placeholder="选择题答案输入小写字母，多选题按字母顺序无空格输入"></textarea><br><br></td>-->
+<!--&lt;!&ndash;        <td><button class="addQuestion" value=1>增加题目</button></td>&ndash;&gt;-->
+<!--      </tr>-->
 
     </table>
 <!--    <button onclick="fun()">增加题目</button>-->
 <!--    <button onclick="del()">删除题目</button><br>-->
-    <input type="submit" class="input" name="submit" value="确定" >
+    <input type="submit" class="input"  value="确定" >
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="button" class="input" id="cancel" name="cancel" value="取消" >
   </form>

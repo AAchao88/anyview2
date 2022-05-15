@@ -7,12 +7,22 @@ public class Tasktea {
   private String taskName;
   private String courseName;
   private long total;
+  private long score;
   private String className;
   private java.sql.Timestamp releaseTime;
   private java.sql.Timestamp deadline;
   private long completed;
   private long status;
   private long teacher_id;
+
+
+  public long getScore() {
+    return score;
+  }
+
+  public void setScore(long score) {
+    this.score = score;
+  }
 
   public long getTeacher_id() {
     return teacher_id;

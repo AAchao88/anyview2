@@ -26,7 +26,11 @@ public class TaskServiceImp implements TaskService {
     @Override
     public Boolean changeScore(Task task, long score,long completed,long status) {
         TaskDao taskDao = new TaskDaoImp();
-        return taskDao.changeScore(task,score,completed,status);
+        if(taskDao.changeScore(task,score,completed,status) == 1){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override
@@ -38,14 +42,29 @@ public class TaskServiceImp implements TaskService {
     @Override
     public Boolean addTask(Tasktea tasktea, User user, long course_id) {
         TaskDao taskDao = new TaskDaoImp();
-        return taskDao.addTask(tasktea,user,course_id);
+        if(taskDao.addTask(tasktea,user,course_id) == 1){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override
     public Boolean deleteTask(User user, String taskName) {
         TaskDao taskDao = new TaskDaoImp();
 //        String sql = "delete from task where teacher_id = ? and taskName = ?";
-        return taskDao.deleteTask(user,taskName);
+        if(taskDao.deleteTask(user,taskName) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Task> getBatchTask(Tasktea tasktea) {
+        TaskDao taskDao = new TaskDaoImp();
+        return taskDao.getBatchTask(tasktea);
+
     }
 
 //    @Override

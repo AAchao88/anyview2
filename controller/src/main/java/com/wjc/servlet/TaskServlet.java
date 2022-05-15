@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/task/*")@Slf4j
 public class TaskServlet extends BaseServlet{
     /**
-     * 通过课程名查询所有练习并返回
+     * 学生通过课程名查询所有练习并返回
      * @param request
      * @param response
      */
@@ -98,7 +98,47 @@ public class TaskServlet extends BaseServlet{
         } catch (IOException e) {
             log.error("响应输出流出错");
         }
+    }
 
+    /**
+     * 教师通过teacher_id和taskName查询某作业的所有学生记录
+     * @param request
+     * @param response
+     */
+    public void getBatchTask(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        String taskName = request.getParameter("taskName");
+        if(taskName != null){
+            session.setAttribute("taskName",taskName);
+        }else {
+            //  通过session.setAttribute("taskName",taskName);查询task
+            User user = (User) session.getAttribute("user");
+            TaskService taskService = new TaskServiceImp();
+            Tasktea tasktea = new Tasktea();
+            tasktea.setTeacher_id(user.getId());
+            tasktea.setTaskName((String) session.getAttribute("taskName"));
+            //获取所有作业
+            List<Task> taskList = taskService.getBatchTask(tasktea);
+            //获取该作业的所有题目
+
+            response.setContentType("application/json;charset=utf-8");
+            ObjectMapper mapper = new ObjectMapper();
+            ResultInfo resultInfo = new ResultInfo();
+            if(taskList.size() == 0){
+                resultInfo.setSuccess(false);
+                resultInfo.setMessage("该作业暂未发布，尚未有学生记录");
+            }else {
+                resultInfo.setSuccess(true);
+                resultInfo.setData(taskList);
+            }
+            try {
+                mapper.writeValue(response.getWriter(),resultInfo);
+            } catch (IOException e) {
+                log.error("响应输出流出错");
+            }
+
+        }
 
     }
+
 }

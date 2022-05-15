@@ -57,15 +57,15 @@
             padding:5px 10px;
             background-color:#151515 ;
         }
-        #submit{
-            color: #04B431;
-            font-size:18px;
-            border: 2px solid gray;
-            border-radius: 50px;/*边框圆角*/
-            padding:5px 10px;
-            background-color:#151515 ;
-            float: right;
-        }
+        /*#submit{*/
+        /*    color: #04B431;*/
+        /*    font-size:18px;*/
+        /*    border: 2px solid gray;*/
+        /*    border-radius: 50px;!*边框圆角*!*/
+        /*    padding:5px 10px;*/
+        /*    background-color:#151515 ;*/
+        /*    float: right;*/
+        /*}*/
     </style>
     <script>
         $(function (){
@@ -101,7 +101,7 @@
                             }
                         }
                         var str = "";
-                        str = "<td><input type='radio' class='choose' name='chozen' disabled='disabled' value="+data.data[i].taskName+"></td><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].courseName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].className+"</td><td>"+releaseTime+"</td><td>"+deadline+"</td><td>"+data.data[i].completed+"</td><td>"+status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate1+"</button><button class='start' value="+data.data[i].taskName+">"+operate2+"</button><button class='start' value="+data.data[i].taskName+">"+operate3+"</button></td><br><br>";
+                        str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].courseName+"</td><td>"+data.data[i].total+"</td><td>"+data.data[i].className+"</td><td>"+releaseTime+"</td><td>"+deadline+"</td><td>"+data.data[i].completed+"</td><td>"+status+"</td><td><button class='start' value="+data.data[i].taskName+">"+operate1+"</button><button class='start' value="+data.data[i].taskName+">"+operate2+"</button><button class='start' value="+data.data[i].taskName+">"+operate3+"</button><button class='changeTask' value="+data.data[i].taskName+">修改作业</button></td></tr>";
                         $("#table").append(str);
                     }
                 }else {
@@ -109,11 +109,31 @@
                 }
             },"json")
 
+            $(".changeTask").click(function (){
+                var judge = confirm("确定修改该作业？");
+                var oldTaskName = $(this).val();
+                if (judge){
+                    $.post("tasktea/getTaskTea",{oldTaskName:oldTaskName},function (){
+                        location.href="changeTask.html";
+                    },"json")
+                }
+            })
+
+
             $(document).on("click", ".start", function(){
                 var taskName = $(this).val();
                 var operate = $(this).text();
                 switch (operate){
                     case "发布":{
+                        var judge = confirm("确定发布该作业？");
+                        if(judge){
+                            var releaseTime = "<input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
+                            var deadline = "<input type=datetime-local id=deadline name=deadline placeholder=请选择截止时间>";
+                            var submit = "<button class='submit' name='taskName' value='"+taskName+"' >提交</button>";
+                            $("#msg").append(releaseTime).append(deadline).append(submit);
+                            // $.post("",{taskName:taskName,releaseTime:$("#release")})
+                        }
+
 
                         break;
                     }
@@ -127,21 +147,23 @@
                     case "删除":  break;
                     case "结束":  break;
                 }
-                // $.post("question/findQuestion",{taskName:taskName,courseName:courseName},function (){
-                //
-                //     location.href="question1.html";
-                // },"json")
             })
+
+            // $(".submit").click(function (){
+            //     var taskName =
+            //     $.post("",$(this).serialize(),function (data){
+            //
+            //     },"json");
+            // })
 
             $(".msg").click(function (){
-               alert("请先选择要操作的作业");
-                $("#submit").removeAttr('hidden');
+                location.href="addTask.html";
             })
-            $("#table").submit(function (){
-                $.post("",$(this).serialize(),function (data){
-
-                },"json")
-            })
+            // $("#table").submit(function (){
+            //     $.post("",$(this).serialize(),function (data){
+            //
+            //     },"json")
+            // })
 
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
@@ -171,12 +193,11 @@
 <div id="msg">
     <input type="button" id="addTask" class="msg" value="添加作业">
     <input type="button" id="exportScore" class="msg" value="导出成绩">
-    <input type='submit'id='submit'   hidden="hidden" name='submit' value='提交选中的作业'>
+<!--    <input type='submit'id='submit'   hidden="hidden" name='submit' value='提交选中的作业'>-->
 </div>
 <div id="content">
     <table id="table">
         <tr id="header">
-            <th><input type="radio" name="header" disabled="disabled" ></th>
             <th>序号</th>
             <th>作业名称</th>
             <th>课程</th>
@@ -191,6 +212,7 @@
         </tr>
 
     </table>
+
 </div>
 </body>
 </html>

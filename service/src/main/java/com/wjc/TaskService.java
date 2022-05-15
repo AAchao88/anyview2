@@ -26,4 +26,6 @@ public interface TaskService {
     Boolean addTask(Tasktea tasktea,User user,long course_id);
 
     Boolean deleteTask(User user,String taskName);
+
+    List<Task> getBatchTask(Tasktea tasktea);
 }

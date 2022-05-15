@@ -81,4 +81,15 @@ public class TaskServiceTest {
         user.setId(2);
         assertTrue(taskService.addTask(tasktea,user,2));
     }
+
+    @Test
+    public void getBatchTask() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("行列式");
+        for(Task task:taskService.getBatchTask(tasktea)){
+            System.out.println(task);
+        }
+        assertEquals("行列式",taskService.getBatchTask(tasktea).get(0).getTaskName());
+    }
 }

@@ -25,7 +25,7 @@ public interface TaskDao {
      */
     Task getTask(Course course,User user,String taskName);
 
-    Boolean changeScore(Task task,long score,long completed,long status);
+    int changeScore(Task task,long score,long completed,long status);
 
 //    /**
 //     *  教师根据course_id查询所有作业名（去重）
@@ -36,8 +36,9 @@ public interface TaskDao {
 
     List<Tasktea> findTeaTask(User user);
 
-    Boolean addTask(Tasktea tasktea,User user,long course_id);
+    int addTask(Tasktea tasktea,User user,long course_id);
 
-    Boolean deleteTask(User user,String taskName);
+    int deleteTask(User user,String taskName);
 
+    List<Task> getBatchTask(Tasktea tasktea);
 }

@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 public class TaskDaoTest {
@@ -58,7 +57,7 @@ public class TaskDaoTest {
         long score = 20;
         long completed = 2;
         long status = 1;
-        assertTrue(taskDao.changeScore(task,score,completed,status));
+        assertEquals(1,taskDao.changeScore(task,score,completed,status));
     }
 
 //    @Test
@@ -89,7 +88,7 @@ public class TaskDaoTest {
         user.setId(2);
 //        Course course = new Course();
 //        course.setId(2);
-        assertTrue(taskDao.addTask(tasktea,user,2));
+        assertEquals(1,taskDao.addTask(tasktea,user,2));
     }
 
     @Test
@@ -97,6 +96,17 @@ public class TaskDaoTest {
         User user = new User();
         user.setId(1);
         String taskName = "线性代数的应用";
-        assertTrue(taskDao.deleteTask(user,taskName));
+        assertEquals(1,taskDao.deleteTask(user,taskName));
+    }
+
+    @Test
+    public void getBatchTask() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("行列式");
+        for(Task task:taskDao.getBatchTask(tasktea)){
+            System.out.println(task);
+        }
+        assertEquals("行列式",taskDao.getBatchTask(tasktea).get(0).getTaskName());
     }
 }

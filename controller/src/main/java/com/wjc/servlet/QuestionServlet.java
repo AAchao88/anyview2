@@ -3,9 +3,11 @@ package com.wjc.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wjc.CourseService;
 import com.wjc.QuestionService;
+import com.wjc.ReplyService;
 import com.wjc.TaskService;
 import com.wjc.imp.CourseServiceImp;
 import com.wjc.imp.QuestionServiceImp;
+import com.wjc.imp.ReplyServiceImp;
 import com.wjc.imp.TaskServiceImp;
 import com.wjc.pojo.*;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +72,7 @@ public class QuestionServlet extends BaseServlet{
         QuestionService questionService = new QuestionServiceImp();
         CourseService courseService = new CourseServiceImp();
         TaskService taskService = new TaskServiceImp();
+        ReplyService replyService = new ReplyServiceImp();
         List<Question> questionList = questionService.findQuestion((String) session.getAttribute("taskName"), (String) session.getAttribute("courseName"));
 
         /*通过taskName和courseName和user_id查找task（已有部分该方法），先获得原来的 score（查），再通过
@@ -108,6 +111,12 @@ public class QuestionServlet extends BaseServlet{
                         }
                         //提交给老师
                     }else {
+                        //把简答题答案存进reply表
+                        Reply reply = new Reply();
+                        reply.setUser_id(user.getId());
+                        reply.setQuestion_id(questionList.get(k-1).getId());
+                        reply.setReply(map.get(key)[0]);
+                        replyService.insertReply(reply);
 
                     }
 //                }
