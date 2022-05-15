@@ -29,4 +29,10 @@ public class ReplyServiceTest {
         reply.setReply("很多种变换");
         assertTrue(replyService.insertReply(reply));
     }
+
+    @Test
+    public void findReply() {
+        long id = 6;
+        assertEquals("新世纪的青年",replyService.findReply(id).getReply());
+    }
 }

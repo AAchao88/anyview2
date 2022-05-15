@@ -33,4 +33,10 @@ public class QuestionServiceImp implements QuestionService {
             return false;
         }
     }
+
+    @Override
+    public Question findQuestionById(long id) {
+        QuestionDao questionDao = new QuestionDaoImp();
+        return questionDao.findQuestionById(id);
+    }
 }

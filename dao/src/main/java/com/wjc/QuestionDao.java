@@ -10,4 +10,6 @@ public interface QuestionDao {
     int addQuestion(Tasktea tasktea,Question question);
 
     int changeQuestion(Tasktea tasktea,Question question);
+
+    Question findQuestionById(long id);
 }

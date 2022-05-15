@@ -11,4 +11,6 @@ public interface QuestionService {
     Boolean addQuestion(Tasktea tasktea,Question question);
 
     Boolean changeQuestion(Tasktea tasktea,Question question);
+
+    Question findQuestionById(long id);
 }

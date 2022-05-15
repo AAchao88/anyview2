@@ -21,9 +21,10 @@ public class CourseServiceImp implements CourseService {
         return courseDao.findCourseInfo(courseName);
     }
 
-//    @Override
-//    public List<Course> findCourseTea(User user) {
-//        CourseDao courseDao = new CourseDaoImp();
-//        return courseDao.findCourseTea(user);
-//    }
+    @Override
+    public Course findCourseById(long id) {
+        CourseDao courseDao = new CourseDaoImp();
+        return courseDao.findCourseById(id);
+    }
+
 }

@@ -35,10 +35,9 @@ public class CourseServiceTest {
         assertEquals(1,courseService.findCourseInfo(courseName).getId());
     }
 
-//    @Test
-//    public void findCourseTea() {
-//        User user = new User();
-//        user.setId(1);
-//        assertEquals(3,courseService.findCourseTea(user).size());
-//    }
+    @Test
+    public void findCourseById() {
+        long id = 1;
+        assertEquals("离散数学",courseService.findCourseById(1).getCourseName());
+    }
 }

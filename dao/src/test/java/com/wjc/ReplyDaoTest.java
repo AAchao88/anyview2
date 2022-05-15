@@ -29,4 +29,10 @@ public class ReplyDaoTest {
         reply.setReply("新世纪的青年");
         assertEquals(1,replyDao.insertReply(reply));
     }
+
+    @Test
+    public void findReply() {
+        long id = 6;
+        assertEquals("新世纪的青年",replyDao.findReply(id).getReply());
+    }
 }

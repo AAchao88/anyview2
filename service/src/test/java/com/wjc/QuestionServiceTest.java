@@ -51,4 +51,10 @@ public class QuestionServiceTest {
         question.setId(6);
         assertTrue(questionService.changeQuestion(tasktea,question));
     }
+
+    @Test
+    public void findQuestionById() {
+        long id = 7;
+        assertEquals("甲午战争的背景",questionService.findQuestionById(id).getQuestionContent());
+    }
 }

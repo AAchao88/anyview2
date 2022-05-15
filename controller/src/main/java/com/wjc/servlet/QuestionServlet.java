@@ -23,6 +23,11 @@ import java.util.Map;
 @WebServlet("/question/*")@Slf4j
 public class QuestionServlet extends BaseServlet{
 
+    /**
+     * 学生查找题目
+     * @param request
+     * @param response
+     */
     public void findQuestion(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         String courseName = request.getParameter("courseName");
@@ -62,6 +67,11 @@ public class QuestionServlet extends BaseServlet{
         }
     }
 
+    /**
+     * 选择题自动赋分，简答题把作答存进reply表
+     * @param request
+     * @param response
+     */
     public void batch(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -128,5 +138,38 @@ public class QuestionServlet extends BaseServlet{
         long taskScore = task.getScore();
         taskService.changeScore(task,taskScore+addScore,task.getCompleted(),task.getStatus());
         System.out.println("成功了");
+    }
+
+
+    /**
+     * 批改作业的某个题目
+     * @param request
+     * @param response
+     */
+    public void batchQuestion(HttpServletRequest request, HttpServletResponse response){
+        String questionId = request.getParameter("questionId");
+        HttpSession session = request.getSession();
+        if (null != questionId){
+            session.setAttribute("questionId",questionId);
+        }else {
+            QuestionService questionService = new QuestionServiceImp();
+            Question question = questionService.findQuestionById((Long) session.getAttribute("questionId"));
+            //通过question_id查询reply
+            ReplyService replyService = new ReplyServiceImp();
+            Reply reply = replyService.findReply((Long) session.getAttribute("questionId"));
+
+            response.setContentType("application/json;charset=utf-8");
+            ObjectMapper mapper = new ObjectMapper();
+            ResultInfo resultInfo = new ResultInfo();
+            resultInfo.setSuccess(true);
+            resultInfo.setData(question);
+            resultInfo.setData2(reply);
+            try {
+                mapper.writeValue(response.getOutputStream(),resultInfo);
+            } catch (IOException e) {
+                log.error("响应输出流出错");
+            }
+        }
+
     }
 }

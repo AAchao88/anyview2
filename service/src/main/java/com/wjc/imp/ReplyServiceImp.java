@@ -14,4 +14,10 @@ public class ReplyServiceImp implements ReplyService {
             return false;
         }
     }
+
+    @Override
+    public Reply findReply(long question_id) {
+        ReplyDao replyDao = new ReplyDaoImp();
+        return replyDao.findReply(question_id);
+    }
 }

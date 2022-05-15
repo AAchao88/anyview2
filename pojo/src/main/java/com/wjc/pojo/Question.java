@@ -11,18 +11,18 @@ public class Question {
   private String answer;
   private int type;
   private long score;
-  private String reply;
+  private long batched;
   private String optionA;
   private String optionB;
   private String optionC;
   private String optionD;
 
-  public String getReply() {
-    return reply;
+  public long getBatched() {
+    return batched;
   }
 
-  public void setReply(String reply) {
-    this.reply = reply;
+  public void setBatched(long batched) {
+    this.batched = batched;
   }
 
   public String getOptionA() {
@@ -134,6 +134,7 @@ public class Question {
             ", answer='" + answer + '\'' +
             ", type=" + type +
             ", score=" + score +
+            ", batched=" + batched +
             ", optionA='" + optionA + '\'' +
             ", optionB='" + optionB + '\'' +
             ", optionC='" + optionC + '\'' +

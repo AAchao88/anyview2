@@ -2,9 +2,13 @@ package com.wjc.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wjc.CourseService;
+import com.wjc.QuestionService;
 import com.wjc.TaskService;
+import com.wjc.UserService;
 import com.wjc.imp.CourseServiceImp;
+import com.wjc.imp.QuestionServiceImp;
 import com.wjc.imp.TaskServiceImp;
+import com.wjc.imp.UserServiceImp;
 import com.wjc.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/task/*")@Slf4j
@@ -76,6 +81,11 @@ public class TaskServlet extends BaseServlet{
         }
     }
 
+    /**
+     * 教师查找所有作业
+     * @param request
+     * @param response
+     */
     public void findTeaTask(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -119,7 +129,23 @@ public class TaskServlet extends BaseServlet{
             tasktea.setTaskName((String) session.getAttribute("taskName"));
             //获取所有作业
             List<Task> taskList = taskService.getBatchTask(tasktea);
+            //获取每个作业对应学生的信息
+            UserService userService = new UserServiceImp();
+            List<User> userList = new ArrayList<>();
+            for(int s= 0;s<taskList.size();s++){
+                userList.add(s, userService.findUserById(taskList.get(s).getUser_id()));
+            }
             //获取该作业的所有题目
+            QuestionService questionService = new QuestionServiceImp();
+            CourseService courseService = new CourseServiceImp();
+            List<Question> questions = new ArrayList<>();
+            for(int c = 0,e = 0;c < taskList.size();c++,e++){
+                Course course = courseService.findCourseById(taskList.get(c).getCourse_id());
+                List<Question> questions1 = questionService.findQuestion(taskList.get(c).getTaskName(),course.getCourseName());
+                for(int d = 0;d<taskList.get(0).getTotal();d++,e++){
+                    questions.add(e,questions1.get(d));
+                }
+            }
 
             response.setContentType("application/json;charset=utf-8");
             ObjectMapper mapper = new ObjectMapper();
@@ -130,15 +156,37 @@ public class TaskServlet extends BaseServlet{
             }else {
                 resultInfo.setSuccess(true);
                 resultInfo.setData(taskList);
+                resultInfo.setData2(questions);
+                resultInfo.setData3(userList);
             }
             try {
                 mapper.writeValue(response.getWriter(),resultInfo);
             } catch (IOException e) {
                 log.error("响应输出流出错");
             }
-
         }
-
     }
 
+    /**
+     * 批改作业时保存taskName信息
+     * @param request
+     * @param response
+     */
+    public void saveBatchTask(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        String taskName = request.getParameter("taskName");
+        session.setAttribute("taskName",taskName);
+    }
+
+    /**
+     * 批改作业时给某解答题赋分
+     * @param request
+     * @param response
+     */
+    public void batchTask(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String taskName = (String) session.getAttribute("taskName");
+
+    }
 }

@@ -49,4 +49,10 @@ public class UserDaoTest {
         String className = "21级计算机类7班";
         assertEquals(2,userDao.getAllUserInClass(className).size());
     }
+
+    @Test
+    public void findUserById() {
+        user.setId(2);
+        assertEquals("21级计算机类7班",userDao.findUserById(user.getId()).getClassName());
+    }
 }

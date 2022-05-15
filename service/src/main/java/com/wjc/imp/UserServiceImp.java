@@ -25,4 +25,10 @@ public class UserServiceImp implements UserService {
         UserDao userDao = new UserDaoImp();
         return userDao.getAllUserInClass(className);
     }
+
+    @Override
+    public User findUserById(long user_id) {
+        UserDao userDao = new UserDaoImp();
+        return userDao.findUserById(user_id);
+    }
 }

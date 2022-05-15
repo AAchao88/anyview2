@@ -42,4 +42,11 @@ public class UserServiceTest {
         String className = "21级计算机类7班";
         assertEquals(2,userService.getAllUserInClass(className).size());
     }
+
+    @Test
+    public void findUserById() {
+        User user = new User();
+        user.setId(2);
+        assertEquals("21级计算机类7班",userService.findUserById(user.getId()).getClassName());
+    }
 }

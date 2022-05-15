@@ -9,4 +9,6 @@ public interface UserService {
     User getPersonalInformation(User user);
 
     List<User> getAllUserInClass(String className);
+
+    User findUserById(long user_id);
 }

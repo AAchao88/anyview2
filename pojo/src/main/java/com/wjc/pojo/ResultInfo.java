@@ -14,6 +14,15 @@ public class ResultInfo {
 
     private Object data2;
 
+    private Object data3;
+
+    public Object getData3() {
+        return data3;
+    }
+
+    public void setData3(Object data3) {
+        this.data3 = data3;
+    }
 
     public Object getData2() {
         return data2;

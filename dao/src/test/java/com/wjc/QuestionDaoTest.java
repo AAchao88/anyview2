@@ -53,4 +53,10 @@ public class QuestionDaoTest {
         question.setId(6);
         assertEquals(1,questionDao.changeQuestion(tasktea,question));
     }
+
+    @Test
+    public void findQuestionById() {
+        long id = 7;
+        assertEquals("甲午战争的背景",questionDao.findQuestionById(id).getQuestionContent());
+    }
 }

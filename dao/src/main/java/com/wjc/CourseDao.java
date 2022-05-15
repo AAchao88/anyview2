@@ -9,5 +9,7 @@ public interface CourseDao {
     List<Course> findCourse(User user);
     Course findCourseInfo(String courseName);
 
+    Course findCourseById(long id);
+
 //    List<Course> findCourseTea(User user);
 }

@@ -23,6 +23,12 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    public User findUserById(long user_id) {
+        String sql = "select * from user where id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanHandler<>(User.class),user_id);
+    }
+
+    @Override
     public List<User> getAllUserInClass(String className) {
         String sql = "select * from user where className = ?";
         return CRUDUtil.executeQuery(sql,new BeanListHandler<>(User.class),className);

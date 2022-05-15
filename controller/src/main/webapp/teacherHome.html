@@ -141,7 +141,13 @@
 
                         break;
                     }
-                    case "批改":  break;
+                    case "批改":  var judge = confirm("确定批改该作业？");
+                        if(judge){
+                           var taskName = $(this).val();
+                           $.post("task/saveBatchTask",{taskName:taskName},function (){
+                           },"json")
+
+                        }break;
                     case "延长":  break;
                     case "复用":  break;
                     case "删除":  break;

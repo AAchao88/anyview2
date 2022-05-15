@@ -23,6 +23,12 @@ public class CourseDaoImp implements CourseDao {
         return CRUDUtil.executeQuery(sql,new BeanHandler<>(Course.class),courseName);
     }
 
+    @Override
+    public Course findCourseById(long id) {
+        String sql = "select * from course where id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanHandler<>(Course.class),id);
+    }
+
 //    @Override
 //    public List<Course> findCourseTea(User user) {
 //        String sql = "select * from course where teacher_id = ?";

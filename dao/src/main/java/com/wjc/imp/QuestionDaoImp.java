@@ -3,6 +3,7 @@ package com.wjc.imp;
 import com.wjc.QuestionDao;
 import com.wjc.pojo.Question;
 import com.wjc.pojo.Tasktea;
+import com.wjc.utils.BeanHandler;
 import com.wjc.utils.BeanListHandler;
 import com.wjc.utils.CRUDUtil;
 
@@ -25,5 +26,12 @@ public class QuestionDaoImp implements QuestionDao {
     public int changeQuestion(Tasktea tasktea, Question question) {
         String sql = "update question set taskName = ?,courseName = ?,score = ? where id = ?";
         return CRUDUtil.executeUpdate(sql,tasktea.getTaskName(),tasktea.getCourseName(),tasktea.getScore(),question.getId());
+    }
+
+    @Override
+    public Question findQuestionById(long id) {
+        String sql = "select * from question where id = ?";
+        return CRUDUtil.executeQuery(sql,new BeanHandler<>(Question.class),id);
+
     }
 }
