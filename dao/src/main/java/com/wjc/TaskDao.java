@@ -41,4 +41,6 @@ public interface TaskDao {
     int deleteTask(User user,String taskName);
 
     List<Task> getBatchTask(Tasktea tasktea);
+
+    int releaseTask(Task task);
 }

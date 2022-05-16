@@ -1,16 +1,9 @@
 package com.wjc.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wjc.QuestionDao;
-import com.wjc.QuestionService;
-import com.wjc.TaskTeaService;
-import com.wjc.imp.QuestionDaoImp;
-import com.wjc.imp.QuestionServiceImp;
-import com.wjc.imp.TaskTeaServiceImp;
-import com.wjc.pojo.Question;
-import com.wjc.pojo.ResultInfo;
-import com.wjc.pojo.Tasktea;
-import com.wjc.pojo.User;
+import com.wjc.*;
+import com.wjc.imp.*;
+import com.wjc.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +20,7 @@ import java.util.Map;
 public class TaskTeaServlet extends BaseServlet {
 
     /**
-     * 教师增加作业
+     * 教师添加作业
      * @param request
      * @param response
      */
@@ -253,6 +247,65 @@ public class TaskTeaServlet extends BaseServlet {
                 tasktea.setClassName(classNames.get(b));
                 taskTeaService.addTaskTea(tasktea);
             }
+        }
+    }
+
+    public void releaseTaskTea(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String taskName = request.getParameter("taskName");
+        //根据taskName和user查询原来的tasktea,获取className以便查询所有学生
+        TaskTeaService taskTeaService = new TaskTeaServiceImp();
+        UserService userService = new UserServiceImp();
+        Tasktea oldTasktea = taskTeaService.findTaskTea(taskName,user);
+        List<User> users = userService.getAllUserInClass(oldTasktea.getClassName());
+        //将请求信息封装进tasktea，根据taskName teacher_id 查询并更新时间信息
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(user.getId());
+        tasktea.setTaskName(taskName);
+        tasktea.setClassName(oldTasktea.getClassName());
+        tasktea.setCourseName(oldTasktea.getCourseName());
+        tasktea.setScore(tasktea.getScore());
+        tasktea.setTotal(oldTasktea.getTotal());
+
+        Map<String, String[]> map = request.getParameterMap();
+        for(String key:map.keySet()){
+           if("releaseTime".equals(key)){
+               tasktea.setReleaseTime(Timestamp.valueOf(map.get(key)[0]));
+           }
+           if ("deadline".equals(key)){
+               tasktea.setDeadline(Timestamp.valueOf(map.get(key)[0]));
+           }
+        }
+        //更新时间信息
+        ResultInfo resultInfo = new ResultInfo();
+        if (taskTeaService.updateReleaseTime(tasktea)){
+            resultInfo.setSuccess(true);
+        }else {
+            resultInfo.setSuccess(false);
+        }
+        CourseService courseService = new CourseServiceImp();
+        //将作业信息插入每个学生的作业记录，courseName获取course_id
+        TaskService taskService = new TaskServiceImp();
+        Task task = new Task();
+        task.setTeacher_id(tasktea.getTeacher_id());
+        task.setTaskName(taskName);
+        task.setDeadline(tasktea.getDeadline());
+        task.setScore(tasktea.getScore());
+        task.setTotal(tasktea.getTotal());
+
+        for(int i = 0;i < users.size();i++){
+            task.setUser_id(users.get(i).getId());
+            task.setCourse_id(courseService.findCourseInfo(tasktea.getCourseName()).getId());
+            taskService.releaseTask(task);
+        }
+        response.setContentType("application/json;charset=utf-8");
+        //创建转Jackson核心对象
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
         }
     }
 

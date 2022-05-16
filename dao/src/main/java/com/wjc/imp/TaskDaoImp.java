@@ -56,6 +56,13 @@ public class TaskDaoImp implements TaskDao {
 
     }
 
+    @Override
+    public int releaseTask(Task task) {
+        String sql = "insert into task (taskName,teacher_id,course_id,user_id,score,total,deadline)values(?,?,?,?,?,?,?)";
+        return CRUDUtil.executeUpdate(sql,task.getTaskName(),task.getTeacher_id(),task.getCourse_id(),task.getUser_id(),task.getScore(),task.getTotal(),task.getDeadline());
+
+    }
+
 //    @Override
 //    public List<Task> findTaskNameTea(long course_id) {
 //        String sql = "select  distinct taskName from task where course_id = ?";

@@ -28,4 +28,6 @@ public interface TaskService {
     Boolean deleteTask(User user,String taskName);
 
     List<Task> getBatchTask(Tasktea tasktea);
+
+    Boolean releaseTask(Task task);
 }

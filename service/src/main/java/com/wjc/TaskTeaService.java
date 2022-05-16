@@ -11,4 +11,6 @@ public interface TaskTeaService {
     Tasktea findTaskTea(String taskName,User user);
 
     Boolean changeTaskTea(Tasktea tasktea,long id);
+
+    Boolean updateReleaseTime(Tasktea tasktea);
 }

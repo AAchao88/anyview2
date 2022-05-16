@@ -92,4 +92,17 @@ public class TaskServiceTest {
         }
         assertEquals("行列式",taskService.getBatchTask(tasktea).get(0).getTaskName());
     }
+
+    @Test
+    public void releaseTask() {
+        Task task = new Task();
+        task.setUser_id(2);
+        task.setCourse_id(2);
+        task.setTaskName("抗日");
+        task.setScore(20);
+        task.setTotal(10);
+        task.setTeacher_id(1);
+        task.setDeadline(new Timestamp(654321294));
+        assertTrue(taskService.releaseTask(task));
+    }
 }

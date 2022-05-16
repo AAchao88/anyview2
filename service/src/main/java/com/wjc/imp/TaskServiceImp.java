@@ -67,6 +67,16 @@ public class TaskServiceImp implements TaskService {
 
     }
 
+    @Override
+    public Boolean releaseTask(Task task) {
+        TaskDao taskDao = new TaskDaoImp();
+        if (taskDao.releaseTask(task) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 //    @Override
 //    public List<Task> findTaskNameTea(long course_id) {
 //        TaskDao taskDao = new TaskDaoImp();

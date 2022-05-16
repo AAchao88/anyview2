@@ -41,4 +41,14 @@ public class TaskTeaServiceImp implements TaskTeaService {
             return  false;
         }
     }
+
+    @Override
+    public Boolean updateReleaseTime(Tasktea tasktea) {
+        TaskTeaDao taskTeaDao = new TaskTeaDaoImp();
+        if (taskTeaDao.updaterReleaseTime(tasktea) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

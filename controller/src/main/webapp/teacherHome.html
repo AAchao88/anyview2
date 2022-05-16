@@ -125,20 +125,24 @@
                 var operate = $(this).text();
                 switch (operate){
                     case "发布":{
+                        alert("fff");
                         var judge = confirm("确定发布该作业？");
                         if(judge){
-                            var releaseTime = "<input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
-                            var deadline = "<input type=datetime-local id=deadline name=deadline placeholder=请选择截止时间>";
-                            var submit = "<button class='submit' name='taskName' value='"+taskName+"' >提交</button>";
-                            $("#msg").append(releaseTime).append(deadline).append(submit);
-                            // $.post("",{taskName:taskName,releaseTime:$("#release")})
+                            // var releaseTime = "<input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
+                            // var deadline = "<input type=datetime-local id=deadline name=deadline placeholder=请选择截止时间>";
+                            // var submit = "<button type='submit' class='submit' name='taskName' value='"+taskName+"' >提交</button>";
+                            // $("#msg").append(releaseTime).append(deadline).append(submit);
+
                         }
 
 
                         break;
                     }
                     case "查看":{
+                        var judge = confirm("确定发布该作业？");
+                        if(judge){
 
+                        }
                         break;
                     }
                     case "批改":  var judge = confirm("确定批改该作业？");
@@ -148,10 +152,22 @@
                            },"json")
 
                         }break;
-                    case "延长":  break;
-                    case "复用":  break;
-                    case "删除":  break;
-                    case "结束":  break;
+                    case "延长":  var judge = confirm("确定发布该作业？");
+                        if(judge){
+
+                        }break;
+                    case "复用":  var judge = confirm("确定发布该作业？");
+                        if(judge){
+
+                        }break;
+                    case "删除":  var judge = confirm("确定发布该作业？");
+                        if(judge){
+
+                        }break;
+                    case "结束":  var judge = confirm("确定发布该作业？");
+                        if(judge){
+
+                        }break;
                 }
             })
 
@@ -162,15 +178,18 @@
             //     },"json");
             // })
 
+            $(".release").submit(function (){
+                alert("被点提交");
+                $.post("tasktea/releaseTaskTea",$(this).serialize(),function (){
+                    if (data.success){
+                        alert("发布作业成功");
+                        // location.reload();
+                    }
+                },"json")
+            })
             $(".msg").click(function (){
                 location.href="addTask.html";
             })
-            // $("#table").submit(function (){
-            //     $.post("",$(this).serialize(),function (data){
-            //
-            //     },"json")
-            // })
-
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
             })
@@ -201,7 +220,9 @@
     <input type="button" id="exportScore" class="msg" value="导出成绩">
 <!--    <input type='submit'id='submit'   hidden="hidden" name='submit' value='提交选中的作业'>-->
 </div>
+
 <div id="content">
+
     <table id="table">
         <tr id="header">
             <th>序号</th>
@@ -220,5 +241,6 @@
     </table>
 
 </div>
+
 </body>
 </html>

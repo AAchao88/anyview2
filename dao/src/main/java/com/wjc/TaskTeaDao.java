@@ -11,4 +11,6 @@ public interface TaskTeaDao {
     Tasktea findTaskTea(String taskName,User user);
 
     int changeTaskTea(Tasktea tasktea,long id);
+
+    int updaterReleaseTime(Tasktea tasktea);
 }

@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
+
 import static org.junit.Assert.assertEquals;
 
 public class TaskTeaDaoTest {
@@ -63,5 +65,15 @@ public class TaskTeaDaoTest {
         tasktea.setCourseName("近代史");
         assertEquals(1,taskTeaDao.changeTaskTea(tasktea,4));
 
+    }
+
+    @Test
+    public void updateReleaseTime() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("甲午战争");
+        tasktea.setReleaseTime(new Timestamp(53432345));
+        tasktea.setDeadline(new Timestamp(54399569));
+        assertEquals(1,taskTeaDao.updaterReleaseTime(tasktea));
     }
 }

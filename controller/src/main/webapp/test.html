@@ -5,40 +5,50 @@
 <head>
     <meta charset="utf-8">
     <title>测试</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.css" rel="stylesheet">
-    <script src="jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
-
-
-        <script type="text/javascript">
-
-            $(function() {
-                $("#login").submit(function (){
-
-                })
-
-
-
-            $( "#from" ).datepicker({dateFormat: "yy-mm-dd"});
-            $( "#end" ).datepicker({dateFormat: "yy-mm-dd"});
-
-        });
-    </script>
 
 </head>
 <body >
-开始日期：<input name="from" id="from" type="text" placeholder="开始日期" style="width:345px; height:32px; line-height:32px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df;"/>
-结束日期：<input name="end" id="end" type="text" placeholder="结束日期" style="width:345px; height:32px; line-height:32px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df;"/>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>form 标签</title>
+</head>
+<body>
+<button type="button" onclick="clickEvent()">更新</button>
 
-<div id="login">
-    <input type="date" name="1" placeholder="kkk">
-    <input type="time" name="2" placeholder="oooo">
-    <input type="datetime-local" name="3" placeholder="mmmmm">
-    <input type="submit" value="提交">
+<div>
+    <p>
+        姓名: <input type="text" name="name" />
+    </p>
+    <p>
+        地址: <input type="text" name="address" />
+    </p>
 </div>
-
 </body>
+
+<script type="text/javascript">
+    function clickEvent() {
+        //
+        var name = $("input[name='name']").val();
+        var address = $("input[name='address']").val();
+
+        // url
+        var url = "https://baidu.com";
+        //
+        $.ajax({
+            type : "GET",
+            url : url,
+            data: "name=" + name + "&address=" + address,
+            success : function(html) {
+                alert("Result = " + html);
+            }
+        });
+    }
+</script>
+
+
+
 </html>
 

@@ -109,4 +109,17 @@ public class TaskDaoTest {
         }
         assertEquals("行列式",taskDao.getBatchTask(tasktea).get(0).getTaskName());
     }
+
+    @Test
+    public void releaseTask() {
+        Task task = new Task();
+        task.setUser_id(2);
+        task.setCourse_id(2);
+        task.setTaskName("长征");
+        task.setScore(20);
+        task.setTotal(10);
+        task.setTeacher_id(1);
+        task.setDeadline(new Timestamp(654321234));
+        assertEquals(1,taskDao.releaseTask(task));
+    }
 }

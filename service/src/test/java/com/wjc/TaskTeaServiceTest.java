@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
+
 import static org.junit.Assert.*;
 
 public class TaskTeaServiceTest {
@@ -59,5 +61,15 @@ public class TaskTeaServiceTest {
         tasktea.setClassName("21级计算机类7班");
         tasktea.setCourseName("近代史");
         assertTrue(taskTeaService.changeTaskTea(tasktea,4));
+    }
+
+    @Test
+    public void updateReleaseTime() {
+        Tasktea tasktea = new Tasktea();
+        tasktea.setTeacher_id(1);
+        tasktea.setTaskName("甲午战争");
+        tasktea.setReleaseTime(new Timestamp(534323453));
+        tasktea.setDeadline(new Timestamp(543995699));
+        assertTrue(taskTeaService.updateReleaseTime(tasktea));
     }
 }
