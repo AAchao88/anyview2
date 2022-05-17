@@ -109,8 +109,7 @@
 
             $("#multiplexTask").submit(function (){
                 $.post("",$(this).serialize(),function (data){
-
-                    alert("复用作业成功，该作业的总分为：");
+                    alert("复用作业成功");
                 },"json")
             })
             $("#cancel").click(function (){

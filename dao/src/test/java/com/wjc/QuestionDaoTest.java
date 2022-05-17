@@ -59,4 +59,16 @@ public class QuestionDaoTest {
         long id = 7;
         assertEquals("甲午战争的背景",questionDao.findQuestionById(id).getQuestionContent());
     }
+
+    @Test
+    public void getAllQuestion() {
+//        System.out.println(questionDao.getAllQuestion());
+        assertEquals(7,questionDao.getAllQuestion().size());
+    }
+
+    @Test
+    public void deleteQuestionByManager() {
+        long question_id = 8;
+        assertEquals(1,questionDao.deleteQuestionByManager(question_id));
+    }
 }

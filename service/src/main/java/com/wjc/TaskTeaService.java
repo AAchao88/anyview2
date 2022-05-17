@@ -13,4 +13,6 @@ public interface TaskTeaService {
     Boolean changeTaskTea(Tasktea tasktea,long id);
 
     Boolean updateReleaseTime(Tasktea tasktea);
+
+    Boolean endTaskTea(Tasktea tasktea);
 }

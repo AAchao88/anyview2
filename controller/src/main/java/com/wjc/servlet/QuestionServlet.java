@@ -170,6 +170,62 @@ public class QuestionServlet extends BaseServlet{
                 log.error("响应输出流出错");
             }
         }
-
     }
+
+    /**
+     * 管理员 获得所有题目
+     * @param request
+     * @param response
+     */
+    public void getAllQuestion(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        QuestionService questionService = new QuestionServiceImp();
+        List<Question> questionList = questionService.getAllQuestion();
+
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper mapper = new ObjectMapper();
+        ResultInfo resultInfo = new ResultInfo();
+        if (questionList.size() == 0){
+            resultInfo.setSuccess(false);
+            resultInfo.setMessage("题库暂无题目请先添加");
+        }else {
+            resultInfo.setSuccess(true);
+            resultInfo.setData(questionList);
+        }
+
+        try {
+            mapper.writeValue(response.getOutputStream(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
+        }
+    }
+
+    /**
+     * 管理员删除题目
+     * @param request
+     * @param response
+     */
+    public void deleteQuestionByManager(HttpServletRequest request, HttpServletResponse response){
+        long question_id = Long.parseLong(request.getParameter("question_id"));
+        QuestionService questionService = new QuestionServiceImp();
+        questionService.deleteQuestionByManager(question_id);
+
+        response.setContentType("application/json;charset=utf-8");
+        ObjectMapper mapper = new ObjectMapper();
+        ResultInfo resultInfo = new ResultInfo();
+        if (questionService.deleteQuestionByManager(question_id)){
+            resultInfo.setSuccess(true);
+        }else {
+            resultInfo.setSuccess(false);
+            resultInfo.setMessage("删除失败");
+        }
+        try {
+            mapper.writeValue(response.getOutputStream(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
+        }
+    }
+
 }

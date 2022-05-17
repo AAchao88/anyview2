@@ -34,4 +34,16 @@ public class QuestionDaoImp implements QuestionDao {
         return CRUDUtil.executeQuery(sql,new BeanHandler<>(Question.class),id);
 
     }
+
+    @Override
+    public List<Question> getAllQuestion() {
+        String sql = "select * from question";
+        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Question.class));
+    }
+
+    @Override
+    public int deleteQuestionByManager(long question_id) {
+        String sql = "delete from question where id = ?";
+        return CRUDUtil.executeUpdate(sql,question_id);
+    }
 }

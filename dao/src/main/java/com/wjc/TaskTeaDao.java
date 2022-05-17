@@ -13,4 +13,6 @@ public interface TaskTeaDao {
     int changeTaskTea(Tasktea tasktea,long id);
 
     int updaterReleaseTime(Tasktea tasktea);
+
+    int endTaskTea(Tasktea tasktea);
 }

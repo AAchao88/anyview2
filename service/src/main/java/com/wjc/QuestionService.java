@@ -13,4 +13,8 @@ public interface QuestionService {
     Boolean changeQuestion(Tasktea tasktea,Question question);
 
     Question findQuestionById(long id);
+
+    List<Question> getAllQuestion();
+
+    Boolean deleteQuestionByManager(long question_id);
 }

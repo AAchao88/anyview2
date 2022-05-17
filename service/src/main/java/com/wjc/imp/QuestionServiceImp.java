@@ -39,4 +39,21 @@ public class QuestionServiceImp implements QuestionService {
         QuestionDao questionDao = new QuestionDaoImp();
         return questionDao.findQuestionById(id);
     }
+
+    @Override
+    public List<Question> getAllQuestion() {
+        QuestionDao questionDao = new QuestionDaoImp();
+        return questionDao.getAllQuestion();
+    }
+
+    @Override
+    public Boolean deleteQuestionByManager(long question_id) {
+        QuestionDao questionDao = new QuestionDaoImp();
+        if (questionDao.deleteQuestionByManager(question_id) == 1){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 }

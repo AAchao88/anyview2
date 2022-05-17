@@ -36,4 +36,11 @@ public class TaskTeaDaoImp implements TaskTeaDao {
         String sql = "update tasktea set releaseTime = ?,deadline = ? where taskName = ? and teacher_id =?";
         return CRUDUtil.executeUpdate(sql,tasktea.getReleaseTime(),tasktea.getDeadline(),tasktea.getTaskName(),tasktea.getTeacher_id());
     }
+
+    @Override
+    public int endTaskTea(Tasktea tasktea) {
+        String sql = "update tasktea set status = ? where taskName = ? and teacher_id =?";
+        return CRUDUtil.executeUpdate(sql,tasktea.getStatus(),tasktea.getTaskName(),tasktea.getTeacher_id());
+
+    }
 }

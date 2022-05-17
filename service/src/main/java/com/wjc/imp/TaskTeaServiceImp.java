@@ -51,4 +51,14 @@ public class TaskTeaServiceImp implements TaskTeaService {
             return false;
         }
     }
+
+    @Override
+    public Boolean endTaskTea(Tasktea tasktea) {
+        TaskTeaDao taskTeaDao = new TaskTeaDaoImp();
+        if (taskTeaDao.endTaskTea(tasktea) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

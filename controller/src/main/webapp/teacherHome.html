@@ -7,11 +7,19 @@
     <title>教师首页</title>
     <style>
         body{background-color:#151515; }
-        .top{
+        #platName{
             background-color:#151515;
             color: #708090;
             font-size:25px;
             border: 2px dashed gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;   /*内边距*/
+        }
+        .top{
+            background-color:#151515;
+            color: #708090;
+            font-size:25px;
+            border: 2px solid gray;
             border-radius: 50px;/*边框圆角*/
             padding:5px 10px;   /*内边距*/
         }
@@ -149,6 +157,7 @@
                         if(judge){
                            var taskName = $(this).val();
                            $.post("task/saveBatchTask",{taskName:taskName},function (){
+                               location.href="batchTask.html";
                            },"json")
 
                         }break;
@@ -156,17 +165,35 @@
                         if(judge){
 
                         }break;
-                    case "复用":  var judge = confirm("确定发布该作业？");
+                    case "复用":  var judge = confirm("确定复用该作业？");
                         if(judge){
+                            var taskName = $(this).val();
+                            $.post("tasktea/multiplexTaskTea",{oldTaskName: taskName},function (){
+                                location.href="multiplexTask.html";
+                            },"json")
 
                         }break;
-                    case "删除":  var judge = confirm("确定发布该作业？");
+                    case "删除":  var judge = confirm("确定删除该作业？");
                         if(judge){
-
+                            var taskName = $(this).val();
+                            $.post("tasktea/deleteTaskTea",{taskName:taskName},function (data){
+                                if (data.success){
+                                    alert("删除成功");
+                                    // location.reload();
+                                }
+                            },"json")
                         }break;
-                    case "结束":  var judge = confirm("确定发布该作业？");
+                    case "结束":  var judge = confirm("确定结束该作业？");
                         if(judge){
-
+                            var taskName = $(this).val();
+                            $.post("tasktea/endTaskTea",{taskName:taskName},function (data){
+                                if (data.success){
+                                    alert(结束该作业成功);
+                                    // location.reload();
+                                }else {
+                                    alert(data.message);
+                                }
+                            },"json")
                         }break;
                 }
             })
@@ -207,7 +234,7 @@
 
 </head>
 <body>
-<span class="top" id="platName">线上作业平台</span>
+<span  id="platName">线上作业平台</span>
 &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
 
@@ -217,7 +244,7 @@
 <!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
 <div id="msg">
     <input type="button" id="addTask" class="msg" value="添加作业">
-    <input type="button" id="exportScore" class="msg" value="导出成绩">
+<!--    <input type="button" id="exportScore" class="msg" value="导出成绩">-->
 <!--    <input type='submit'id='submit'   hidden="hidden" name='submit' value='提交选中的作业'>-->
 </div>
 

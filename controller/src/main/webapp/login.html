@@ -85,12 +85,15 @@
           $.post("user/login",$(this).serialize(),
                   function (data){
                     if(data.success){
-                      alert(data.message);
-                      // alert(data.data.role);
+                      alert(data.message+"  "+data.data.role);
                       if(data.data.role==="教师"){
                         location.href="teacherHome.html";
                       }else {
-                        location.href="studentHome.html";
+                        if(data.data.role==="学生"){
+                          location.href="studentHome.html";
+                        }else {
+                          location.href="manager.html";
+                        }
                       }
                     }else{
                       alert(data.message);
@@ -98,7 +101,7 @@
                   },"json")
         }
 
-        return false;
+        // return false;
       })
     })
   </script>

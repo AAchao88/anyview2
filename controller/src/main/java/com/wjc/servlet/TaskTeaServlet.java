@@ -250,6 +250,11 @@ public class TaskTeaServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 教师发布作业
+     * @param request
+     * @param response
+     */
     public void releaseTaskTea(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -309,5 +314,70 @@ public class TaskTeaServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 教师删除作业
+     * @param request
+     * @param response
+     */
+    public void deleteTaskTea(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String taskName = request.getParameter("taskName");
+
+        //根据taskName和user删除taskTea和所有对应Task
+        TaskTeaService taskTeaService = new TaskTeaServiceImp();
+        //删除taskTea
+        Boolean judgeTasks = taskTeaService.deleteTaskTea(user,taskName);
+        //删除所有该作业的学生记录
+        TaskService taskService = new TaskServiceImp();
+        Boolean judgeTaskTea = taskService.deleteTask(user,taskName);
+
+        ResultInfo resultInfo = new ResultInfo();
+        if (judgeTasks && judgeTaskTea){
+            resultInfo.setSuccess(true);
+        }
+        response.setContentType("application/json;charset=utf-8");
+        //创建转Jackson核心对象
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
+        }
+    }
+
+    /**
+     * 结束作业
+     * @param request
+     * @param response
+     */
+    public void endTaskTea(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String taskName = request.getParameter("taskName");
+
+        //通过teacher_id  和 taskName 改变status=3
+        Tasktea tasktea = new Tasktea();
+        TaskTeaService taskTeaService = new TaskTeaServiceImp();
+        tasktea.setStatus(3);
+        tasktea.setTaskName(taskName);
+        tasktea.setTeacher_id(user.getId());
+
+        ResultInfo resultInfo = new ResultInfo();
+        if (taskTeaService.endTaskTea(tasktea)){
+            resultInfo.setSuccess(true);
+        }else {
+            resultInfo.setSuccess(false);
+            resultInfo.setMessage("结束作业失败");
+        }
+        response.setContentType("application/json;charset=utf-8");
+        //创建转Jackson核心对象
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
+        }
+    }
 
 }

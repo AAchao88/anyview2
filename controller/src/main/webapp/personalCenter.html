@@ -56,12 +56,16 @@
             $("#back").click(function (){
                 var back = confirm("确定返回？");
                 var judge = $("#role").html();
-                alert(judge);
+                // alert(judge);
                 if(back){
                     if(judge === "身份：教师"){
                         location.href="teacherHome.html";
                     }else {
-                        location.href="studentHome.html";
+                        if(judge === "身份：学生"){
+                            location.href="studentHome.html";
+                        }else {
+                            location.href="manager.html";
+                        }
                     }
                 }
             })

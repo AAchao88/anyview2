@@ -57,4 +57,15 @@ public class QuestionServiceTest {
         long id = 7;
         assertEquals("甲午战争的背景",questionService.findQuestionById(id).getQuestionContent());
     }
+
+    @Test
+    public void getAllQuestion() {
+        assertEquals(7,questionService.getAllQuestion().size());
+    }
+
+    @Test
+    public void deleteQuestionByManager() {
+        long question_id = 8;
+        assertTrue(questionService.deleteQuestionByManager(question_id));
+    }
 }

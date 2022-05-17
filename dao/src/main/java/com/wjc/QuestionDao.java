@@ -12,4 +12,8 @@ public interface QuestionDao {
     int changeQuestion(Tasktea tasktea,Question question);
 
     Question findQuestionById(long id);
+
+    List<Question> getAllQuestion();
+
+    int deleteQuestionByManager(long question_id);
 }
