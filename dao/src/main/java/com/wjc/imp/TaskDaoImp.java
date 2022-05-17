@@ -63,11 +63,10 @@ public class TaskDaoImp implements TaskDao {
 
     }
 
-//    @Override
-//    public List<Task> findTaskNameTea(long course_id) {
-//        String sql = "select  distinct taskName from task where course_id = ?";
-//        return CRUDUtil.executeQuery(sql,new BeanListHandler<>(Task.class),course_id);
-//    }
-
+    @Override
+    public int extendTask(Task task) {
+        String sql = "update task set deadline = ? where taskName = ? and user_id = ?";
+        return CRUDUtil.executeUpdate(sql,task.getDeadline(),task.getTaskName(),task.getUser_id());
+    }
 
 }

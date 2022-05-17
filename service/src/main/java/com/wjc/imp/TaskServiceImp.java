@@ -77,6 +77,16 @@ public class TaskServiceImp implements TaskService {
         }
     }
 
+    @Override
+    public Boolean extendTask(Task task) {
+        TaskDao taskDao = new TaskDaoImp();
+        if (taskDao.extendTask(task) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 //    @Override
 //    public List<Task> findTaskNameTea(long course_id) {
 //        TaskDao taskDao = new TaskDaoImp();

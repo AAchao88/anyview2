@@ -119,27 +119,51 @@
 
             $(".changeTask").click(function (){
                 var judge = confirm("确定修改该作业？");
-                var oldTaskName = $(this).val();
                 if (judge){
+                    var oldTaskName = $(this).val();
                     $.post("tasktea/getTaskTea",{oldTaskName:oldTaskName},function (){
                         location.href="changeTask.html";
                     },"json")
                 }
             })
 
-
+            $(document).on("click", ".Dsubmit", function(){
+                alert("被点提交");
+                var taskName = $(this).val();
+                var deadline = $("#deadline").val();
+                $.post("tasktea/extendTaskTea",{taskName:taskName,deadline:deadline},function (data){
+                    if (data.success){
+                        alert("延长作业成功");
+                        // location.reload();
+                        $("#releaseform").remove();
+                    }
+                },"json")
+            })
+            $(document).on("click", ".Rsubmit", function(){
+                alert("被点提交");
+                var taskName = $(this).val();
+                var deadline = $("#deadline").val();
+                var releaseTime = $("#releaseTime").val();
+                $.post("tasktea/releaseTaskTea",{taskName:taskName,releaseTime:releaseTime,deadline:deadline},function (data){
+                    if (data.success){
+                        alert("发布作业成功");
+                        // location.reload();
+                        $("#releaseform").remove();
+                    }
+                },"json")
+            })
             $(document).on("click", ".start", function(){
                 var taskName = $(this).val();
                 var operate = $(this).text();
                 switch (operate){
                     case "发布":{
-                        alert("fff");
+                        // alert("fff");
                         var judge = confirm("确定发布该作业？");
                         if(judge){
-                            // var releaseTime = "<input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
-                            // var deadline = "<input type=datetime-local id=deadline name=deadline placeholder=请选择截止时间>";
-                            // var submit = "<button type='submit' class='submit' name='taskName' value='"+taskName+"' >提交</button>";
-                            // $("#msg").append(releaseTime).append(deadline).append(submit);
+                            var releaseTime = "<form id='releaseform' ><input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
+                            var deadline = "<input type=datetime-local id=deadline name=deadline placeholder=请选择截止时间>";
+                            var submit = "<button type='submit' class='Rsubmit' name='taskName' value='"+taskName+"' >提交</button></form>";
+                            $(this).append(releaseTime).append(deadline).append(submit);
 
                         }
 
@@ -161,9 +185,11 @@
                            },"json")
 
                         }break;
-                    case "延长":  var judge = confirm("确定发布该作业？");
+                    case "延长":  var judge = confirm("确定延长该作业？");
                         if(judge){
-
+                            var deadline = "截止时间：<form id='deadlineform' ><input type=datetime-local id=deadline name=deadline placeholder=请选择新的截止时间>";
+                            var submit = "<button type='submit' class='Dsubmit' name='taskName' value='"+taskName+"' >提交</button></form>";
+                            $(this).append(deadline).append(submit);
                         }break;
                     case "复用":  var judge = confirm("确定复用该作业？");
                         if(judge){
@@ -186,7 +212,9 @@
                     case "结束":  var judge = confirm("确定结束该作业？");
                         if(judge){
                             var taskName = $(this).val();
-                            $.post("tasktea/endTaskTea",{taskName:taskName},function (data){
+                            var current = new Date().getTime();
+                            alert(current);
+                            $.post("tasktea/endTaskTea",{taskName:taskName,current:current},function (data){
                                 if (data.success){
                                     alert(结束该作业成功);
                                     // location.reload();
@@ -205,15 +233,6 @@
             //     },"json");
             // })
 
-            $(".release").submit(function (){
-                alert("被点提交");
-                $.post("tasktea/releaseTaskTea",$(this).serialize(),function (){
-                    if (data.success){
-                        alert("发布作业成功");
-                        // location.reload();
-                    }
-                },"json")
-            })
             $(".msg").click(function (){
                 location.href="addTask.html";
             })

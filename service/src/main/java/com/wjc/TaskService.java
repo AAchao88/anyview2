@@ -30,4 +30,6 @@ public interface TaskService {
     List<Task> getBatchTask(Tasktea tasktea);
 
     Boolean releaseTask(Task task);
+
+    Boolean extendTask(Task task);
 }

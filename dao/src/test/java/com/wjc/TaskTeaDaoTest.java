@@ -81,7 +81,9 @@ public class TaskTeaDaoTest {
     public void endTaskTea() {
         Tasktea tasktea = new Tasktea();
         tasktea.setStatus(3);
+        Timestamp timestamp = new Timestamp(765432213);
         tasktea.setTaskName("抗日");
+        tasktea.setDeadline(timestamp);
         tasktea.setTeacher_id(1);
         assertEquals(1,taskTeaDao.endTaskTea(tasktea));
     }

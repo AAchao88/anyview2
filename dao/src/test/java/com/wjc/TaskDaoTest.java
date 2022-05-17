@@ -122,4 +122,13 @@ public class TaskDaoTest {
         task.setDeadline(new Timestamp(654321234));
         assertEquals(1,taskDao.releaseTask(task));
     }
+
+    @Test
+    public void extendTask() {
+        Task task = new Task();
+        task.setDeadline(new Timestamp(82345674));
+        task.setUser_id(2);
+        task.setTaskName("抗日");
+        assertEquals(1,taskDao.extendTask(task));
+    }
 }

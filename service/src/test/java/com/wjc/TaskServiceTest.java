@@ -105,4 +105,13 @@ public class TaskServiceTest {
         task.setDeadline(new Timestamp(654321294));
         assertTrue(taskService.releaseTask(task));
     }
+
+    @Test
+    public void extendTask() {
+        Task task = new Task();
+        task.setDeadline(new Timestamp(823456743));
+        task.setUser_id(2);
+        task.setTaskName("抗日");
+        assertTrue(taskService.extendTask(task));
+    }
 }

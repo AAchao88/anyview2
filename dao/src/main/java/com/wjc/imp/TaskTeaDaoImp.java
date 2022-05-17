@@ -21,7 +21,7 @@ public class TaskTeaDaoImp implements TaskTeaDao {
 
     @Override
     public Tasktea findTaskTea(String taskName, User user) {
-        String sql = "select id,taskName,courseName,className,total,score from tasktea where taskName = ? and teacher_id = ?";
+        String sql = "select id,taskName,courseName,className,releaseTime,total,score from tasktea where taskName = ? and teacher_id = ?";
         return CRUDUtil.executeQuery(sql,new BeanHandler<>(Tasktea.class),taskName,user.getId());
     }
 
@@ -39,8 +39,8 @@ public class TaskTeaDaoImp implements TaskTeaDao {
 
     @Override
     public int endTaskTea(Tasktea tasktea) {
-        String sql = "update tasktea set status = ? where taskName = ? and teacher_id =?";
-        return CRUDUtil.executeUpdate(sql,tasktea.getStatus(),tasktea.getTaskName(),tasktea.getTeacher_id());
+        String sql = "update tasktea set status = ? ,deadline = ? where taskName = ? and teacher_id =?";
+        return CRUDUtil.executeUpdate(sql,tasktea.getStatus(),tasktea.getDeadline(),tasktea.getTaskName(),tasktea.getTeacher_id());
 
     }
 }

@@ -12,9 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Long.parseLong;
 
 @WebServlet("/tasktea/*")@Slf4j
 public class TaskTeaServlet extends BaseServlet {
@@ -54,7 +58,7 @@ public class TaskTeaServlet extends BaseServlet {
                         break;
                     }
                     case "total":
-                        tasktea.setTotal(Long.parseLong(map.get("total")[0]));
+                        tasktea.setTotal(parseLong(map.get("total")[0]));
                         break;
                 }
             } else {
@@ -73,8 +77,8 @@ public class TaskTeaServlet extends BaseServlet {
             Question question = new Question();
             question.setQuestionName(map.get(key)[0]);
             question.setType(Integer.parseInt(map.get(key)[1]));
-            question.setScore(Long.parseLong(map.get(key)[2]));
-            totalScore = Long.parseLong(map.get(key)[2]) + totalScore;
+            question.setScore(parseLong(map.get(key)[2]));
+            totalScore = parseLong(map.get(key)[2]) + totalScore;
             question.setQuestionContent(map.get(key)[3]);
             question.setAnswer(map.get(key)[4]);
             questions.add(a,question);
@@ -151,8 +155,8 @@ public class TaskTeaServlet extends BaseServlet {
         int a = 0;
         long oldScore = tasktea.getScore();
         for(String key:map.keySet()){
-            oldScore = oldScore-questions.get(a).getScore()+Long.parseLong(map.get(key)[0]);
-            questions.get(a).setScore(Long.parseLong(map.get(key)[0]));
+            oldScore = oldScore-questions.get(a).getScore()+ parseLong(map.get(key)[0]);
+            questions.get(a).setScore(parseLong(map.get(key)[0]));
             a++;
         }
         tasktea.setScore(oldScore);
@@ -256,9 +260,16 @@ public class TaskTeaServlet extends BaseServlet {
      * @param response
      */
     public void releaseTaskTea(HttpServletRequest request, HttpServletResponse response) {
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+
+        System.out.println(user);
+
         String taskName = request.getParameter("taskName");
+
+        System.out.println(taskName);
+
         //根据taskName和user查询原来的tasktea,获取className以便查询所有学生
         TaskTeaService taskTeaService = new TaskTeaServiceImp();
         UserService userService = new UserServiceImp();
@@ -274,12 +285,30 @@ public class TaskTeaServlet extends BaseServlet {
         tasktea.setTotal(oldTasktea.getTotal());
 
         Map<String, String[]> map = request.getParameterMap();
+
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for(String key:map.keySet()){
            if("releaseTime".equals(key)){
-               tasktea.setReleaseTime(Timestamp.valueOf(map.get(key)[0]));
+               try {
+                   //处理传递的时间
+                   //传过来的时间格式为 “2022-02-09T10:21” 中间有一个T，所以我们要把T去掉
+                   Timestamp time =  new Timestamp(dateFormat.parse(map.get(key)[0].replace("T"," ")).getTime());
+//                   System.out.println(time);
+                   tasktea.setReleaseTime( time);
+               } catch (ParseException e) {
+                   log.error("异常错误java.text.ParseException");
+               }
            }
            if ("deadline".equals(key)){
-               tasktea.setDeadline(Timestamp.valueOf(map.get(key)[0]));
+               try {
+                   //处理传递的时间
+                   //传过来的时间格式为 “2022-02-09T10:21” 中间有一个T，所以我们要把T去掉
+                   Timestamp time = new Timestamp(dateFormat.parse(map.get(key)[0].replace("T"," ")).getTime());
+//                   System.out.println(time);
+                   tasktea.setDeadline( time);
+               } catch (ParseException e) {
+                   log.error("异常错误java.text.ParseException,时间格式转换出错");
+               }
            }
         }
         //更新时间信息
@@ -355,13 +384,14 @@ public class TaskTeaServlet extends BaseServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String taskName = request.getParameter("taskName");
-
+        Timestamp timestamp = new Timestamp(parseLong(request.getParameter("current")));
         //通过teacher_id  和 taskName 改变status=3
         Tasktea tasktea = new Tasktea();
         TaskTeaService taskTeaService = new TaskTeaServiceImp();
         tasktea.setStatus(3);
         tasktea.setTaskName(taskName);
         tasktea.setTeacher_id(user.getId());
+        tasktea.setDeadline(timestamp);
 
         ResultInfo resultInfo = new ResultInfo();
         if (taskTeaService.endTaskTea(tasktea)){
@@ -380,4 +410,50 @@ public class TaskTeaServlet extends BaseServlet {
         }
     }
 
+
+    public void extendTaskTea(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        System.out.println(user);
+
+        String taskName = request.getParameter("taskName");
+
+        System.out.println(taskName);
+
+        //根据taskName和user查询原来的tasktea,获取className以便查询所有学生
+        TaskTeaService taskTeaService = new TaskTeaServiceImp();
+        UserService userService = new UserServiceImp();
+        Tasktea oldTasktea = taskTeaService.findTaskTea(taskName,user);
+        List<User> users = userService.getAllUserInClass(oldTasktea.getClassName());
+
+        Map<String, String[]> map = request.getParameterMap();
+        Task task = new Task();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for(String key:map.keySet()){
+            if ("deadline".equals(key)){
+                try {
+                    //处理传递的时间
+                    //传过来的时间格式为 “2022-02-09T10:21” 中间有一个T，所以我们要把T去掉
+                    Timestamp time = new Timestamp(dateFormat.parse(map.get(key)[0].replace("T"," ")).getTime());
+//                   System.out.println(time);
+                    task.setDeadline( time);
+                } catch (ParseException e) {
+                    log.error("异常错误java.text.ParseException,时间格式转换出错");
+                }
+            }
+        }
+        //更新tasktea的时间信息
+        oldTasktea.setDeadline(task.getDeadline());
+        oldTasktea.setTeacher_id(user.getId());
+        taskTeaService.updateReleaseTime(oldTasktea);
+        //更新task时间信息
+        TaskService taskService = new TaskServiceImp();
+        task.setTaskName(taskName);
+        for(int i = 0;i < users.size();i++){
+            task.setUser_id(users.get(i).getId());
+            taskService.extendTask(task);
+        }
+    }
 }

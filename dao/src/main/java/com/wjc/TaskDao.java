@@ -43,4 +43,6 @@ public interface TaskDao {
     List<Task> getBatchTask(Tasktea tasktea);
 
     int releaseTask(Task task);
+
+    int extendTask(Task task);
 }
