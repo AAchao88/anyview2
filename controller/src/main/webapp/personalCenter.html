@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <style>
+        body{background-color:#151515; }
+        #center{
+            position: absolute;
+            top: 350px;/*顶部到元素*/
+            left:25%;
+            width: 50%;
+            height:400px;
+            margin-top:-200px;/*边缘到底部*/
+            background-color: #34495e;
+            text-align-last: center;
+        }
+        #userName{
+            color: #708090;
+            font-size:30px;
+            /*padding: 200px;*/
+        }
+        #userNumber{
+            color: #708090;
+            font-size:30px;
+        }
+        #className{
+            color: #708090;
+            font-size:30px;
+        }
+        #role{
+            color: #708090;
+            font-size:30px;
+        }
+        #back{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+    </style>
+    <script>
+        $(function (){
+            $.post("user/personalCenter","",function (data){
+                $("#userName").append(data.data.userName);
+                $("#userNumber").append(data.data.userNumber);
+                $("#role").append(data.data.role);
+                if("学生" == data.data.role){
+                    $("#className").append("班级："+data.data.className);
+                }
+            },"json")
+
+            $("#back").click(function (){
+                var back = confirm("确定返回？");
+                var judge = $("#role").html();
+                // alert(judge);
+                if(back){
+                    if(judge === "身份：教师"){
+                        location.href="teacherHome.html";
+                    }else {
+                        if(judge === "身份：学生"){
+                            location.href="studentHome.html";
+                        }else {
+                            location.href="manager.html";
+                        }
+                    }
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="center">
+    <span id="userName">姓名：</span><br><br>
+    <span id="userNumber">学工号：</span><br><br>
+    <span id="role">身份：</span><br><br>
+    <span id="className"></span><br><br>
+    <input type="button" id="back" value="返回">
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>管理员页面</title>
+    <style>
+        body{background-color:#151515; }
+        #platName{
+            background-color:#151515;
+            color: #708090;
+            font-size:30px;
+            border: 2px dashed gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;   /*内边距*/
+        }
+        #personalCenter{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #signOut{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #table{
+            position: absolute;
+            top: 300px;/*顶部到元素*/
+            left:115px;
+            width: 85%;
+            height:600px;
+            margin-top:-175px;/*边缘到底部*/
+            background-color: #F2F5A9;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+            font-size: 17px;
+            font-family: "微软雅黑 Light";
+            /*border: 2px solid gray;*/
+        }
+
+    </style>
+    <script>
+        $(function (){
+            $("#personalCenter").click(function (){
+                location.href="personalCenter.html";
+            })
+
+            $("#signOut").click(function (){
+                var signOut = confirm("确定登出？");
+                if(signOut){
+                    $.post("user/signOut","",function (){
+                        alert("登出成功");
+                        location.href="login.html";
+                    })
+                }
+            })
+
+            $.post("question/getAllQuestion","",function (data){
+                if (data.success){
+                    var type = "";
+                    for(var i = 0; i < data.data.length;i++){
+                        if(data.data[i].type == 1){
+                            type = "单选题";
+                        }else {
+                            if(data.data[i].type == 2){
+                                type = "多选题";
+                            }else {
+                                type = "解答题";
+                            }
+                        }
+                        var str = "<tr><td>"+(i+1)+"</td><td>"+data.data[i].courseName+"</td><td>"+data.data[i].taskName+"</td><td>"+data.data[i].questionName+"</td><td>"+data.data[i].questionContent+"</td><td>"+type+"</td><td>"+data.data[i].answer+"</td><td>"+data.data[i].score+"</td><td><button class='operate' value="+data.data[i].id+">删除</button></td></tr>";
+                        $("#table").append(str);
+                    }
+                }else {
+                    alert(data.message);
+                }
+            },"json")
+
+            $(document).on("click", ".operate", function(){
+                var judge = confirm("确定删除这道题目？");
+                if (judge){
+                    var question_id = $(this).val();
+                    $.post("question/deleteQuestionByManager",{question_id:question_id},function (data){
+                        if (data.success){
+                            alert("删除成功");
+                            location.reload();
+                        }else {
+                            alert(data.message);
+                        }
+                    },"json")
+                }
+            })
+
+        })
+    </script>
+</head>
+<body>
+<span id="platName">线上作业平台</span>
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+<input type="button" name="personalCenter" id="personalCenter" value="个人中心">
+<input type="button" name="signOut" id="signOut" value="登出">
+<hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
+
+<br><br>
+
+    <div id="content">
+        <form id="form">
+            <table id="table">
+                <tr>
+                    <th>序号</th>
+                    <th>课程</th>
+                    <th>作业名</th>
+                    <th>题目简介</th>
+                    <th>题干</th>
+                    <th>题型</th>
+                    <th>答案</th>
+                    <th>分值</th>
+                    <th>操作</th>
+<!--                    <th></th>-->
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

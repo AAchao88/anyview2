@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>学生首页</title>
+    <style type="text/css">
+        body{background-color:#151515; }
+        #platName{
+            background-color:#151515;
+            color: #708090;
+            font-size:30px;
+            border: 2px dashed gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;   /*内边距*/
+        }
+        #personalCenter{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #signOut{
+            color: #708090;
+            font-size:30px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+
+        }
+        #course{
+            position: absolute;
+            float: left;
+            color: #708090;
+            font-size:22px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+            text-indent: 30px;
+            width:70%
+        }
+        .courseName{
+            color: #708090;
+            font-size:22px;
+            background-color:#151515 ;
+        }
+        .start{
+            float: right;
+            color: #04B431; /*开始做题按钮的文本颜色*/
+            font-size:22px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        .questionTotal{
+            text-indent:90px;
+            color: #708090; /*开始做题按钮的文本颜色*/
+            font-size:15px;
+            background-color:#151515;
+        }
+    </style>
+    <script>
+        $(function (){
+            $.post("course/findCourse","",function (data){
+                if (data.success){
+                    var str = "";
+                    for(var i = 0; i< data.data.length;i++){
+                        str = "<span class='courseName' ></span>"+data.data[i].courseName+"<span class='questionTotal'></span>"+data.data[i].total+"<button class='start' value="+data.data[i].courseName+">开始做题</button><br><br>";
+                        $("#course").append(str);
+                    }
+                }else {
+                    alert(data.message);
+                }
+            },"json")
+
+            $(document).on("click", ".start", function(){
+                var courseName = $(this).val();
+                // alert(courseName);
+                $.post("task/findTask",{courseName:courseName},function (){
+                    alert("hhhhhhhhhh");
+                    location.href="task.html";
+                },"json")
+            })
+
+            $("#personalCenter").click(function (){
+                location.href="personalCenter.html";
+            })
+            $("#signOut").click(function (){
+                var signOut = confirm("确定登出？");
+                if(signOut){
+                    $.post("user/signOut","",function (){
+                        alert("登出成功");
+                        location.href="login.html";
+                    })
+                }
+            })
+        })
+    </script>
+
+</head>
+<body>
+
+    <span id="platName">线上作业平台</span>
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+    <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
+    <input type="button" name="signOut" id="signOut" value="登出">
+    <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
+    <br><br>
+    <div id="course">
+
+    </div>
+
+
+</body>
+</html>

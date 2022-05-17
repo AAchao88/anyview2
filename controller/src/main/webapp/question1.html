@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>做题页面</title>
+    <style>
+        body{background-color:#151515; }
+        #content{
+            position: absolute;
+            top: 300px;/*顶部到元素*/
+            left:140px;
+            width: 80%;
+            height:600px;
+            margin-top:-175px;/*边缘到底部*/
+            background-color: #F2F5A9;
+            text-align-last: center;
+            /*这里做一个半透明效果*/
+            filter:alpha(Opacity=60);
+            -moz-opacity:0.8;
+            opacity: 0.8;
+            font-size: 20px;
+            font-family: "微软雅黑 Light";
+        }
+        #platName{
+            background-color:#151515;
+            color: #708090;
+            font-size:25px;
+            border: 2px dashed gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;   /*内边距*/
+        }
+
+        #personalCenter{
+            color: #708090;
+            font-size:25px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #signOut{
+            color: #708090;
+            font-size:25px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+        #msg{
+            width: 90%;
+            color: #708090;
+            font-size:20px;
+            text-indent: 120px;
+        }
+        #return{
+            float: right;
+            color: #708090;
+            font-size:20px;
+            border: 2px solid gray;
+            border-radius: 50px;/*边框圆角*/
+            padding:5px 10px;
+            background-color:#151515 ;
+        }
+
+    </style>
+    <script>
+        $(function (){
+            $.post("question/findQuestion","",function (data){
+                if(data.success){
+                    $("#courseName").text(data.message);
+                    for(var i =0;i <data.data.length;i++){
+                        var str = "";
+                        if(data.data[i].type == 1){
+                            str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<br><input type='radio' name="+(i+1)+" value='a'>A."+data.data[i].optionA+"<br>"
+                            +"<input type='radio' name="+(i+1)+" value='b'>B."+data.data[i].optionB+"<br>"
+                                +"<input type='radio' name="+(i+1)+" value='c'>C."+data.data[i].optionC+"<br>"
+                                +"<input type='radio' name="+(i+1)+" value='d'>D."+data.data[i].optionD+"<br>"
+                        }else {
+                            if(data.data[i].type == 2){
+                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<br><input type='checkbox' name="+(i+1)+" value='a'>A."+data.data[i].optionA+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='b'>B."+data.data[i].optionB+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='c'>C."+data.data[i].optionC+"<br>"
+                                    +"<input type='checkbox' name="+(i+1)+" value='d'>D."+data.data[i].optionD+"<br>"
+                            }else {
+                                str = "<p></p>"+(i+1)+"、"+data.data[i].questionContent+"<br><textarea rows='10' cols='30' name="+(i+1)+" ></textarea><br>"
+                            }
+                        }
+                        $("#question_form").append(str);
+                    }
+                    var submit1 = "<input type='submit' name='submit' id='submit' value='提交作答'>";
+                    $("#question_form").append(submit1);
+                }else {
+                    alert(data.message);
+                }
+            },"json")
+
+            $("#question_form").submit(function (){
+               var judge = confirm("确定提交？");
+               if(judge){
+                   $.post("question/batch",$(this).serialize(),function (){
+                       alert("提交成功");
+                       // location.href="task.html";
+                   },"json")
+               }
+            })
+
+            $("#return").click(function (){
+                var back = confirm("确定返回？");
+                if(back){
+                    location.href="task.html";
+                }
+            })
+
+            $("#personalCenter").click(function (){
+                location.href="personalCenter.html";
+            })
+            $("#signOut").click(function (){
+                var signOut = confirm("确定登出？");
+                if(signOut){
+                    $.post("user/signOut","",function (){
+                        alert("登出成功");
+                        location.href="login.html";
+                    })
+                }
+            })
+        })
+    </script>
+
+</head>
+<body>
+    <span id="platName">线上作业平台</span>
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+    <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
+    <input type="button" name="signOut" id="signOut" value="登出">
+    <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
+    <!--    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <div id="msg">
+        <span id="courseName">课程：</span>
+        <input type="button" id="return" value="返回">
+    </div>
+
+    <div id="content">
+        <form id="question_form">
+        </form>
+    </div>
+
+</body>
+</html>
