@@ -3,7 +3,6 @@
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <head>
     <meta charset="UTF-8">
-    <!--    <meta http-equiv="refresh" content="5">-->
     <title>批改题目</title>
     <style>
         body{background-color:#151515; }
@@ -84,11 +83,14 @@
             $.post("question/batchQuestion","",function (data){
                 $("#batch").attr("placeholder",data.data.score);
                 var s = "<tr><td>"+data.data.questionContent+"</td><td>"+data.data.answer+"</td><td>"+data.data2.reply+"</td></tr>";
+                $("#table").append(s);
             },"json")
 
             $("#batch").submit(function (){
                 var score = $(this).val();
+                $.post("task/batchTask",{score:score},function (data){
 
+                },"json")
 
             })
 

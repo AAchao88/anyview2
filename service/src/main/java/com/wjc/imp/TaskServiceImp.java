@@ -87,11 +87,5 @@ public class TaskServiceImp implements TaskService {
         }
     }
 
-//    @Override
-//    public List<Task> findTaskNameTea(long course_id) {
-//        TaskDao taskDao = new TaskDaoImp();
-//        return taskDao.findTaskNameTea(course_id);
-//    }
-
 
 }

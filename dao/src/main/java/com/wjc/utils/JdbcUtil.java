@@ -1,6 +1,8 @@
 package com.wjc.utils;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +14,7 @@ import java.util.Properties;
  * @author LONG
  * 数据库连接工具类
  */
+@Slf4j
 public class JdbcUtil {
     private static DataSource ds;
     //静态代码块来初始化
@@ -22,7 +25,8 @@ public class JdbcUtil {
             //2.获取连接对象
             ds = DruidDataSourceFactory.createDataSource(properties);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("获取数据库连接对象出错");
         }
     }
     //获取连接对象
@@ -44,21 +48,24 @@ public class JdbcUtil {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("归还ResultSet出错");
         }
         try {
             if(statement!=null){
                 statement.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("归还statement");
         }
         try {
             if(connection!=null) {
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("归还connection出错");
         }
     }
 }

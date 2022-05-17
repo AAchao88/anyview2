@@ -64,7 +64,7 @@
     </style>
     <script>
         $(function (){
-            //第一次获取哪个作业要批改，传入taskName；第二次返回List<Task>
+            //saveTaskTea获取哪个作业要批改，传入taskName；getBatchTask返回List<Task>
             //data.data是taskList  data.data2是questionList   data.data3是userList
             $.post("task/getBatchTask","",function (data){
                 if (data.success){
@@ -105,7 +105,7 @@
             $(".nobatch").click(function (){
                 var questionId = $(this).val();
                 $.post("question/batchQuestion",{questionId:questionId},function (){
-
+                    location.href="batchQuestion.html";
                 },"json")
             })
 

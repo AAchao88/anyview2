@@ -1,6 +1,6 @@
 package com.wjc.utils;
 
-import com.wjc.utils.JdbcUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,7 @@ import java.sql.SQLException;
  * @author LONG
  * 数据库增删查该工具类
  */
+@Slf4j
 public class CRUDUtil {
 
     /**
@@ -26,6 +27,9 @@ public class CRUDUtil {
         try {
             //获取数据库连接对象
             conn = JdbcUtil.getConnnection();
+            //开启事务，即关闭数据库的自动提交
+            conn.setAutoCommit(false);
+
             //获取预编译语句对象
             psmt = conn.prepareStatement(sql);
             //给预编译语句赋值
@@ -34,8 +38,12 @@ public class CRUDUtil {
             }
             //执行SQL语句获取执行结果
             result = psmt.executeUpdate();
+            //业务完毕，提交事务
+            conn.commit();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("sql异常，可能是传入参数与所需参数不匹配");
         } finally {
             //关闭数据库连接
             JdbcUtil.close(conn,psmt,null);
@@ -56,6 +64,9 @@ public class CRUDUtil {
         try {
             //获取数据库连接对象
             conn = JdbcUtil.getConnnection();
+            //开启事务，即关闭数据库的自动提交
+            conn.setAutoCommit(false);
+
             //获取预编译语句对象
             psmt = conn.prepareStatement(sql);
             //给预编译语句赋值
@@ -64,11 +75,15 @@ public class CRUDUtil {
             }
             //执行SQL语句获取结果集
             rs = psmt.executeQuery();
+
+            //业务完毕，提交事务
+            conn.commit();
+
             //处理结果
             return handler.handle(rs);
-
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error("sql异常，可能是传入参数与所需参数不匹配");
         }finally {
             JdbcUtil.close(conn,psmt,rs);
         }

@@ -65,15 +65,7 @@
             padding:5px 10px;
             background-color:#151515 ;
         }
-        /*#submit{*/
-        /*    color: #04B431;*/
-        /*    font-size:18px;*/
-        /*    border: 2px solid gray;*/
-        /*    border-radius: 50px;!*边框圆角*!*/
-        /*    padding:5px 10px;*/
-        /*    background-color:#151515 ;*/
-        /*    float: right;*/
-        /*}*/
+
     </style>
     <script>
         $(function (){
@@ -128,7 +120,6 @@
             })
 
             $(document).on("click", ".Dsubmit", function(){
-                alert("被点提交");
                 var taskName = $(this).val();
                 var deadline = $("#deadline").val();
                 $.post("tasktea/extendTaskTea",{taskName:taskName,deadline:deadline},function (){
@@ -137,7 +128,6 @@
                 location.reload();
             })
             $(document).on("click", ".Rsubmit", function(){
-                alert("被点提交");
                 var taskName = $(this).val();
                 var deadline = $("#deadline").val();
                 var releaseTime = $("#releaseTime").val();
@@ -153,7 +143,6 @@
                 var operate = $(this).text();
                 switch (operate){
                     case "发布":{
-                        // alert("fff");
                         var judge = confirm("确定发布该作业？");
                         if(judge){
                             var releaseTime = "<form id='releaseform' ><input type=datetime-local id=releaseTime name=releaseTime placeholder=请选择发布时间>";
@@ -167,7 +156,6 @@
                     case "查看":{
                         var judge = confirm("确定查看该作业？");
                         if(judge){
-                            alert("hhhhhhh");
                             var taskName = $(this).val();
                             $.post("task/saveBatchTask",{taskName:taskName},function (){
                                 alert("hhhhhhh");
@@ -213,7 +201,6 @@
                         if(judge){
                             var taskName = $(this).val();
                             var current = new Date().getTime();
-                            alert(current);
                             $.post("tasktea/endTaskTea",{taskName:taskName,current:current},function (data){
                                 if (data.success){
                                     alert(结束该作业成功);

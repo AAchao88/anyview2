@@ -11,5 +11,4 @@ public interface CourseDao {
 
     Course findCourseById(long id);
 
-//    List<Course> findCourseTea(User user);
 }

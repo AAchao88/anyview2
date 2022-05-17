@@ -47,33 +47,14 @@
             font-family: "微软雅黑 Light";
             /*border: 2px solid gray;*/
         }
-        #msg{
-            width: 90%;
-            color: #708090;
-            font-size:20px;
-            text-indent: 120px;
-        }
-        #return{
-            float: right;
-            color: #708090;
-            font-size:20px;
-            border: 2px solid gray;
-            border-radius: 50px;/*边框圆角*/
-            padding:5px 10px;
-            background-color:#151515 ;
-        }
+
     </style>
     <script>
         $(function (){
             $("#personalCenter").click(function (){
                 location.href="personalCenter.html";
             })
-            // $("#return").click(function (){
-            //     var back = confirm("确定返回？");
-            //     if(back){
-            //         location.href="teacherHome.html";
-            //     }
-            // })
+
             $("#signOut").click(function (){
                 var signOut = confirm("确定登出？");
                 if(signOut){
@@ -131,9 +112,7 @@
 <input type="button" name="personalCenter" id="personalCenter" value="个人中心">
 <input type="button" name="signOut" id="signOut" value="登出">
 <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
-<!--<div id="msg">-->
-<!--    <input type="button" id="return" value="返回">-->
-<!--</div>-->
+
 <br><br>
 
     <div id="content">

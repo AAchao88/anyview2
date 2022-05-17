@@ -163,5 +163,8 @@ public class TaskServlet extends BaseServlet{
         User user = (User) session.getAttribute("user");
         String taskName = (String) session.getAttribute("taskName");
 
+        long score = Long.parseLong(request.getParameter("score"));
+
+
     }
 }

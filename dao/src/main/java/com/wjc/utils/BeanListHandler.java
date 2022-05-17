@@ -1,5 +1,7 @@
 package com.wjc.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class BeanListHandler<T>implements IResultSetHandler <List<T>> {
     private Class<T> clazz;
 
@@ -33,7 +36,8 @@ public class BeanListHandler<T>implements IResultSetHandler <List<T>> {
                     //执行当前方法并传入参数
                     pd.getWriteMethod().invoke(obj,o);
                 }catch (SQLException e){
-                    continue;
+//                    continue;
+                    log.error("sql异常，可能是参数名与字段名不同");
                 }
 
             }
