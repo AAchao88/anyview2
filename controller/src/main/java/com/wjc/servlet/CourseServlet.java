@@ -56,46 +56,4 @@ public class CourseServlet extends BaseServlet{
 
     }
 
-
-//    public void findCourseTea(HttpServletRequest request, HttpServletResponse response) {
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("user");
-//
-//        CourseService courseService = new CourseServiceImp();
-//        TaskService taskService = new TaskServiceImp();
-//        List<Course> courses = courseService.findCourseTea(user);
-////        List<Task[]> taskNames = new ArrayList<Task[]>();
-//////        Map<Long, Task[]> map = new HashMap<Long, Task[]>();
-//////        for(int i = 0;i<courses.size();i++){
-//////            //查找并存储 所有课程下的所有作业名
-//////             map.put(courses.get(i).getCourseName(),taskService.findTaskNameTea(courses.get(i).getId()));
-//////        }
-////        for(int i = 0;i<courses.size(); i++){
-////            taskNames.set(i, taskService.findTaskNameTea(courses.get(i).getId()));
-////
-////        }
-//        List<String> taskNames = new ArrayList<>();
-//        for(int i= 0; i<courses.size();i++){
-//            for(int j = 0;j< taskService.findTaskNameTea(courses.get(i).getId()).size();j++){
-//                taskNames.add(i+j,taskService.findTaskNameTea(courses.get(i).getId()).get(j).getTaskName());
-//            }
-//        }
-//        ResultInfo resultInfo = new ResultInfo();
-//        response.setContentType("application/json;charset=utf-8");
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        if (taskNames.size() == 0){
-//            resultInfo.setSuccess(false);
-//            resultInfo.setMessage("您当前没有发布作业");
-//        }else {
-//            resultInfo.setSuccess(true);
-//            resultInfo.setData(courses);
-//            resultInfo.setData2(taskNames);
-//        }
-//        try {
-//            mapper.writeValue(response.getWriter(),resultInfo);
-//        } catch (IOException e) {
-//            log.error("响应输出流出错");
-//        }
-//    }
 }

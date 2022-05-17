@@ -36,7 +36,7 @@ public class TaskTeaDaoTest {
     public void addTaskTea() {
         Tasktea tasktea = new Tasktea();
         tasktea.setTeacher_id(1);
-        tasktea.setTaskName("新青年2");
+        tasktea.setTaskName("新青年3");
         tasktea.setTotal(10);
         tasktea.setScore(100);
         tasktea.setClassName("21级计算机类7班");

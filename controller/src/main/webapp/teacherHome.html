@@ -117,13 +117,13 @@
                 }
             },"json")
 
-            $(".changeTask").click(function (){
+            $(document).on("click", ".changeTask", function(){
                 var judge = confirm("确定修改该作业？");
                 if (judge){
                     var oldTaskName = $(this).val();
                     $.post("tasktea/getTaskTea",{oldTaskName:oldTaskName},function (){
-                        location.href="changeTask.html";
                     },"json")
+                    location.href="changeTask.html";
                 }
             })
 
@@ -131,13 +131,10 @@
                 alert("被点提交");
                 var taskName = $(this).val();
                 var deadline = $("#deadline").val();
-                $.post("tasktea/extendTaskTea",{taskName:taskName,deadline:deadline},function (data){
-                    if (data.success){
-                        alert("延长作业成功");
-                        // location.reload();
-                        $("#releaseform").remove();
-                    }
+                $.post("tasktea/extendTaskTea",{taskName:taskName,deadline:deadline},function (){
                 },"json")
+                alert("延长作业成功");
+                location.reload();
             })
             $(document).on("click", ".Rsubmit", function(){
                 alert("被点提交");
@@ -147,8 +144,7 @@
                 $.post("tasktea/releaseTaskTea",{taskName:taskName,releaseTime:releaseTime,deadline:deadline},function (data){
                     if (data.success){
                         alert("发布作业成功");
-                        // location.reload();
-                        $("#releaseform").remove();
+                        location.reload();
                     }
                 },"json")
             })
@@ -166,14 +162,18 @@
                             $(this).append(releaseTime).append(deadline).append(submit);
 
                         }
-
-
                         break;
                     }
                     case "查看":{
-                        var judge = confirm("确定发布该作业？");
+                        var judge = confirm("确定查看该作业？");
                         if(judge){
+                            alert("hhhhhhh");
+                            var taskName = $(this).val();
+                            $.post("task/saveBatchTask",{taskName:taskName},function (){
+                                alert("hhhhhhh");
 
+                            },"json")
+                            location.href="checkTask.html";
                         }
                         break;
                     }
@@ -181,9 +181,9 @@
                         if(judge){
                            var taskName = $(this).val();
                            $.post("task/saveBatchTask",{taskName:taskName},function (){
-                               location.href="batchTask.html";
-                           },"json")
 
+                           },"json")
+                            location.href="batchTask.html";
                         }break;
                     case "延长":  var judge = confirm("确定延长该作业？");
                         if(judge){
@@ -195,9 +195,9 @@
                         if(judge){
                             var taskName = $(this).val();
                             $.post("tasktea/multiplexTaskTea",{oldTaskName: taskName},function (){
-                                location.href="multiplexTask.html";
-                            },"json")
 
+                            },"json")
+                            location.href="multiplexTask.html";
                         }break;
                     case "删除":  var judge = confirm("确定删除该作业？");
                         if(judge){
@@ -226,13 +226,6 @@
                 }
             })
 
-            // $(".submit").click(function (){
-            //     var taskName =
-            //     $.post("",$(this).serialize(),function (data){
-            //
-            //     },"json");
-            // })
-
             $(".msg").click(function (){
                 location.href="addTask.html";
             })
@@ -247,6 +240,10 @@
                         location.href="login.html";
                     })
                 }
+            })
+
+            $("#addTask").click(function (){
+                location.href="addTask.html";
             })
         })
     </script>

@@ -108,9 +108,9 @@
             })
 
             $("#multiplexTask").submit(function (){
-                $.post("",$(this).serialize(),function (data){
-                    alert("复用作业成功");
+                $.post("tasktea/multiplexTaskTea",$(this).serialize(),function (data){
                 },"json")
+                alert("复用作业成功");
             })
             $("#cancel").click(function (){
                 location.reload();
@@ -132,7 +132,7 @@
     <input type="button" id="return" value="返回">
 </div>
 <div id="content">
-    <form name="multiplexTask">
+    <form id="multiplexTask">
         <p>复用作业</p>
         <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/><br>
         <span>作业名称：</span>
@@ -152,7 +152,7 @@
             <option value="测试班3">测试班3</option>
         </select><br><br>
 
-        <input type="submit" class="input" name="submit" value="确定" >
+        <input type="submit" class="input"  value="确定" >
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="button" class="input" id="cancel" name="cancel" value="取消" >
     </form>

@@ -25,7 +25,7 @@ public class QuestionDaoImp implements QuestionDao {
     @Override
     public int changeQuestion(Tasktea tasktea, Question question) {
         String sql = "update question set taskName = ?,courseName = ?,score = ? where id = ?";
-        return CRUDUtil.executeUpdate(sql,tasktea.getTaskName(),tasktea.getCourseName(),tasktea.getScore(),question.getId());
+        return CRUDUtil.executeUpdate(sql,tasktea.getTaskName(),tasktea.getCourseName(),question.getScore(),question.getId());
     }
 
     @Override

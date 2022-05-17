@@ -108,15 +108,27 @@
         $("#total").append(total);
         $("#taskName").attr({placeholder:data.data.taskName});
         for(var i = 0;i<total;i++){
-          var str = "<tr><td>"+(i+1)+"</td><td>"+data.data2[i].questionName+"</td><td>"+data.data2[i].questionContent+"</td><td>"+data.data2[i].answer+"</td><td><input type='text' name="+(i+1)+" placeholder="+data.data2[i].score+"></td></tr>";
+          var type = "";
+          if (data.data2[i].type == 1){
+            type = "单选题";
+          }else {
+            if (data.data2[i].type == 2){
+              type = "多选题";
+            }else {
+              type = "简答题";
+            }
+          }
+          var str = "<tr><td>"+(i+1)+"</td><td>"+data.data2[i].questionName+"</td><td>"+type+"</td><td>"+data.data2[i].questionContent+"</td><td>"+data.data2[i].answer+"</td><td><input type='text' name="+(i+1)+" placeholder="+data.data2[i].score+"></td></tr>";
           $("#table").append(str);
         }
       },"json");
 
       $("#changeTask").submit(function (){
+        alert("asdfghj");
         $.post("tasktea/changeTaskTea",$(this).serialize(),function (data){
-          alert("修改作业成功，该作业的总分为：");
+          alert("修改作业成功,当前作业总分："+data.data);
         },"json")
+
       })
       $("#cancel").click(function (){
         var judge = confirm("确定取消？");
@@ -141,7 +153,7 @@
   <input type="button" id="return" value="返回">
 </div>
 <div id="content">
-  <form name="changeTask">
+  <form id="changeTask">
     <p>修改作业</p>
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
     <span>作业名称：</span>
@@ -167,9 +179,9 @@
         <th>序号</th>
         <th>题目简介</th>
         <th>题型</th>
-        <th>分值</th>
         <th>题干</th>
         <th>答案</th>
+        <th>分值</th>
       </tr>
     </table>
     <input type="submit" class="input"  value="确定" >

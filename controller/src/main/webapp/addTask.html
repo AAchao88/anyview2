@@ -128,9 +128,11 @@
         })
 
         $("#addTask").submit(function (){
+          alert("成功提交");
           $.post("tasktea/addTaskTea",$(this).serialize(),function (data){
             alert("添加作业成功，该作业的总分为："+data.message);
           },"json")
+          alert("jjjjjjjjjjj");
         })
         // $(".addQuestion").click(function (){
           // var i = parseInt($(this).val(),10);
@@ -177,7 +179,7 @@
   <input type="button" id="return" value="返回">
 </div>
 <div id="content">
-  <form name="addTask">
+  <form id="addTask">
     <p>添加作业</p>
     <hr style="background-color: #708090;height: 2px;width:100%;border: none;"/>
     <span>作业名称：</span>

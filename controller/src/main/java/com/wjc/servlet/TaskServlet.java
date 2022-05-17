@@ -31,41 +31,18 @@ public class TaskServlet extends BaseServlet{
         HttpSession session = request.getSession();
         String courseName1 = request.getParameter("courseName");
         if(courseName1 != null){
-//            System.out.println("jjjjjjjjj");
             session.setAttribute("courseName",courseName1);
         }
-        //获取用户所选的课程名
-//        String courseName = request.getParameter("courseName");
-        //通过session获取user_id，并把课程名
-
         User user = (User) session.getAttribute("user");
-//        session.setAttribute(courseName,courseName);
-
-//        System.out.println(session.getAttribute("courseName"));
-//        System.out.println(user);
-
         //通过课程名和user_id查询练习
         CourseService courseService = new CourseServiceImp();
         Course course = courseService.findCourseInfo((String) session.getAttribute("courseName"));
-
-//        System.out.println(course);
-
         TaskService taskService = new TaskServiceImp();
         List<Task> taskList = taskService.findTask(course,user);
 
         response.setContentType("application/json;charset=utf-8");
         ObjectMapper mapper = new ObjectMapper();
         ResultInfo resultInfo = new ResultInfo();
-
-        //判断当前与作业截止时间的前后，更改operate的值
-//        for(int i = 0; i<taskList.size();i++){
-//
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//            String s = simpleDateFormat.format(new Date(String.valueOf((taskList.get(i).getDeadline()))));
-//            System.out.println(s);
-//
-//        }
-
         if (taskList.size() == 0){
             resultInfo.setSuccess(false);
             resultInfo.setMessage("该课程暂无作业，有问题请联系老师。");
@@ -117,10 +94,8 @@ public class TaskServlet extends BaseServlet{
      */
     public void getBatchTask(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
-        String taskName = request.getParameter("taskName");
-        if(taskName != null){
-            session.setAttribute("taskName",taskName);
-        }else {
+
+        String taskName = (String) session.getAttribute("taskName");
             //  通过session.setAttribute("taskName",taskName);查询task
             User user = (User) session.getAttribute("user");
             TaskService taskService = new TaskServiceImp();
@@ -164,7 +139,7 @@ public class TaskServlet extends BaseServlet{
             } catch (IOException e) {
                 log.error("响应输出流出错");
             }
-        }
+
     }
 
     /**

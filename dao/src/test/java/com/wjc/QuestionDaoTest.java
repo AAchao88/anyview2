@@ -46,11 +46,11 @@ public class QuestionDaoTest {
     @Test
     public void changeQuestion() {
         Tasktea tasktea = new Tasktea();
-        tasktea.setTaskName("新青年100");
-        tasktea.setCourseName("近代史");
-        tasktea.setScore(99);
+        tasktea.setTaskName("行列式");
+        tasktea.setCourseName("线性代数");
         Question question = new Question();
-        question.setId(6);
+        question.setId(1);
+        question.setScore(30);
         assertEquals(1,questionDao.changeQuestion(tasktea,question));
     }
 

@@ -41,9 +41,12 @@ public class TaskTeaServlet extends BaseServlet {
 
         List<String> classNames = new ArrayList<>();
         List<Question> questions = new ArrayList<>();
-        int i = 0;
+        int classNum = map.get("className").length;
+        long totalScore = 0;
+        Question question = new Question();
+        int i = 0 , a = 0;
         for (String key : map.keySet()) {
-            if (i < 4) {
+            if (i < (3+classNum)) {
                 switch (key) {
                     case "taskName":
                         tasktea.setTaskName(map.get("taskName")[0]);
@@ -62,27 +65,17 @@ public class TaskTeaServlet extends BaseServlet {
                         break;
                 }
             } else {
+                question.setQuestionName(map.get(key)[0]);
+                question.setType(Integer.parseInt(map.get(key)[1]));
+                question.setScore(parseLong(map.get(key)[2]));
+                totalScore = parseLong(map.get(key)[2]) + totalScore;
+                question.setQuestionContent(map.get(key)[3]);
+                question.setAnswer(map.get(key)[4]);
+                questions.add(a,question);
+                a++;
                 break;
             }
             i++;
-        }
-        //删除作业信息，便于下面存储题目信息
-        map.remove("taskName");
-        map.remove("courseName");
-        map.remove("className");
-        map.remove("total");
-        int a = 0;
-        long totalScore = 0;
-        for(String key:map.keySet()){
-            Question question = new Question();
-            question.setQuestionName(map.get(key)[0]);
-            question.setType(Integer.parseInt(map.get(key)[1]));
-            question.setScore(parseLong(map.get(key)[2]));
-            totalScore = parseLong(map.get(key)[2]) + totalScore;
-            question.setQuestionContent(map.get(key)[3]);
-            question.setAnswer(map.get(key)[4]);
-            questions.add(a,question);
-            a++;
         }
 
         tasktea.setScore(totalScore);
@@ -127,9 +120,10 @@ public class TaskTeaServlet extends BaseServlet {
         long id = tasktea.getId();
 
         Map<String, String[]> map = request.getParameterMap();
-        int i = 0;
+        long oldScore = tasktea.getScore();
+        int i = 0,a = 0;
         for (String key : map.keySet()) {
-            if (i < 4) {
+            if (i < 3) {
                 switch (key) {
                     case "taskName":
                         tasktea.setTaskName(map.get("taskName")[0]);
@@ -143,22 +137,15 @@ public class TaskTeaServlet extends BaseServlet {
                     }
                 }
             } else {
+
+                oldScore = oldScore-questions.get(a).getScore()+ parseLong(map.get(key)[0]);
+                questions.get(a).setScore(parseLong(map.get(key)[0]));
+                a++;
                 break;
             }
             i++;
-        }
-        //删除作业信息，便于下面存储题目信息
-        map.remove("taskName");
-        map.remove("courseName");
-        map.remove("className");
-//            map.remove("total");
-        int a = 0;
-        long oldScore = tasktea.getScore();
-        for(String key:map.keySet()){
-            oldScore = oldScore-questions.get(a).getScore()+ parseLong(map.get(key)[0]);
-            questions.get(a).setScore(parseLong(map.get(key)[0]));
-            a++;
-        }
+    }
+
         tasktea.setScore(oldScore);
         //修改作业
         taskTeaService.changeTaskTea(tasktea,id);
@@ -166,6 +153,17 @@ public class TaskTeaServlet extends BaseServlet {
         QuestionService questionService = new QuestionServiceImp();
         for(int c = 0;c<questions.size();c++){
             questionService.changeQuestion(tasktea,questions.get(c));
+        }
+        response.setContentType("application/json;charset=utf-8");
+        //创建转Jackson核心对象
+        ObjectMapper mapper = new ObjectMapper();
+        //创建回显信息对象
+        ResultInfo resultInfo = new ResultInfo();
+        resultInfo.setData(tasktea.getScore());
+        try {
+            mapper.writeValue(response.getWriter(),resultInfo);
+        } catch (IOException e) {
+            log.error("响应输出流出错");
         }
 
     }
@@ -187,8 +185,7 @@ public class TaskTeaServlet extends BaseServlet {
             //通过teacher_id和oldtaskName 去查找原来的tasktea的id，方便做后面修改的定位
             TaskTeaService taskTeaService = new TaskTeaServiceImp();
             Tasktea tasktea = taskTeaService.findTaskTea((String) session.getAttribute("oldTaskName"), user);
-//            tasktea.setTeacher_id(user.getId());
-//            long id = tasktea.getId();
+
             QuestionDao questionDao = new QuestionDaoImp();
             List<Question> questions = questionDao.findQuestion(tasktea.getTaskName(),tasktea.getCourseName());
             //把taskTea存进session
@@ -251,6 +248,7 @@ public class TaskTeaServlet extends BaseServlet {
                 tasktea.setClassName(classNames.get(b));
                 taskTeaService.addTaskTea(tasktea);
             }
+            System.out.println("jjjjjjjjjjjj");
         }
     }
 
@@ -410,7 +408,11 @@ public class TaskTeaServlet extends BaseServlet {
         }
     }
 
-
+    /**
+     * 教师延长作业
+     * @param request
+     * @param response
+     */
     public void extendTaskTea(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession();
